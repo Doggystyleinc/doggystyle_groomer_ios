@@ -3,27 +3,66 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6EC3806D68EEAD885B0C2D6A /* Pods_DSGroomer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37D8C9A2C97DED5E39E8D229 /* Pods_DSGroomer.framework */; };
 		E333A91D265D915400897572 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A91C265D915400897572 /* AppDelegate.swift */; };
 		E333A91F265D915400897572 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A91E265D915400897572 /* SceneDelegate.swift */; };
 		E333A921265D915400897572 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A920265D915400897572 /* ViewController.swift */; };
-		E333A924265D915400897572 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E333A922265D915400897572 /* Main.storyboard */; };
 		E333A926265D915400897572 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E333A925265D915400897572 /* Assets.xcassets */; };
 		E333A929265D915400897572 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E333A927265D915400897572 /* LaunchScreen.storyboard */; };
+		E333A93A265D94B000897572 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A939265D94B000897572 /* HomeController.swift */; };
+		E333A93D265D94BB00897572 /* DecisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A93C265D94BB00897572 /* DecisionController.swift */; };
+		E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5926616EF500AB0EF6 /* Extensions.swift */; };
+		E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */; };
+		E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */; };
+		E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6026616FFA00AB0EF6 /* RatingLibrary.swift */; };
+		E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB622661702800AB0EF6 /* SMSMessageExt.swift */; };
+		E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB642661704000AB0EF6 /* PushNotificationManager.swift */; };
+		E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB662661705E00AB0EF6 /* MainLoadingScreen.swift */; };
+		E3C2EB69266170C000AB0EF6 /* UserProfileStruc.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB68266170C000AB0EF6 /* UserProfileStruc.swift */; };
+		E3C2EB6B2661721D00AB0EF6 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6A2661721D00AB0EF6 /* MainController.swift */; };
+		E3C2EB6D2661722900AB0EF6 /* SecondaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6C2661722900AB0EF6 /* SecondaryController.swift */; };
+		E3C2EB6F2661723800AB0EF6 /* TertiaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6E2661723800AB0EF6 /* TertiaryController.swift */; };
+		E3C2EB712661724300AB0EF6 /* FourthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB702661724300AB0EF6 /* FourthController.swift */; };
+		E3C2EB732661751000AB0EF6 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB722661751000AB0EF6 /* RegistrationController.swift */; };
+		E3C2EB752661753700AB0EF6 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB742661753700AB0EF6 /* LoginController.swift */; };
+		E3C2EB772661755D00AB0EF6 /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB762661755D00AB0EF6 /* WelcomeController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		19CFC0019DC521E923CCA468 /* Pods-DSGroomer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSGroomer.release.xcconfig"; path = "Target Support Files/Pods-DSGroomer/Pods-DSGroomer.release.xcconfig"; sourceTree = "<group>"; };
+		37D8C9A2C97DED5E39E8D229 /* Pods_DSGroomer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DSGroomer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E333A919265D915400897572 /* DSGroomer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSGroomer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E333A91C265D915400897572 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E333A91E265D915400897572 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E333A920265D915400897572 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E333A923265D915400897572 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E333A925265D915400897572 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E333A928265D915400897572 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E333A92A265D915400897572 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E333A939265D94B000897572 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		E333A93C265D94BB00897572 /* DecisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionController.swift; sourceTree = "<group>"; };
+		E3C2EB5526616DE300AB0EF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E3C2EB5626616E2200AB0EF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E3C2EB5926616EF500AB0EF6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		E3C2EB5B26616F2E00AB0EF6 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtension.swift; sourceTree = "<group>"; };
+		E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		E3C2EB6026616FFA00AB0EF6 /* RatingLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingLibrary.swift; sourceTree = "<group>"; };
+		E3C2EB622661702800AB0EF6 /* SMSMessageExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSMessageExt.swift; sourceTree = "<group>"; };
+		E3C2EB642661704000AB0EF6 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
+		E3C2EB662661705E00AB0EF6 /* MainLoadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainLoadingScreen.swift; sourceTree = "<group>"; };
+		E3C2EB68266170C000AB0EF6 /* UserProfileStruc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileStruc.swift; sourceTree = "<group>"; };
+		E3C2EB6A2661721D00AB0EF6 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
+		E3C2EB6C2661722900AB0EF6 /* SecondaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondaryController.swift; sourceTree = "<group>"; };
+		E3C2EB6E2661723800AB0EF6 /* TertiaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TertiaryController.swift; sourceTree = "<group>"; };
+		E3C2EB702661724300AB0EF6 /* FourthController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourthController.swift; sourceTree = "<group>"; };
+		E3C2EB722661751000AB0EF6 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		E3C2EB742661753700AB0EF6 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		E3C2EB762661755D00AB0EF6 /* WelcomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
+		E649080063F16FE9C80E7713 /* Pods-DSGroomer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSGroomer.debug.xcconfig"; path = "Target Support Files/Pods-DSGroomer/Pods-DSGroomer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +70,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EC3806D68EEAD885B0C2D6A /* Pods_DSGroomer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F68EACAFFACC668D6F3199A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				37D8C9A2C97DED5E39E8D229 /* Pods_DSGroomer.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BAC7DD6B85D77427F0563CB1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E649080063F16FE9C80E7713 /* Pods-DSGroomer.debug.xcconfig */,
+				19CFC0019DC521E923CCA468 /* Pods-DSGroomer.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E333A910265D915400897572 = {
 			isa = PBXGroup;
 			children = (
 				E333A91B265D915400897572 /* DSGroomer */,
 				E333A91A265D915400897572 /* Products */,
+				BAC7DD6B85D77427F0563CB1 /* Pods */,
+				1F68EACAFFACC668D6F3199A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,15 +115,130 @@
 		E333A91B265D915400897572 /* DSGroomer */ = {
 			isa = PBXGroup;
 			children = (
+				E3C2EB5226616DB500AB0EF6 /* Firebase */,
+				E333A932265D917600897572 /* Admin */,
+				E333A933265D918C00897572 /* Onboarding */,
+				E333A935265D919A00897572 /* HomeController */,
+				E333A934265D919500897572 /* Tabs */,
+				E3C2EB5826616EC600AB0EF6 /* HelpersExtensions */,
+				E333A920265D915400897572 /* ViewController.swift */,
+				E333A925265D915400897572 /* Assets.xcassets */,
+			);
+			path = DSGroomer;
+			sourceTree = "<group>";
+		};
+		E333A932265D917600897572 /* Admin */ = {
+			isa = PBXGroup;
+			children = (
 				E333A91C265D915400897572 /* AppDelegate.swift */,
 				E333A91E265D915400897572 /* SceneDelegate.swift */,
-				E333A920265D915400897572 /* ViewController.swift */,
-				E333A922265D915400897572 /* Main.storyboard */,
-				E333A925265D915400897572 /* Assets.xcassets */,
 				E333A927265D915400897572 /* LaunchScreen.storyboard */,
 				E333A92A265D915400897572 /* Info.plist */,
 			);
-			path = DSGroomer;
+			path = Admin;
+			sourceTree = "<group>";
+		};
+		E333A933265D918C00897572 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E333A93C265D94BB00897572 /* DecisionController.swift */,
+				E3C2EB722661751000AB0EF6 /* RegistrationController.swift */,
+				E3C2EB742661753700AB0EF6 /* LoginController.swift */,
+				E3C2EB762661755D00AB0EF6 /* WelcomeController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E333A934265D919500897572 /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				E333A93F265D94C000897572 /* TabOne */,
+				E333A940265D94C600897572 /* TabTwo */,
+				E333A941265D94CE00897572 /* TabThree */,
+				E333A942265D94D300897572 /* TabFour */,
+			);
+			path = Tabs;
+			sourceTree = "<group>";
+		};
+		E333A935265D919A00897572 /* HomeController */ = {
+			isa = PBXGroup;
+			children = (
+				E333A939265D94B000897572 /* HomeController.swift */,
+			);
+			path = HomeController;
+			sourceTree = "<group>";
+		};
+		E333A93F265D94C000897572 /* TabOne */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB6A2661721D00AB0EF6 /* MainController.swift */,
+			);
+			path = TabOne;
+			sourceTree = "<group>";
+		};
+		E333A940265D94C600897572 /* TabTwo */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB6C2661722900AB0EF6 /* SecondaryController.swift */,
+			);
+			path = TabTwo;
+			sourceTree = "<group>";
+		};
+		E333A941265D94CE00897572 /* TabThree */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB6E2661723800AB0EF6 /* TertiaryController.swift */,
+			);
+			path = TabThree;
+			sourceTree = "<group>";
+		};
+		E333A942265D94D300897572 /* TabFour */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB702661724300AB0EF6 /* FourthController.swift */,
+			);
+			path = TabFour;
+			sourceTree = "<group>";
+		};
+		E3C2EB5226616DB500AB0EF6 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB5426616DBF00AB0EF6 /* Prod */,
+				E3C2EB5326616DBA00AB0EF6 /* Dev */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
+		E3C2EB5326616DBA00AB0EF6 /* Dev */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB5526616DE300AB0EF6 /* GoogleService-Info.plist */,
+			);
+			path = Dev;
+			sourceTree = "<group>";
+		};
+		E3C2EB5426616DBF00AB0EF6 /* Prod */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB5626616E2200AB0EF6 /* GoogleService-Info.plist */,
+			);
+			path = Prod;
+			sourceTree = "<group>";
+		};
+		E3C2EB5826616EC600AB0EF6 /* HelpersExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB5926616EF500AB0EF6 /* Extensions.swift */,
+				E3C2EB5B26616F2E00AB0EF6 /* BridgingHeader.h */,
+				E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */,
+				E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */,
+				E3C2EB6026616FFA00AB0EF6 /* RatingLibrary.swift */,
+				E3C2EB622661702800AB0EF6 /* SMSMessageExt.swift */,
+				E3C2EB642661704000AB0EF6 /* PushNotificationManager.swift */,
+				E3C2EB662661705E00AB0EF6 /* MainLoadingScreen.swift */,
+				E3C2EB68266170C000AB0EF6 /* UserProfileStruc.swift */,
+			);
+			path = HelpersExtensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,9 +248,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E333A92D265D915400897572 /* Build configuration list for PBXNativeTarget "DSGroomer" */;
 			buildPhases = (
+				5BF0AD22E36E82CCAC3607FD /* [CP] Check Pods Manifest.lock */,
 				E333A915265D915400897572 /* Sources */,
 				E333A916265D915400897572 /* Frameworks */,
 				E333A917265D915400897572 /* Resources */,
+				008A5ED5784139A13DF8CC2C /* [CP] Embed Pods Frameworks */,
+				E3C2EB5726616E6200AB0EF6 /* Setup Firebase Environment GoogleService-info.plist */,
 			);
 			buildRules = (
 			);
@@ -126,17 +303,93 @@
 			files = (
 				E333A929265D915400897572 /* LaunchScreen.storyboard in Resources */,
 				E333A926265D915400897572 /* Assets.xcassets in Resources */,
-				E333A924265D915400897572 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		008A5ED5784139A13DF8CC2C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5BF0AD22E36E82CCAC3607FD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DSGroomer-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E3C2EB5726616E6200AB0EF6 /* Setup Firebase Environment GoogleService-info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Setup Firebase Environment GoogleService-info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/Firebase/Prod/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\necho \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\necho \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\necho \"Using ${GOOGLESERVICE_INFO_PROD}\"\ncp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\necho \"Using ${GOOGLESERVICE_INFO_DEV}\"\ncp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E333A915265D915400897572 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C2EB752661753700AB0EF6 /* LoginController.swift in Sources */,
+				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
+				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
+				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,
+				E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */,
+				E3C2EB6D2661722900AB0EF6 /* SecondaryController.swift in Sources */,
+				E3C2EB772661755D00AB0EF6 /* WelcomeController.swift in Sources */,
+				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
+				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,
+				E3C2EB69266170C000AB0EF6 /* UserProfileStruc.swift in Sources */,
+				E3C2EB712661724300AB0EF6 /* FourthController.swift in Sources */,
+				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,
+				E3C2EB732661751000AB0EF6 /* RegistrationController.swift in Sources */,
+				E3C2EB6B2661721D00AB0EF6 /* MainController.swift in Sources */,
+				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
+				E3C2EB6F2661723800AB0EF6 /* TertiaryController.swift in Sources */,
+				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,
 				E333A921265D915400897572 /* ViewController.swift in Sources */,
 				E333A91D265D915400897572 /* AppDelegate.swift in Sources */,
 				E333A91F265D915400897572 /* SceneDelegate.swift in Sources */,
@@ -146,14 +399,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E333A922265D915400897572 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E333A923265D915400897572 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E333A927265D915400897572 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -283,39 +528,43 @@
 		};
 		E333A92E265D915400897572 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E649080063F16FE9C80E7713 /* Pods-DSGroomer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N29F9HMKW5;
-				INFOPLIST_FILE = DSGroomer/Info.plist;
+				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kphonereact.DSGroomer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/HelpersExtensions/BridgingHeader.h;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		E333A92F265D915400897572 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 19CFC0019DC521E923CCA468 /* Pods-DSGroomer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N29F9HMKW5;
-				INFOPLIST_FILE = DSGroomer/Info.plist;
+				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kphonereact.DSGroomer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/HelpersExtensions/BridgingHeader.h;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
