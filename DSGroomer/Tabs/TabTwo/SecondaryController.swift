@@ -9,7 +9,7 @@ import Foundation
 
 class SecondaryController : UIViewController {
     
-    var homeController = HomeController()
+    var homeController : HomeController?
 
     
     override func viewDidLoad() {

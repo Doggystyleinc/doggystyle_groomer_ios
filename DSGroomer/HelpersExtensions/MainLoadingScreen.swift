@@ -17,7 +17,7 @@ class MainLoadingScreen : NSObject {
     
     var loadingAnimation : UIActivityIndicatorView = UIActivityIndicatorView(style: .large)
     
-    func callMainLoadingScreen(animationViewName : String) {
+    func callMainLoadingScreen() {
         
         self.keyWindow = UIApplication.shared.windows.first { $0.isKeyWindow }!
         

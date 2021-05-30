@@ -370,12 +370,12 @@ class AuthCheckUsers : NSObject {
         
         if let user_uid = Auth.auth().currentUser?.uid {
             
-            let ref = Database.database().reference().child("all_users").child(user_uid).child("firebase_uid")
+            let ref = Database.database().reference().child("all_users").child(user_uid).child("users_firebase_uid")
             
             ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
                 
                 if snap.exists() {
-                    print(snap.value as? String ?? "none-here")
+                    print("SNappy", snap.value as? String ?? "none-here")
                     completion(true)
                 } else {
                     completion(false)

@@ -6,17 +6,41 @@
 //
 
 import Foundation
+import Firebase
 
 class MainController : UIViewController {
     
-    var homeController = HomeController()
-    
-    
+    var homeController : HomeController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .red
+        self.view.backgroundColor = coreWhiteColor
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(self.handleLogout))
+        self.view.addGestureRecognizer(gesture)
+        
+    }
+    
+    @objc func handleLogout() {
+        
+        print("called")
+        
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+        
+//        LOGGING OUT, REMOVE ALL THE DATABASE OBSERVERS
+        Database.database().reference().removeAllObservers()
+        quickBloxUserData = QuickBloxUserData()
+
+        let decisionController = DecisionController()
+        let nav = UINavigationController(rootViewController: decisionController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: nil)
         
     }
 }

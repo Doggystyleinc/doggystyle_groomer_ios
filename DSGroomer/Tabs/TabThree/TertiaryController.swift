@@ -8,7 +8,8 @@
 import Foundation
 
 class TertiaryController : UIViewController {
-    var homeController = HomeController()
+    
+    var homeController : HomeController?
 
     
     

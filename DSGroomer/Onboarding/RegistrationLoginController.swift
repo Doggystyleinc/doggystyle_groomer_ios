@@ -14,6 +14,8 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         heightLayoutConstraint : NSLayoutConstraint?,
         confirmButtonLayoutConstraint : NSLayoutConstraint?
     
+    let mainLoadingScreen = MainLoadingScreen()
+    
     lazy var backButton : UIButton = {
         
         let cbf = UIButton(type: .system)
@@ -150,6 +152,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         etfc.layer.masksToBounds = true
         etfc.layer.cornerRadius = 8
         etfc.leftViewMode = .always
+        etfc.layer.borderColor = coreRedColor.cgColor
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         return etfc
         
@@ -174,6 +177,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         etfc.layer.masksToBounds = true
         etfc.layer.cornerRadius = 8
         etfc.leftViewMode = .always
+        etfc.layer.borderColor = coreRedColor.cgColor
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         return etfc
         
@@ -198,6 +202,8 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         etfc.layer.masksToBounds = true
         etfc.layer.cornerRadius = 8
         etfc.leftViewMode = .always
+        etfc.layer.borderColor = coreRedColor.cgColor
+        etfc.isSecureTextEntry = true
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         return etfc
         
@@ -242,13 +248,13 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         
         let el = UILabel()
         el.translatesAutoresizingMaskIntoConstraints = false
-        el.font = UIFont(name: dsSubHeaderFont, size: 15)
+        el.font = UIFont(name: dsSubHeaderFont, size: 12)
         el.textColor = coreRedColor
         el.textAlignment = .center
         el.adjustsFontSizeToFitWidth = true
         el.isUserInteractionEnabled = false
         
-       return el
+        return el
     }()
     
     @objc func resignation() {
@@ -273,6 +279,9 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.passwordTextfield.resignFirstResponder()
+        self.emailTextField.resignFirstResponder()
+        self.fullNameTextfield.resignFirstResponder()
         return true
     }
     
@@ -344,7 +353,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         self.view.addSubview(self.passwordTextfield)
         self.view.addSubview(self.forgotPasswordButton)
         self.view.addSubview(self.errorLabel)
-
+        
         self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -407,7 +416,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         self.forgotPasswordButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.forgotPasswordButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        self.errorLabel.bottomAnchor.constraint(equalTo: self.confirmButton.topAnchor, constant: -3).isActive = true
+        self.errorLabel.topAnchor.constraint(equalTo: self.passwordTextfield.bottomAnchor, constant: 5).isActive = true
         self.errorLabel.leftAnchor.constraint(equalTo: self.confirmButton.leftAnchor, constant: 0).isActive = true
         self.errorLabel.rightAnchor.constraint(equalTo: self.confirmButton.rightAnchor, constant: 0).isActive = true
         self.errorLabel.heightAnchor.constraint(equalToConstant: 15).isActive = true
@@ -420,7 +429,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
     
     @objc func handleConfirmButton() {
         
-        //USER IS REGISTERING FOR THE FIRST TIME
+        //MARK: - Register User
         if self.isRegistration {
             
             guard let safeEmail = self.emailTextField.text else {return}
@@ -437,26 +446,45 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
                         
                         self.errorLabel.text = ""
                         UIDevice.vibrateLight()
-
+                        
+                        self.emailTextField.layer.borderWidth = 0
+                        self.fullNameTextfield.layer.borderWidth = 0
+                        self.passwordTextfield.layer.borderWidth = 0
+                        
+                        self.mainLoadingScreen.callMainLoadingScreen()
+                        print("I am here...")
+                        print(safeEmail)
+                        print(safepassword)
+                        print(safeFullName)
+                        self.registerUser(usersEmailAddress: safeEmail, usersPassword: safepassword, fullName: safeFullName, signInMethod: "email")
                         
                     } else {
                         self.errorLabel.text = "Password minimum: 4 characters"
+                        self.emailTextField.layer.borderWidth = 0
+                        self.fullNameTextfield.layer.borderWidth = 0
+                        self.passwordTextfield.layer.borderWidth = 0.5
                         UIDevice.vibrateHeavy()
                     }
                     
                 } else {
                     self.errorLabel.text = "Full name minimum: 4 characters"
+                    self.emailTextField.layer.borderWidth = 0
+                    self.fullNameTextfield.layer.borderWidth = 0.5
+                    self.passwordTextfield.layer.borderWidth = 0
                     UIDevice.vibrateHeavy()
-
+                    
                 }
             } else {
                 
                 self.errorLabel.text = "Invalid Email"
+                self.emailTextField.layer.borderWidth = 0.5
+                self.fullNameTextfield.layer.borderWidth = 0
+                self.passwordTextfield.layer.borderWidth = 0
                 UIDevice.vibrateHeavy()
-
+                
             }
             
-            //USER IS LOGGING
+        //MARK: - Log User In
         } else {
             
             guard let safeEmail = self.emailTextField.text else {return}
@@ -467,29 +495,79 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
             
             
             if emailTrim.contains("@") && emailTrim.contains(".") && emailTrim.count > 3 {
-                    if passwordTrim.count > 3 {
-                        
-                        self.errorLabel.text = ""
-                        UIDevice.vibrateLight()
-                        
-                        
-                    } else {
-                        self.errorLabel.text = "Password minimum: 4 characters"
-                        UIDevice.vibrateHeavy()
-
-                    }
+                if passwordTrim.count > 3 {
+                    
+                    self.errorLabel.text = ""
+                    self.emailTextField.layer.borderWidth = 0
+                    self.passwordTextfield.layer.borderWidth = 0
+                    
+                    UIDevice.vibrateLight()
+                    mainLoadingScreen.callMainLoadingScreen()
+                    self.logUserIn(usersEmailAddress: emailTrim, usersPassword: passwordTrim)
+                    
+                } else {
+                    self.errorLabel.text = "Password minimum: 4 characters"
+                    self.emailTextField.layer.borderWidth = 0
+                    self.passwordTextfield.layer.borderWidth = 0.5
+                    UIDevice.vibrateHeavy()
+                    
+                }
                 
             } else {
                 
                 self.errorLabel.text = "Invalid Email"
+                self.emailTextField.layer.borderWidth = 0.5
+                self.passwordTextfield.layer.borderWidth = 0
                 UIDevice.vibrateHeavy()
-
+                
+            }
+        }
+    }
+    
+    func registerUser(usersEmailAddress : String, usersPassword : String, fullName : String, signInMethod : String) {
+        
+        Service.shared.FirebaseRegistrationAndLogin(usersEmailAddress: usersEmailAddress, usersPassword: usersPassword, fullName: fullName, signInMethod: signInMethod) { isSuccess, response, responseCode in
+            
+            if isSuccess {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                self.presentHomeController()
+            } else {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we had an error registering. Please try again.") { complete in
+                    print("user had an error registering...")
+                }
+            }
+        }
+    }
+    
+    func logUserIn(usersEmailAddress : String, usersPassword : String) {
+        
+        Service.shared.FirebaseLogin(usersEmailAddress: usersEmailAddress, usersPassword: usersPassword) { isSuccess, response, responseCode in
+            
+            if isSuccess {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                self.presentHomeController()
+                
+            } else {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we had an error logging in. Check your credentials and try again.") { complete in
+                    print("user had an error logging in...")
+                }
             }
         }
     }
     
     @objc func handleBackButton() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func presentHomeController() {
+        
+        let homeController = HomeController()
+        let nav = UINavigationController(rootViewController: homeController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: nil)
     }
     
     @objc func handleForgotPasswordButton() {

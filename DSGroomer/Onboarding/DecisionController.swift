@@ -30,12 +30,12 @@ class DecisionController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.authenticationCheck()
         self.view.backgroundColor = coreWhiteColor
-        self.addViews()
-        
         userProfileStruct = UserProfileStruct()
-        FontLister.enumerateFonts()
+
+        self.addViews()
+        self.authenticationCheck()
+        
     }
     
     func addViews() {
@@ -53,61 +53,24 @@ class DecisionController : UIViewController {
         
         //USER IS NOT AUTHENTICATED
         if Auth.auth().currentUser?.uid == nil {
-            
             self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
             
             //USER IS AUTHENTICATED
         } else if Auth.auth().currentUser?.uid != nil {
             
             AuthCheckUsers.authCheck { (hasAuth) in
-                
+
                 if hasAuth {
-                    self.perform(#selector(self.handleMainController), with: nil, afterDelay: 1.0)
+                    print("User currently has Auth")
+                    self.perform(#selector(self.handleHomeController), with: nil, afterDelay: 1.0)
                 } else {
+                    print("User does NOT currently have Auth")
                     self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
                 }
             }
         }
     }
-    
-    func grabLoginDataForQuickblox(completion : @escaping (_ countryCode : String, _ phoneNumber : String)->()) {
-        
-        guard let user_uid = Auth.auth().currentUser?.uid else {return}
-        let ref = self.databaseRef.child("all_users").child(user_uid)
-        ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
-            
-            if let JSON = snap.value as? [String : AnyObject] {
-                
-                let country_code = JSON["country_code"] as? String ?? "nil"
-                let phone_number = JSON["phone_number"] as? String ?? "nil"
-                let profile_image = JSON["profile_image"] as? String ?? "nil"
-                let users_name = JSON["users_name"] as? String ?? "nil"
-                let email = JSON["email"] as? String ?? "nil"
-                let profile_hex_color = JSON["profile_hex_color"] as? String ?? "nil"
-                let push_token = JSON["push_token"] as? String ?? "nil"
-                let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
-                let quickblox_user_id = JSON["quickblox_user_id"] as? UInt ?? 0
-                let device_UDID = JSON["device_UDID"] as? String ?? "nil"
-                
-                userProfileStruct.usersCountryCode = country_code
-                userProfileStruct.usersPhoneNumber = phone_number
-                userProfileStruct.userProfileImageURL = profile_image
-                userProfileStruct.usersName = users_name
-                userProfileStruct.usersEmail = email
-                userProfileStruct.usersProfileHexColor = profile_hex_color
-                userProfileStruct.usersPushToken = push_token
-                userProfileStruct.usersFirebaseUID = firebase_uid
-                userProfileStruct.usersQuickBloxID = quickblox_user_id
-                userProfileStruct.deviceUDID = device_UDID
-                
-                completion(country_code, phone_number)
-                
-            } else {
-                completion("","")
-            }
-        }
-    }
-    
+   
     //GO TO THE LOGIN SCREEN, USER IS NOT AUTHENTICATED - FADING THE LOGO SMOOOTHED THE TRANSITION
     @objc func handleWelcomeController() {
         
@@ -120,13 +83,14 @@ class DecisionController : UIViewController {
     }
     
     //GO TO THE LOGIN SCREEN, USER IS NOT AUTHENTICATED - FADING THE LOGO SMOOOTHED THE TRANSITION
-    @objc func handleMainController() {
-        
-        let mainController = MainController()
-        let nav = UINavigationController(rootViewController: mainController)
+    @objc func handleHomeController() {
+     
+        let homeController = HomeController()
+        let nav = UINavigationController(rootViewController: homeController)
         nav.navigationBar.isHidden = true
         nav.modalPresentationStyle = .fullScreen
         self.navigationController?.present(nav, animated: false, completion: nil)
+        
     }
     
 }

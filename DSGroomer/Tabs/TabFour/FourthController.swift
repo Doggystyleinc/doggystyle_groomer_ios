@@ -11,7 +11,7 @@ import Foundation
 class FourthController : UIViewController {
     
     
-    var homeController = HomeController()
+    var homeController : HomeController?
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -153,13 +153,13 @@ class HomeController : UITabBarController {
         self.tabBar.layer.zPosition = 10
         
         NetworkMonitor.shared.startMonitoring()
-        
+
         let ratingLibrary = RatingLibraryExtension()
         ratingLibrary.checkForRating()
-        
+
         self.addTabsAndCustomCenterCircle {
             self.addViews()
-            self.switchTabs(tabIndex: 1)
+            self.switchTabs(tabIndex: 0)
         }
     }
     
@@ -173,22 +173,7 @@ class HomeController : UITabBarController {
             self.timerCountDownBubble.isHidden = true
         }
     }
-    
-    @objc func pan(_ gesture: UIPanGestureRecognizer) {
-        self.timerCountDownBubble.translate(gesture.translation(in: self.view))
-        gesture.setTranslation(.zero, in: self.view)
-        self.view.setNeedsDisplay()
-    }
-
-    
-    //MARK: - SUNSETTING
-    @objc func handleMoveToBackground() {
-    }
-    @objc func handleCancelRebootScreen() {
-    }
-    @objc func handleReboot() {
-    }
- 
+   
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
@@ -333,17 +318,21 @@ class HomeController : UITabBarController {
        
         let mainTab = UINavigationController(rootViewController: self.mainController)
         self.mainController.homeController = self
+        mainTab.navigationBar.isHidden = true
         mainTab.tabBarItem = UITabBarItem(title: nil, image: home, selectedImage: homeFill)
         
         let secondarytab = UINavigationController(rootViewController: self.secondaryController)
+        secondarytab.navigationBar.isHidden = true
         self.secondaryController.homeController = self
         secondarytab.tabBarItem = UITabBarItem(title: nil, image: tabTwo, selectedImage: tabTwoFill)
         
         let tertiaryTab = UINavigationController(rootViewController: self.tertiaryController)
+        tertiaryTab.navigationBar.isHidden = true
         self.tertiaryController.homeController = self
         tertiaryTab.tabBarItem = UITabBarItem(title: nil, image: tabThree, selectedImage: tabThreeFill)
         
         let fourthTab = UINavigationController(rootViewController: self.fourthController)
+        fourthTab.navigationBar.isHidden = true
         self.fourthController.homeController = self
         fourthTab.tabBarItem = UITabBarItem(title: nil, image: tabFour, selectedImage: tabFourFill)
       

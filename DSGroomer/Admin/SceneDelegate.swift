@@ -13,10 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        
         //MARK: - INITIAL ENTRY INTO THE APPLICATION
         guard let sceneWindow = (scene as? UIWindowScene) else { return }
-        print("here")
+
         let window = UIWindow(windowScene: sceneWindow)
         window.makeKeyAndVisible()
         
@@ -32,7 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in
             if error != nil {
                 UIApplication.shared.applicationIconBadgeNumber = 0
-                
             }
         }
     }

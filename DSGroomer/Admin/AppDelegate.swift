@@ -13,7 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        //FIREBASE CONFIGURATION
         FirebaseApp.configure()
+        
+        //LOCAL STORAGE AND CORE DATA
         Database.database().isPersistenceEnabled = true
         
         return true

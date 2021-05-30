@@ -16,6 +16,7 @@
 		E32D6BBE26640968003DEEB3 /* google_register_button.png in Resources */ = {isa = PBXBuildFile; fileRef = E32D6BBB26640968003DEEB3 /* google_register_button.png */; };
 		E32D6BBF26640968003DEEB3 /* google_register_button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E32D6BBC26640968003DEEB3 /* google_register_button@3x.png */; };
 		E32D6BC026640968003DEEB3 /* google_register_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E32D6BBD26640968003DEEB3 /* google_register_button@2x.png */; };
+		E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32D6BC12664256A003DEEB3 /* Firebase+Ext.swift */; };
 		E333A91D265D915400897572 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A91C265D915400897572 /* AppDelegate.swift */; };
 		E333A91F265D915400897572 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A91E265D915400897572 /* SceneDelegate.swift */; };
 		E333A921265D915400897572 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A920265D915400897572 /* ViewController.swift */; };
@@ -23,6 +24,7 @@
 		E333A929265D915400897572 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E333A927265D915400897572 /* LaunchScreen.storyboard */; };
 		E333A93A265D94B000897572 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A939265D94B000897572 /* HomeController.swift */; };
 		E333A93D265D94BB00897572 /* DecisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A93C265D94BB00897572 /* DecisionController.swift */; };
+		E3BEE433266439CB00D765A7 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BEE432266439CA00D765A7 /* TestController.swift */; };
 		E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5926616EF500AB0EF6 /* Extensions.swift */; };
 		E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */; };
 		E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */; };
@@ -79,6 +81,8 @@
 		E32D6BBB26640968003DEEB3 /* google_register_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = google_register_button.png; sourceTree = "<group>"; };
 		E32D6BBC26640968003DEEB3 /* google_register_button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google_register_button@3x.png"; sourceTree = "<group>"; };
 		E32D6BBD26640968003DEEB3 /* google_register_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google_register_button@2x.png"; sourceTree = "<group>"; };
+		E32D6BC12664256A003DEEB3 /* Firebase+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Firebase+Ext.swift"; sourceTree = "<group>"; };
+		E32D6BC52664355D003DEEB3 /* DSGroomer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DSGroomer.entitlements; sourceTree = "<group>"; };
 		E333A919265D915400897572 /* DSGroomer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSGroomer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E333A91C265D915400897572 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E333A91E265D915400897572 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -88,6 +92,7 @@
 		E333A92A265D915400897572 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E333A939265D94B000897572 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		E333A93C265D94BB00897572 /* DecisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionController.swift; sourceTree = "<group>"; };
+		E3BEE432266439CA00D765A7 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
 		E3C2EB5526616DE300AB0EF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3C2EB5626616E2200AB0EF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3C2EB5926616EF500AB0EF6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -196,6 +201,7 @@
 		E333A91B265D915400897572 /* DSGroomer */ = {
 			isa = PBXGroup;
 			children = (
+				E32D6BC52664355D003DEEB3 /* DSGroomer.entitlements */,
 				E3CFCB712663F9C1003C1B73 /* TutorialControllers */,
 				E3C2EB5226616DB500AB0EF6 /* Firebase */,
 				E333A932265D917600897572 /* Admin */,
@@ -226,6 +232,7 @@
 				E333A93C265D94BB00897572 /* DecisionController.swift */,
 				E3C2EB722661751000AB0EF6 /* RegistrationLoginController.swift */,
 				E3C2EB762661755D00AB0EF6 /* WelcomeController.swift */,
+				E3BEE432266439CA00D765A7 /* TestController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -309,6 +316,7 @@
 		E3C2EB5826616EC600AB0EF6 /* HelpersExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				E32D6BC12664256A003DEEB3 /* Firebase+Ext.swift */,
 				E3C2EB5926616EF500AB0EF6 /* Extensions.swift */,
 				E3C2EB5B26616F2E00AB0EF6 /* BridgingHeader.h */,
 				E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */,
@@ -519,6 +527,7 @@
 				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,
 				E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */,
 				E3C2EB6D2661722900AB0EF6 /* SecondaryController.swift in Sources */,
+				E3BEE433266439CB00D765A7 /* TestController.swift in Sources */,
 				E3C2EB772661755D00AB0EF6 /* WelcomeController.swift in Sources */,
 				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
 				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,
@@ -532,6 +541,7 @@
 				E3C2EB732661751000AB0EF6 /* RegistrationLoginController.swift in Sources */,
 				E3C2EB6B2661721D00AB0EF6 /* MainController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
+				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* TertiaryController.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,
 				E333A921265D915400897572 /* ViewController.swift in Sources */,
@@ -676,6 +686,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DSGroomer/DSGroomer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N29F9HMKW5;
 				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
@@ -697,6 +708,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DSGroomer/DSGroomer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = N29F9HMKW5;
 				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
