@@ -74,7 +74,7 @@ class HomeController : UITabBarController {
         let fl = UILabel()
         fl.translatesAutoresizingMaskIntoConstraints = false
         fl.backgroundColor = .clear
-        fl.font = UIFont(name: dmSubHeaderFont, size: 20)
+        fl.font = UIFont(name: dsSubHeaderFont, size: 20)
         fl.textColor = coreWhiteColor
         fl.textAlignment = .left
         fl.numberOfLines = 1
@@ -129,7 +129,7 @@ class HomeController : UITabBarController {
         cdtl.textColor = coreWhiteColor
         cdtl.textAlignment = .center
         cdtl.adjustsFontSizeToFitWidth = true
-        cdtl.font = UIFont(name: dmMediumFont, size: 22)
+        cdtl.font = UIFont(name: dsSubHeaderFont, size: 22)
         cdtl.isHidden = false
         cdtl.isUserInteractionEnabled = false
         return cdtl

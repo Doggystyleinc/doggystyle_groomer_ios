@@ -25,6 +25,8 @@ var friends_array_phone_number = [String](),
     coreLightGrayColor = UIColor(hex: 0xF0F0F0),
     coreRedColor = UIColor(hex: 0xFF0000),
     coreGreenColor = UIColor(hex: 0x00F87C),
+    coreOrangeColor = UIColor(hex: 0xE25E12),
+    coreBackgroundWhite = UIColor(hex: 0xFAFAFA),
     dmMainColor = UIColor(hex: 0x2777F6),
     dmSecondaryColor = UIColor(hex: 0x509CF9),
     dmTertiaryColor = UIColor(hex: 0x509CF9),
@@ -44,9 +46,9 @@ var friends_array_phone_number = [String](),
     globalIsReplyExpanded : Bool = false,
     
     //MARK: - Global Fonts
-    dmHeaderFont : String = "Arboria-Bold",
-    dmSubHeaderFont : String = "Arboria-Book",
-    dmMediumFont : String = "Arboria-Medium",
+    dsHeaderFont : String = "Poppins-Bold",
+    dsSubHeaderFont : String = "Poppins-SemiBold",
+    dsMediumFont : String = "Arboria-Medium",
     
     //DEMO ADJUSTMENT SETTINGS
     globalFrostTransparency : CGFloat = 1.0,

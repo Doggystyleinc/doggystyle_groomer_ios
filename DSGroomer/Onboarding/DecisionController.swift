@@ -19,10 +19,10 @@ class DecisionController : UIViewController {
         
         let bd = UIImageView()
         bd.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(named: "SplashScreen")?.withRenderingMode(.alwaysOriginal)
+        let image = UIImage(named: "splash_screen")?.withRenderingMode(.alwaysOriginal)
         bd.image = image
-        bd.contentMode = .scaleAspectFit
-        bd.backgroundColor = UIColor .white
+        bd.contentMode = .scaleAspectFill
+        bd.backgroundColor = coreWhiteColor
         
         return bd
     }()
@@ -35,6 +35,7 @@ class DecisionController : UIViewController {
         self.addViews()
         
         userProfileStruct = UserProfileStruct()
+        FontLister.enumerateFonts()
     }
     
     func addViews() {
@@ -110,8 +111,8 @@ class DecisionController : UIViewController {
     //GO TO THE LOGIN SCREEN, USER IS NOT AUTHENTICATED - FADING THE LOGO SMOOOTHED THE TRANSITION
     @objc func handleWelcomeController() {
         
-        let welcomeController = WelcomeController()
-        let nav = UINavigationController(rootViewController: welcomeController)
+        let tutorialClass = TutorialClass()
+        let nav = UINavigationController(rootViewController: tutorialClass)
         nav.navigationBar.isHidden = true
         nav.modalPresentationStyle = .fullScreen
         self.navigationController?.present(nav, animated: true, completion: nil)
