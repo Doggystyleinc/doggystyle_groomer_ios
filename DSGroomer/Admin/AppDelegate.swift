@@ -7,21 +7,28 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+   
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //FIREBASE CONFIGURATION
         FirebaseApp.configure()
-        
-        //LOCAL STORAGE AND CORE DATA
         Database.database().isPersistenceEnabled = true
+        
+        //GOOGLE OAUTH SIGN IN
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
         return true
     }
-
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any])
+      -> Bool {
+      return GIDSignIn.sharedInstance().handle(url)
+    }
+    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.

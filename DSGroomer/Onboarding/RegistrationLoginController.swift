@@ -7,8 +7,13 @@
 
 import Foundation
 import UIKit
+import FontAwesome_swift
+import GoogleSignIn
+import Firebase
 
-class RegistrationLoginController : UIViewController, UITextFieldDelegate {
+
+
+class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSignInDelegate {
     
     var isRegistration : Bool = false,
         heightLayoutConstraint : NSLayoutConstraint?,
@@ -20,9 +25,13 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.backgroundColor = coreOrangeColor
+        cbf.backgroundColor = .clear
+        cbf.tintColor = coreGrayColor.withAlphaComponent(0.5)
+        cbf.contentMode = .scaleAspectFill
+        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 24, style: .solid)
+        cbf.setTitle(String.fontAwesomeIcon(name: .chevronLeft), for: .normal)
         cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
-        
+      
         return cbf
         
     }()
@@ -73,7 +82,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
     }()
     
     lazy var registerWithGoogleButton : UIButton = {
-        
+
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
         cbf.backgroundColor = .clear
@@ -82,10 +91,10 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         let image = UIImage(named: "google_register_button")?.withRenderingMode(.alwaysOriginal)
         cbf.setImage(image, for: .normal)
         cbf.imageView?.contentMode = .scaleAspectFit
-        cbf.addTarget(self, action: #selector(self.handleFacebookRegistration), for: UIControl.Event.touchUpInside)
-        
+        cbf.addTarget(self, action: #selector(self.handleGoogleRegistration), for: UIControl.Event.touchUpInside)
+
         return cbf
-        
+
     }()
     
     let orLabel : UILabel = {
@@ -102,7 +111,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         return thl
         
     }()
-    
     
     lazy var confirmButton : UIButton = {
         
@@ -268,6 +276,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
+        
         self.addViews()
         self.decisionTree()
         self.keyboardObservers()
@@ -275,6 +284,9 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         self.emailTextField.inputAccessoryView = toolBar
         self.fullNameTextfield.inputAccessoryView = toolBar
         self.passwordTextfield.inputAccessoryView = toolBar
+        
+        GIDSignIn.sharedInstance().presentingViewController = self
+        GIDSignIn.sharedInstance()?.delegate = self
         
     }
     
@@ -331,7 +343,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
             self.heightLayoutConstraint?.constant = 10
             self.fullNameTextfield.isHidden = true
             self.welcomeBackLabel.text = "Welcome Back"
-            self.confirmButtonLayoutConstraint?.constant = -50
+            self.confirmButtonLayoutConstraint?.constant = -100
         }
     }
     
@@ -355,7 +367,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         self.view.addSubview(self.errorLabel)
         
         self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 2).isActive = true
-        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 12).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.backButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         
@@ -411,7 +423,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
         self.passwordTextfield.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.passwordTextfield.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.forgotPasswordButton.topAnchor.constraint(equalTo: self.confirmButton.bottomAnchor, constant: 10).isActive = true
+        self.forgotPasswordButton.bottomAnchor.constraint(equalTo: self.orLabel.topAnchor, constant: -10).isActive = true
         self.forgotPasswordButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.forgotPasswordButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.forgotPasswordButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -425,6 +437,39 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate {
     
     @objc func handleFacebookRegistration() {
         print("fb")
+    }
+    
+    @objc func handleGoogleRegistration() {
+        print("fb")
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+      
+      if let error = error {
+         print("error occured here signing in with google sign in. \(error)")
+        return
+      }
+
+      guard let authentication = user.authentication else {
+        print("Authentication error. \(error?.localizedDescription as Any)")
+        return
+      }
+        
+      let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+        
+        Service.shared.firebaseGoogleSignIn(credentials: credential) { (hasSuccess, response) in
+            
+            if hasSuccess {
+                self.presentHomeController()
+            } else {
+                print("Failed to authenticate with error: \(response)")
+            }
+        }
+    }
+
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        print("bailed from the google sign in process")
     }
     
     @objc func handleConfirmButton() {

@@ -12,29 +12,6 @@ import Lottie
 import AudioToolbox
 import AVFoundation
 
-extension  CGPoint {
-    static func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
-        .init(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
-    }
-    static func +=(lhs: inout CGPoint, rhs: CGPoint) {
-        lhs.x += rhs.x
-        lhs.y += rhs.y
-    }
-}
-
-extension UIView {
-    func translate(_ translation: CGPoint) {
-        let destination = center + translation
-        let minX = frame.width/2
-        let minY = frame.height/2
-        let maxX = superview!.frame.width-minX
-        let maxY = superview!.frame.height-minY
-        center = CGPoint(
-            x: min(maxX, max(minX, destination.x)),
-            y: min(maxY - 80 ,max(minY + 30, destination.y)))
-    }
-}
-
 class HomeController : UITabBarController {
     
     let databaseRef = Database.database().reference(),

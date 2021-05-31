@@ -25,6 +25,16 @@
 		E333A93A265D94B000897572 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A939265D94B000897572 /* HomeController.swift */; };
 		E333A93D265D94BB00897572 /* DecisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A93C265D94BB00897572 /* DecisionController.swift */; };
 		E3BEE433266439CB00D765A7 /* TestController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BEE432266439CA00D765A7 /* TestController.swift */; };
+		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
+		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
+		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
+		E3BEE4422665571B00D765A7 /* Font Awesome 5 Brands-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4382665561D00D765A7 /* Font Awesome 5 Brands-Regular-400.otf */; };
+		E3BEE4432665571B00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */; };
+		E3BEE4442665571B00D765A7 /* Font Awesome 5 Free-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */; };
+		E3BEE4452665571B00D765A7 /* Font Awesome 5 Free-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43D2665561F00D765A7 /* Font Awesome 5 Free-Solid-900.otf */; };
+		E3BEE4462665571B00D765A7 /* Font Awesome 5 Pro-Light-300.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43C2665561F00D765A7 /* Font Awesome 5 Pro-Light-300.otf */; };
+		E3BEE4472665571B00D765A7 /* Font Awesome 5 Pro-Regular-400.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43A2665561E00D765A7 /* Font Awesome 5 Pro-Regular-400.otf */; };
+		E3BEE4482665571B00D765A7 /* Font Awesome 5 Pro-Solid-900.otf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4392665561E00D765A7 /* Font Awesome 5 Pro-Solid-900.otf */; };
 		E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5926616EF500AB0EF6 /* Extensions.swift */; };
 		E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */; };
 		E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */; };
@@ -93,6 +103,16 @@
 		E333A939265D94B000897572 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		E333A93C265D94BB00897572 /* DecisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionController.swift; sourceTree = "<group>"; };
 		E3BEE432266439CA00D765A7 /* TestController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestController.swift; sourceTree = "<group>"; };
+		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
+		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
+		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
+		E3BEE4382665561D00D765A7 /* Font Awesome 5 Brands-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Brands-Regular-400.otf"; sourceTree = "<group>"; };
+		E3BEE4392665561E00D765A7 /* Font Awesome 5 Pro-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Solid-900.otf"; sourceTree = "<group>"; };
+		E3BEE43A2665561E00D765A7 /* Font Awesome 5 Pro-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Regular-400.otf"; sourceTree = "<group>"; };
+		E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-regular-400.ttf"; sourceTree = "<group>"; };
+		E3BEE43C2665561F00D765A7 /* Font Awesome 5 Pro-Light-300.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Pro-Light-300.otf"; sourceTree = "<group>"; };
+		E3BEE43D2665561F00D765A7 /* Font Awesome 5 Free-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Solid-900.otf"; sourceTree = "<group>"; };
+		E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-light-300.ttf"; sourceTree = "<group>"; };
 		E3C2EB5526616DE300AB0EF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3C2EB5626616E2200AB0EF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3C2EB5926616EF500AB0EF6 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -158,6 +178,7 @@
 		E32D6BA0266404A1003DEEB3 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				E3BEE4342665560700D765A7 /* FontAwesome */,
 				E32D6BA1266404B2003DEEB3 /* Poppins-Black.ttf */,
 				E32D6BB2266404B7003DEEB3 /* Poppins-BlackItalic.ttf */,
 				E32D6BAC266404B5003DEEB3 /* Poppins-Bold.ttf */,
@@ -288,6 +309,23 @@
 			path = TabFour;
 			sourceTree = "<group>";
 		};
+		E3BEE4342665560700D765A7 /* FontAwesome */ = {
+			isa = PBXGroup;
+			children = (
+				E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */,
+				E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */,
+				E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */,
+				E3BEE4382665561D00D765A7 /* Font Awesome 5 Brands-Regular-400.otf */,
+				E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */,
+				E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */,
+				E3BEE43D2665561F00D765A7 /* Font Awesome 5 Free-Solid-900.otf */,
+				E3BEE43C2665561F00D765A7 /* Font Awesome 5 Pro-Light-300.otf */,
+				E3BEE43A2665561E00D765A7 /* Font Awesome 5 Pro-Regular-400.otf */,
+				E3BEE4392665561E00D765A7 /* Font Awesome 5 Pro-Solid-900.otf */,
+			);
+			path = FontAwesome;
+			sourceTree = "<group>";
+		};
 		E3C2EB5226616DB500AB0EF6 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +424,7 @@
 				E333A917265D915400897572 /* Resources */,
 				008A5ED5784139A13DF8CC2C /* [CP] Embed Pods Frameworks */,
 				E3C2EB5726616E6200AB0EF6 /* Setup Firebase Environment GoogleService-info.plist */,
+				1A480E0F513951F1BD5ECA1D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -433,6 +472,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */,
+				E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */,
+				E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */,
+				E3BEE4422665571B00D765A7 /* Font Awesome 5 Brands-Regular-400.otf in Resources */,
+				E3BEE4432665571B00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf in Resources */,
+				E3BEE4442665571B00D765A7 /* Font Awesome 5 Free-Regular-400.otf in Resources */,
+				E3BEE4452665571B00D765A7 /* Font Awesome 5 Free-Solid-900.otf in Resources */,
+				E3BEE4462665571B00D765A7 /* Font Awesome 5 Pro-Light-300.otf in Resources */,
+				E3BEE4472665571B00D765A7 /* Font Awesome 5 Pro-Regular-400.otf in Resources */,
+				E3BEE4482665571B00D765A7 /* Font Awesome 5 Pro-Solid-900.otf in Resources */,
 				E32D6BB4266405B4003DEEB3 /* Poppins-SemiBold.ttf in Resources */,
 				E32D6BBF26640968003DEEB3 /* google_register_button@3x.png in Resources */,
 				E32D6BB326640595003DEEB3 /* Poppins-Bold.ttf in Resources */,
@@ -473,6 +522,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1A480E0F513951F1BD5ECA1D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DSGroomer/Pods-DSGroomer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5BF0AD22E36E82CCAC3607FD /* [CP] Check Pods Manifest.lock */ = {

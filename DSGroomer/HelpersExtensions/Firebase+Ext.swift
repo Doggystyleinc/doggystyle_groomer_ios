@@ -132,7 +132,7 @@ class Service : NSObject {
             })
     }
     
-    func firebaseGoogleSignIn(credentials : AuthCredential, referralCode : String?, completion : @escaping (_ success : Bool, _ response : String)->()) {
+    func firebaseGoogleSignIn(credentials : AuthCredential, completion : @escaping (_ success : Bool, _ response : String)->()) {
         
         let databaseRef = Database.database().reference()
         
@@ -146,11 +146,7 @@ class Service : NSObject {
                 completion(false, "Failed to grab the users email")
                 return
             }
-            
-            var referralCodeGrab : String = "no_code"
-            
-            referralCodeGrab = referralCode != "no_code" ? referralCode! : "no_code"
-            
+           
             let ref = databaseRef.child("all_users").child(usersUID)
             
             let timeStamp : Double = NSDate().timeIntervalSince1970,
@@ -163,8 +159,7 @@ class Service : NSObject {
                 "users_sign_up_date" : timeStamp,
                 "is_users_terms_and_conditions_accepted" : true,
                 "users_ref_key" : ref_key,
-                "is_groomer" : true,
-                "referral_code_grab" : referralCodeGrab]
+                "is_groomer" : true]
             
             ref.updateChildValues(values) { (error, ref) in
                 if error != nil {

@@ -36,6 +36,8 @@ class DecisionController : UIViewController {
         self.addViews()
         self.authenticationCheck()
         
+        FontLister.enumerateFonts()
+        
     }
     
     func addViews() {

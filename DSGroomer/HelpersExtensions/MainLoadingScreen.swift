@@ -25,7 +25,7 @@ class MainLoadingScreen : NSObject {
         self.loadingAnimation.layer.masksToBounds = true
         self.loadingAnimation.layer.cornerRadius = 40
         self.loadingAnimation.translatesAutoresizingMaskIntoConstraints = false
-        self.loadingAnimation.color = coreBlackColor
+        self.loadingAnimation.color = coreOrangeColor
         self.loadingAnimation.hidesWhenStopped = true
         
         self.smokeView.translatesAutoresizingMaskIntoConstraints = true

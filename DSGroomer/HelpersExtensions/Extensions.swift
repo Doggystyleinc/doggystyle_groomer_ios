@@ -13,6 +13,18 @@ import Firebase
 import DeviceCheck
 import PINRemoteImage
 
+
+/*
+ - Font name = FontAwesome5Brands-Regular
+ - Font name = FontAwesome5Duotone-Solid
+ - Font name = FontAwesome5Free-Regular
+ - Font name = FontAwesome5Free-Solid
+ - Font name = FontAwesome5Pro-Regular
+ - Font name = FontAwesome5Pro-Light
+ - Font name = FontAwesome5Pro-Solid
+ */
+ 
+
 //MARK: - PUBLIC VARIABLES
 var friends_array_phone_number = [String](),
     friends_internal_array_uid = [String](),
@@ -49,6 +61,7 @@ var friends_array_phone_number = [String](),
     dsHeaderFont : String = "Poppins-Bold",
     dsSubHeaderFont : String = "Poppins-SemiBold",
     dsMediumFont : String = "Arboria-Medium",
+    dsFontSymbols : String = "FontAwesome5Pro-Regular",
     
     //DEMO ADJUSTMENT SETTINGS
     globalFrostTransparency : CGFloat = 1.0,
@@ -387,6 +400,29 @@ class AuthCheckUsers : NSObject {
         } else {
             completion(false)
         }
+    }
+}
+
+extension  CGPoint {
+    static func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+        .init(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
+    static func +=(lhs: inout CGPoint, rhs: CGPoint) {
+        lhs.x += rhs.x
+        lhs.y += rhs.y
+    }
+}
+
+extension UIView {
+    func translate(_ translation: CGPoint) {
+        let destination = center + translation
+        let minX = frame.width/2
+        let minY = frame.height/2
+        let maxX = superview!.frame.width-minX
+        let maxY = superview!.frame.height-minY
+        center = CGPoint(
+            x: min(maxX, max(minX, destination.x)),
+            y: min(maxY - 80 ,max(minY + 30, destination.y)))
     }
 }
 
