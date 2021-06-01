@@ -440,18 +440,20 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     }
     
     @objc func handleGoogleRegistration() {
-        print("fb")
+        self.mainLoadingScreen.callMainLoadingScreen()
         GIDSignIn.sharedInstance().signIn()
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
       
       if let error = error {
-         print("error occured here signing in with google sign in. \(error)")
+        print("error occured here signing in with google sign in. \(error)")
+        self.mainLoadingScreen.cancelMainLoadingScreen()
         return
       }
 
       guard let authentication = user.authentication else {
+        self.mainLoadingScreen.cancelMainLoadingScreen()
         print("Authentication error. \(error?.localizedDescription as Any)")
         return
       }
@@ -461,15 +463,18 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         Service.shared.firebaseGoogleSignIn(credentials: credential) { (hasSuccess, response) in
             
             if hasSuccess {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
                 self.presentHomeController()
             } else {
                 print("Failed to authenticate with error: \(response)")
+                self.mainLoadingScreen.cancelMainLoadingScreen()
             }
         }
     }
 
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         print("bailed from the google sign in process")
+        self.mainLoadingScreen.cancelMainLoadingScreen()
     }
     
     @objc func handleConfirmButton() {
@@ -501,7 +506,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
                         print(safeEmail)
                         print(safepassword)
                         print(safeFullName)
-                        self.registerUser(usersEmailAddress: safeEmail, usersPassword: safepassword, fullName: safeFullName, signInMethod: "email")
+                        self.registerUser(usersEmailAddress: safeEmail, usersPassword: safepassword, fullName: safeFullName, signInMethod: Statics.EMAIL_SIGN_IN)
                         
                     } else {
                         self.errorLabel.text = "Password minimum: 4 characters"

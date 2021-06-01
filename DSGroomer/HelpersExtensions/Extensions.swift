@@ -72,53 +72,22 @@ var friends_array_phone_number = [String](),
     onboardingPath = OnboardingPath.fromLogin,
     chatEntryPath = ChatEntryPath.fromMessagesController
 
-//MARK: - PRECONFIGURED HEX COLORS FOR THE SETTINGS SCREEN AND PERSONALIZATION
-let preConfiguredHexColors : [String] = ["FF0000",
-                                         "CE00FF",
-                                         "00A7FF",
-                                         "5800FF",
-                                         "47C695",
-                                         "FF5800",
-                                         "FFB100",
-                                         "3E7943",
-                                         "FF00E2",
-                                         "969696",
-                                         "0D1821",
-                                         "BFCC94",
-                                         "344966",
-                                         "E6AACE",
-                                         "6E2594",
-                                         "88CCF1",
-                                         "808080",
-                                         "C1DFF0",
-                                         "3587A4",
-                                         "DDC8C4",
-                                         "2D898B",
-                                         "896A67",
-                                         "6B4D57",
-                                         "E9C46A",
-                                         "F4A261",
-                                         "96C3CE",
-                                         "E76F51",
-                                         "B57BA6",
-                                         "9381FF",
-                                         "B8B8FF",
-                                         "E4572E",
-                                         "01FDF6",
-                                         "03FCBA",
-                                         "AD2831",
-                                         "84DD63",
-                                         "575761",
-                                         "AB2346",
-                                         "3F7CAC",
-                                         "F7567C",
-                                         "ADFC92",
-                                         "4D243D",
-                                         "036D19",
-                                         "C3423F"
 
-],
-    defaultPreconfiguredColor : String = "DEDBDB"
+//MARK: - URLS/KEYS/TONES
+struct Statics {
+    
+    //MARK: - URLS AND LINKS FOR DUV MESSENGER
+    static let  TERMS_OF_SERVICE : String = "https://www..com"
+    static let  PRIVACY_POLICY : String = "https://www..com"
+    
+    static let  SUPPORT_EMAIL_ADDRESS : String = "support@.com"
+    static let  FAQS : String = "https://www..com"
+    static let  APP_STORE_URL : String = "https://"
+    
+    static let GOOGLE_SIGN_IN : String = "google"
+    static let EMAIL_SIGN_IN : String = "email"
+
+}
 
 extension UICollectionView {
     
@@ -292,43 +261,6 @@ extension Array where Element: Hashable {
     mutating func removeDuplicates() {
         self = self.removingDuplicates()
     }
-}
-
-//MARK: - URLS/KEYS/TONES
-struct Statics {
-    
-    //MARK: - URLS AND LINKS FOR DUV MESSENGER
-    static let  TERMS_OF_SERVICE : String = "https://www.duvmessenger.com"
-    static let  PRIVACY_POLICY : String = "https://www.duvmessenger.com"
-    static let  SUPPORT_EMAIL_ADDRESS : String = "support@duvmessenger.com"
-    static let  FAQS : String = "https://www.noimpactapplications.com"
-    static let  APP_STORE_URL : String = "https://apps.apple.com/us/app/duv-messenger/id1513675199"
-    
-    //MARK: - QUICKBLOX AUTH KEYS AND CREDENTIALS
-    static let  QUICKBLOX_APP_ID : UInt = 87748
-    static let  QUICKBLOX_AUTH_KEY : String = "2WMzDjHmN9tyG4e"
-    static let  QUICKBLOX_AUTH_SECRET : String = "ys6HYnbmHThEw5n"
-    static let  QUICKBLOX_ACCOUNT_KEY : String = "XBM3A6BwyLcm2YS3koUS"
-    
-    //MARK: - AUDIO TONES FOR THE APPLICATION
-    static let  INCOMING_TEXT_MESSAGE : String = "message_received"
-    static let  OUTGOING_TEXT_MESSAGE : String = "send_message_tone_3"
-    
-    static let  INCOMING_AUDIO_CALL : String = "incoming_ring_tone"
-    static let  OUTGOING_AUDIO_CALL : String = "outgoing_audio_call_3"
-    
-    static let  INCOMING_VIDEO_CALL : String = "incoming_video_call_tone"
-    static let  OUTGOING_VIDEO_CALL : String = "outgoing_video_call"
-    
-    static let  VOICE_NOTE_START : String = "start_recording_voice_note"
-    static let  VOICE_NOTE_END : String = "end_voice_note"
-    
-    static let  MP3_EXTENSION : String = "mp3"
-    static let  MP4_EXTENSION : String = "mp4"
-    
-    static let  UNANSWERED_AUDIO_CALL : String = "unanswered_audio_call"
-    static let  UNANSWERED_VIDEO_CALL : String = "unanswered_video_call"
-    
 }
 
 //MARK: - QUICKBLOX AUTH DATA

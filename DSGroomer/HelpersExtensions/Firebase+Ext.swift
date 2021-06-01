@@ -155,7 +155,7 @@ class Service : NSObject {
             let values : [String : Any] = [
                 "users_firebase_uid" : usersUID,
                 "users_email" : usersEmail,
-                "users_sign_in_method" : "google",
+                "users_sign_in_method" : Statics.GOOGLE_SIGN_IN,
                 "users_sign_up_date" : timeStamp,
                 "is_users_terms_and_conditions_accepted" : true,
                 "users_ref_key" : ref_key,
