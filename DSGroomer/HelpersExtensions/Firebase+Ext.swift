@@ -195,5 +195,28 @@ class Service : NSObject {
             }
         }
     }
+    
+    //MARK: - GROOMERS WILL BE ABLE TO REQUEST TIME OFF - APPROVAL CHANGES is_request_approved -> TRUE/has_request_been_satisfied -> TRUE (THIS WILL BE CONTROLLED FROM THE WEBSITE)
+    func groomerRequestForScheduleChange(groomersEmail : String, groomersFirebaseUID : String, groomersName : String, groomersRequestDateAsTimeStamp : Double, completion : @escaping (_ isComplete : Bool, _ responseMessage : String)->()) {
+        
+        let databaseRef = Database.database().reference()
+        
+        let ref = databaseRef.child("groomer_liberty_requests").child(groomersFirebaseUID).childByAutoId()
+        
+        let parentKey = ref.parent?.key ?? "no_parent_key"
+        let refKey = ref.key ?? "no_uid_key"
+        
+        let values : [String : Any] = ["groomers_email" : groomersEmail, "groomers_uid" : groomersFirebaseUID, "groomers_full_name" : groomersName, "request_date" : groomersRequestDateAsTimeStamp, "is_request_approved" : false, "ref_key" : refKey, "parent_key" : parentKey, "has_request_been_satisfied" : false]
+        
+        ref.updateChildValues(values) { error, reference in
+            
+            if error != nil {
+                let error = (error?.localizedDescription ?? "Error trying to send up the groomers request for liberty (time off)") as String
+                completion(false, error)
+                return
+            }
+            completion(true, "success")
+        }
+    }
 }
 
