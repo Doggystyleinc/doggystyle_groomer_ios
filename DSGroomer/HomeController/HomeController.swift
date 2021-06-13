@@ -15,10 +15,9 @@ import AVFoundation
 class HomeController : UITabBarController {
     
     let databaseRef = Database.database().reference(),
-        mainController = MainController(),
+        dashboardController = DashboardController(),
         secondaryController = SecondaryController(),
-        tertiaryController = TertiaryController(),
-        fourthController = FourthController()
+        tertiaryController = TertiaryController()
     
     var statusBarHeight : CGFloat = 0.0,
         outgoingAudioCallAudioPlayer = AVAudioPlayer(),
@@ -124,9 +123,11 @@ class HomeController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = coreLightGrayColor
-        self.tabBar.backgroundColor = coreLightGrayColor
+        self.view.backgroundColor = coreWhiteColor
+        self.tabBar.backgroundColor = coreWhiteColor
         self.tabBar.backgroundImage = UIImage()
+        self.tabBar.shadowImage = UIImage()
+        self.tabBar.itemPositioning = .fill
         
         NetworkMonitor.shared.startMonitoring()
         
@@ -137,6 +138,13 @@ class HomeController : UITabBarController {
             self.addViews()
             self.switchTabs(tabIndex: 0)
         }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))//Give your left alignment number
+
+        //one more way
+        self.tabBarItem.imageInsets = UIEdgeInsets(top: 140, left: 45, bottom: 0, right: 0)
     }
     
     @objc func handleDoubleTap() {
@@ -277,41 +285,34 @@ class HomeController : UITabBarController {
     
     func addTabsAndCustomCenterCircle(completion : @escaping () -> ()) {
         
-        let configHome = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
+        //HOME ICONS
+        let home = UIImage(named:"tab_home_deselected")?.withRenderingMode(.alwaysOriginal)
+        let homeFill = UIImage(named:"tab_home_selected")?.withRenderingMode(.alwaysOriginal)
+    
+        //CALENDAR ICONS
+        let calendar = UIImage(named:"tab_calendar_deselected")?.withRenderingMode(.alwaysOriginal)
+        let calendarFill = UIImage(named:"tab_calendar_selected")?.withRenderingMode(.alwaysOriginal)
         
-        guard let home = UIImage(systemName: "house", withConfiguration: configHome)?.withTintColor(.black).withRenderingMode(.alwaysOriginal) else {return}
-        guard let homeFill = UIImage(systemName: "house", withConfiguration: configHome)?.withTintColor(.orange).withRenderingMode(.alwaysOriginal) else {return}
+        //PEOPLE ICONS
+        let people = UIImage(named:"tab_person_deselected")?.withRenderingMode(.alwaysOriginal)
+        let peopleFill = UIImage(named:"tab_person_selected")?.withRenderingMode(.alwaysOriginal)
         
-        guard let tabTwo = UIImage(systemName: "doc", withConfiguration: configHome)?.withTintColor(.black).withRenderingMode(.alwaysOriginal) else {return}
-        guard let tabTwoFill = UIImage(systemName: "doc.fill", withConfiguration: configHome)?.withTintColor(.orange).withRenderingMode(.alwaysOriginal) else {return}
-        
-        guard let tabThree = UIImage(systemName: "bookmark", withConfiguration: configHome)?.withTintColor(.black).withRenderingMode(.alwaysOriginal) else {return}
-        guard let tabThreeFill = UIImage(systemName: "bookmark.fill", withConfiguration: configHome)?.withTintColor(.orange).withRenderingMode(.alwaysOriginal) else {return}
-        
-        guard let tabFour = UIImage(systemName: "gearshape", withConfiguration: configHome)?.withTintColor(.black).withRenderingMode(.alwaysOriginal) else {return}
-        guard let tabFourFill = UIImage(systemName: "gearshape.fill", withConfiguration: configHome)?.withTintColor(.orange).withRenderingMode(.alwaysOriginal) else {return}
-        
-        let mainTab = UINavigationController(rootViewController: self.mainController)
-        self.mainController.homeController = self
+        let mainTab = UINavigationController(rootViewController: self.dashboardController)
+        self.dashboardController.homeController = self
         mainTab.navigationBar.isHidden = true
         mainTab.tabBarItem = UITabBarItem(title: nil, image: home, selectedImage: homeFill)
         
         let secondarytab = UINavigationController(rootViewController: self.secondaryController)
         secondarytab.navigationBar.isHidden = true
         self.secondaryController.homeController = self
-        secondarytab.tabBarItem = UITabBarItem(title: nil, image: tabTwo, selectedImage: tabTwoFill)
+        secondarytab.tabBarItem = UITabBarItem(title: nil, image: calendar, selectedImage: calendarFill)
         
         let tertiaryTab = UINavigationController(rootViewController: self.tertiaryController)
         tertiaryTab.navigationBar.isHidden = true
         self.tertiaryController.homeController = self
-        tertiaryTab.tabBarItem = UITabBarItem(title: nil, image: tabThree, selectedImage: tabThreeFill)
+        tertiaryTab.tabBarItem = UITabBarItem(title: nil, image: people, selectedImage: peopleFill)
         
-        let fourthTab = UINavigationController(rootViewController: self.fourthController)
-        fourthTab.navigationBar.isHidden = true
-        self.fourthController.homeController = self
-        fourthTab.tabBarItem = UITabBarItem(title: nil, image: tabFour, selectedImage: tabFourFill)
-        
-        viewControllers = [mainTab, secondarytab, tertiaryTab, fourthTab]
+        viewControllers = [mainTab, secondarytab, tertiaryTab]
         
         completion()
         
