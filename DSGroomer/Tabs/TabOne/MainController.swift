@@ -32,10 +32,8 @@ class MainController : UIViewController {
             print(logoutError)
         }
         
-//        LOGGING OUT, REMOVE ALL THE DATABASE OBSERVERS
         Database.database().reference().removeAllObservers()
-        quickBloxUserData = QuickBloxUserData()
-
+        
         let decisionController = DecisionController()
         let nav = UINavigationController(rootViewController: decisionController)
         nav.modalPresentationStyle = .fullScreen

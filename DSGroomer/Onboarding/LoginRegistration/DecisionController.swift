@@ -11,9 +11,8 @@ import UIKit
 
 class DecisionController : UIViewController {
     
-    let databaseRef = Database.database().reference()
-    
-    let mainLoadingScreen = MainLoadingScreen()
+    let databaseRef = Database.database().reference(),
+        mainLoadingScreen = MainLoadingScreen()
     
     let backDrop : UIImageView = {
         
@@ -21,7 +20,7 @@ class DecisionController : UIViewController {
         bd.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(named: "splash_screen")?.withRenderingMode(.alwaysOriginal)
         bd.image = image
-        bd.contentMode = .scaleAspectFill
+        bd.contentMode = .scaleAspectFit
         bd.backgroundColor = coreWhiteColor
         
         return bd
@@ -32,11 +31,9 @@ class DecisionController : UIViewController {
         
         self.view.backgroundColor = coreWhiteColor
         userProfileStruct = UserProfileStruct()
-
+        
         self.addViews()
         self.authenticationCheck()
-        
-        FontLister.enumerateFonts()
         
     }
     
@@ -44,11 +41,18 @@ class DecisionController : UIViewController {
         
         self.view.addSubview(self.backDrop)
         
-        self.backDrop.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.backDrop.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.backDrop.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        self.backDrop.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backDrop.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        self.backDrop.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+        self.backDrop.heightAnchor.constraint(equalToConstant: 208).isActive = true
+        self.backDrop.widthAnchor.constraint(equalToConstant: 206).isActive = true
         
+        self.backDrop.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        
+        UIView.animate(withDuration: 0.5) {
+            self.backDrop.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+
+        }
+
     }
     
     func authenticationCheck() {
@@ -61,18 +65,16 @@ class DecisionController : UIViewController {
         } else if Auth.auth().currentUser?.uid != nil {
             
             AuthCheckUsers.authCheck { (hasAuth) in
-
+                
                 if hasAuth {
-                    print("User currently has Auth")
                     self.perform(#selector(self.handleHomeController), with: nil, afterDelay: 1.0)
                 } else {
-                    print("User does NOT currently have Auth")
                     self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
                 }
             }
         }
     }
-   
+    
     //GO TO THE LOGIN SCREEN, USER IS NOT AUTHENTICATED - FADING THE LOGO SMOOOTHED THE TRANSITION
     @objc func handleWelcomeController() {
         
@@ -86,7 +88,7 @@ class DecisionController : UIViewController {
     
     //GO TO THE LOGIN SCREEN, USER IS NOT AUTHENTICATED - FADING THE LOGO SMOOOTHED THE TRANSITION
     @objc func handleHomeController() {
-     
+        
         let homeController = HomeController()
         let nav = UINavigationController(rootViewController: homeController)
         nav.navigationBar.isHidden = true
@@ -94,5 +96,4 @@ class DecisionController : UIViewController {
         self.navigationController?.present(nav, animated: false, completion: nil)
         
     }
-    
 }

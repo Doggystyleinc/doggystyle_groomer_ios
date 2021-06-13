@@ -11,7 +11,6 @@
 import Foundation
 import UIKit
 import Firebase
-//import GoogleSignIn
 
 //MARK:- SERVICE SINGLETON FOR CRUD OPERATIONS
 class Service : NSObject {
@@ -89,6 +88,7 @@ class Service : NSObject {
                     let values : [String : Any] = [
                         "users_firebase_uid" : firebase_uid,
                         "users_email" : usersEmailAddress,
+                        
                         "users_sign_in_method" : signInMethod,
                         "users_sign_up_date" : timeStamp,
                         "groomers_full_name" : fullName,
@@ -123,13 +123,13 @@ class Service : NSObject {
     
     //MARK:- PASSWORD RESET WITH EMAIL VALIDATION (WEBVIEW)
     func firebaseForgotPassword(validatedEmail : String, completion : @escaping (_ success : Bool, _ response : String)->()) {
-            Auth.auth().sendPasswordReset(withEmail: validatedEmail, completion: { (error) in
-                if error != nil {
-                    completion(false, "Failed: \(error!.localizedDescription as Any)")
-                    return
-                }
-                completion(true, "Success")
-            })
+        Auth.auth().sendPasswordReset(withEmail: validatedEmail, completion: { (error) in
+            if error != nil {
+                completion(false, "Failed: \(error!.localizedDescription as Any)")
+                return
+            }
+            completion(true, "Success")
+        })
     }
     
     func firebaseGoogleSignIn(credentials : AuthCredential, completion : @escaping (_ success : Bool, _ response : String)->()) {
@@ -146,7 +146,7 @@ class Service : NSObject {
                 completion(false, "Failed to grab the users email")
                 return
             }
-           
+            
             let ref = databaseRef.child("all_users").child(usersUID)
             
             let timeStamp : Double = NSDate().timeIntervalSince1970,

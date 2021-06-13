@@ -125,16 +125,14 @@ class HomeController : UITabBarController {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreLightGrayColor
-       
         self.tabBar.backgroundColor = coreLightGrayColor
         self.tabBar.backgroundImage = UIImage()
-//        self.tabBar.layer.zPosition = 10
         
         NetworkMonitor.shared.startMonitoring()
-
+        
         let ratingLibrary = RatingLibraryExtension()
         ratingLibrary.checkForRating()
-
+        
         self.addTabsAndCustomCenterCircle {
             self.addViews()
             self.switchTabs(tabIndex: 0)
@@ -151,7 +149,7 @@ class HomeController : UITabBarController {
             self.timerCountDownBubble.isHidden = true
         }
     }
-   
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .darkContent
     }
@@ -171,7 +169,6 @@ class HomeController : UITabBarController {
             self.statusBarHeight = 30
         }
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -234,7 +231,7 @@ class HomeController : UITabBarController {
         self.successFailureView.isHidden = true
         
     }
-  
+    
     func switchTabs(tabIndex : Int) {
         self.selectedIndex = tabIndex
     }
@@ -293,7 +290,7 @@ class HomeController : UITabBarController {
         
         guard let tabFour = UIImage(systemName: "gearshape", withConfiguration: configHome)?.withTintColor(.black).withRenderingMode(.alwaysOriginal) else {return}
         guard let tabFourFill = UIImage(systemName: "gearshape.fill", withConfiguration: configHome)?.withTintColor(.orange).withRenderingMode(.alwaysOriginal) else {return}
-       
+        
         let mainTab = UINavigationController(rootViewController: self.mainController)
         self.mainController.homeController = self
         mainTab.navigationBar.isHidden = true
@@ -313,11 +310,10 @@ class HomeController : UITabBarController {
         fourthTab.navigationBar.isHidden = true
         self.fourthController.homeController = self
         fourthTab.tabBarItem = UITabBarItem(title: nil, image: tabFour, selectedImage: tabFourFill)
-      
+        
         viewControllers = [mainTab, secondarytab, tertiaryTab, fourthTab]
-
+        
         completion()
         
     }
-   
 }

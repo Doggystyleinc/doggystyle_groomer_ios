@@ -11,8 +11,6 @@ import FontAwesome_swift
 import GoogleSignIn
 import Firebase
 
-
-
 class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSignInDelegate {
     
     var isRegistration : Bool = false,
@@ -31,11 +29,10 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 24, style: .solid)
         cbf.setTitle(String.fontAwesomeIcon(name: .chevronLeft), for: .normal)
         cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
-      
+        
         return cbf
         
     }()
-    
     
     let dsCompanyLogoImage : UIImageView = {
         
@@ -82,7 +79,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     }()
     
     lazy var registerWithGoogleButton : UIButton = {
-
+        
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
         cbf.backgroundColor = .clear
@@ -92,9 +89,9 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         cbf.setImage(image, for: .normal)
         cbf.imageView?.contentMode = .scaleAspectFit
         cbf.addTarget(self, action: #selector(self.handleGoogleRegistration), for: UIControl.Event.touchUpInside)
-
+        
         return cbf
-
+        
     }()
     
     let orLabel : UILabel = {
@@ -317,7 +314,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
             self.registerWithfacebookButton.alpha = 0
             self.orLabel.alpha = 0
         }
-        
     }
     
     @objc func keyboardWillHide(notification : Notification) {
@@ -436,7 +432,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     }
     
     @objc func handleFacebookRegistration() {
-        print("fb")
     }
     
     @objc func handleGoogleRegistration() {
@@ -445,20 +440,18 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-      
-      if let error = error {
-        print("error occured here signing in with google sign in. \(error)")
-        self.mainLoadingScreen.cancelMainLoadingScreen()
-        return
-      }
-
-      guard let authentication = user.authentication else {
-        self.mainLoadingScreen.cancelMainLoadingScreen()
-        print("Authentication error. \(error?.localizedDescription as Any)")
-        return
-      }
         
-      let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
+        if let error = error {
+            self.mainLoadingScreen.cancelMainLoadingScreen()
+            return
+        }
+        
+        guard let authentication = user.authentication else {
+            self.mainLoadingScreen.cancelMainLoadingScreen()
+            return
+        }
+        
+        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
         
         Service.shared.firebaseGoogleSignIn(credentials: credential) { (hasSuccess, response) in
             
@@ -466,14 +459,12 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
                 self.mainLoadingScreen.cancelMainLoadingScreen()
                 self.presentHomeController()
             } else {
-                print("Failed to authenticate with error: \(response)")
                 self.mainLoadingScreen.cancelMainLoadingScreen()
             }
         }
     }
-
+    
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        print("bailed from the google sign in process")
         self.mainLoadingScreen.cancelMainLoadingScreen()
     }
     
@@ -534,7 +525,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
                 
             }
             
-        //MARK: - Log User In
+            //MARK: - Log User In
         } else {
             
             guard let safeEmail = self.emailTextField.text else {return}
@@ -621,6 +612,5 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     }
     
     @objc func handleForgotPasswordButton() {
-        print("forgot pw")
     }
 }

@@ -5,32 +5,22 @@
 //  Created by Charlie Arcodia on 5/30/21.
 //
 
-
-
 import UIKit
 import UserNotifications
 
-
 class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     
-    var pages = [UIViewController]()
+    var pages = [UIViewController](),
+        isNotificationsEnabled : Bool = false,
+        gradientLayer: CAGradientLayer!,
+        hasViewBeenLaidOut : Bool = false
     
-    let pageControl = UIPageControl()
+    let pageControl = UIPageControl(),
+        initialPage = 0,
+        page1 = SlideOne(),
+        page2 = SlideTwo(),
+        page3 = SlideThree()
     
-    var isNotificationsEnabled : Bool = false
-    
-    var gradientLayer: CAGradientLayer!
-          
-    var hasViewBeenLaidOut : Bool = false
-    
-    let initialPage = 0
-    
-    let page1 = SlideOne()
-
-    let page2 = SlideTwo()
-
-    let page3 = SlideThree()
-   
     lazy var registerButton : UIButton = {
         
         let cbf = UIButton(type: .system)
@@ -80,23 +70,23 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         let image = UIImage(named: "ds_white_logo")?.withRenderingMode(.alwaysOriginal)
         dcl.image = image
         
-       return dcl
+        return dcl
     }()
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.addViews()
         self.references()
         self.view.backgroundColor = coreOrangeColor
-  
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
         navigationController?.navigationBar.barStyle = .black
-
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,7 +97,7 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.navigationItem.setHidesBackButton(true, animated: false)
         
     }
-   
+    
     func addViews() {
         
         self.dataSource = self
@@ -125,17 +115,17 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.pageControl.numberOfPages = self.pages.count
         self.pageControl.currentPage = initialPage
         self.pageControl.translatesAutoresizingMaskIntoConstraints = false
-
+        
         self.view.addSubview(self.alreadyHaveAccountButton)
         self.view.addSubview(self.pageControl)
         self.view.addSubview(self.registerButton)
         self.view.addSubview(self.dsCompanyLogoImage)
-
+        
         self.alreadyHaveAccountButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -23).isActive = true
         self.alreadyHaveAccountButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.alreadyHaveAccountButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.alreadyHaveAccountButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-
+        
         self.registerButton.bottomAnchor.constraint(equalTo: self.alreadyHaveAccountButton.topAnchor, constant: -18).isActive = true
         self.registerButton.heightAnchor.constraint(equalToConstant: self.view.frame.height / 14).isActive = true
         self.registerButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
@@ -155,14 +145,14 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
     
     func references() {
         
-        page3.tutorialClass = self
-        page2.tutorialClass = self
-        page1.tutorialClass = self
+        self.page3.tutorialClass = self
+        self.page2.tutorialClass = self
+        self.page1.tutorialClass = self
         
     }
-   
+    
     @objc func handleSignUpButton() {
-          
+        
         let registrationController = RegistrationLoginController()
         registrationController.isRegistration = true
         self.navigationController?.pushViewController(registrationController, animated: true)
@@ -176,7 +166,7 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.navigationController?.pushViewController(registrationController, animated: true)
         UIDevice.vibrateLight()
     }
-   
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if let viewControllerIndex = self.pages.firstIndex(of: viewController) {
@@ -215,11 +205,10 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
     }
-   
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 

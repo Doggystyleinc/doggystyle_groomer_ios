@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ds_splash.png",
+      "filename" : "ds_logo_icon.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "ds_splash@2x.png",
+      "filename" : "ds_logo_icon@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "ds_splash@3x.png",
+      "filename" : "ds_logo_icon@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

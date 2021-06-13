@@ -13,22 +13,9 @@ import Firebase
 import DeviceCheck
 import PINRemoteImage
 
-
-/*
- - Font name = FontAwesome5Brands-Regular
- - Font name = FontAwesome5Duotone-Solid
- - Font name = FontAwesome5Free-Regular
- - Font name = FontAwesome5Free-Solid
- - Font name = FontAwesome5Pro-Regular
- - Font name = FontAwesome5Pro-Light
- - Font name = FontAwesome5Pro-Solid
- */
- 
-
 //MARK: - PUBLIC VARIABLES
 var friends_array_phone_number = [String](),
     friends_internal_array_uid = [String](),
-    quickBloxUserData = QuickBloxUserData(),
     
     //MARK: - Global Color Variables
     coreWhiteColor = UIColor(hex: 0xFFFFFF),
@@ -86,7 +73,7 @@ struct Statics {
     
     static let GOOGLE_SIGN_IN : String = "google"
     static let EMAIL_SIGN_IN : String = "email"
-
+    
 }
 
 extension UICollectionView {
@@ -261,18 +248,6 @@ extension Array where Element: Hashable {
     mutating func removeDuplicates() {
         self = self.removingDuplicates()
     }
-}
-
-//MARK: - QUICKBLOX AUTH DATA
-struct QuickBloxUserData {
-    
-    var userID : UInt?
-    var userBlobID : UInt?
-    var userEmail : String?
-    var userPassword : String?
-    var userFullName : String?
-    var userPhoneNumber : String?
-    
 }
 
 //MARK: - STRING EXTENSION FOR STRING HEIGHTS AND WIDTHS
