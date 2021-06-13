@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 class TertiaryController : UIViewController {
     
@@ -17,6 +18,25 @@ class TertiaryController : UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreWhiteColor
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleLogout)))
 
+    }
+    
+    @objc func handleLogout() {
+      
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+        
+        Database.database().reference().removeAllObservers()
+        
+        let decisionController = DecisionController()
+        let nav = UINavigationController(rootViewController: decisionController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: nil)
+        
     }
 }

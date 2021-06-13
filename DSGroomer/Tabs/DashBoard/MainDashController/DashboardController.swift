@@ -154,24 +154,5 @@ class DashboardController : UIViewController {
         self.dashboardCollectionSubview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
 
     }
-    
-    @objc func handleLogout() {
-        
-        print("called")
-        
-        do {
-            try Auth.auth().signOut()
-        } catch let logoutError {
-            print(logoutError)
-        }
-        
-        Database.database().reference().removeAllObservers()
-        
-        let decisionController = DecisionController()
-        let nav = UINavigationController(rootViewController: decisionController)
-        nav.modalPresentationStyle = .fullScreen
-        nav.navigationBar.isHidden = true
-        self.navigationController?.present(nav, animated: true, completion: nil)
-        
-    }
+ 
 }

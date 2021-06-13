@@ -16,7 +16,7 @@ class HomeController : UITabBarController {
     
     let databaseRef = Database.database().reference(),
         dashboardController = DashboardController(),
-        secondaryController = SecondaryController(),
+        historyController = HistoryController(),
         tertiaryController = TertiaryController()
     
     var statusBarHeight : CGFloat = 0.0,
@@ -302,9 +302,9 @@ class HomeController : UITabBarController {
         mainTab.navigationBar.isHidden = true
         mainTab.tabBarItem = UITabBarItem(title: nil, image: home, selectedImage: homeFill)
         
-        let secondarytab = UINavigationController(rootViewController: self.secondaryController)
+        let secondarytab = UINavigationController(rootViewController: self.historyController)
         secondarytab.navigationBar.isHidden = true
-        self.secondaryController.homeController = self
+        self.historyController.homeController = self
         secondarytab.tabBarItem = UITabBarItem(title: nil, image: calendar, selectedImage: calendarFill)
         
         let tertiaryTab = UINavigationController(rootViewController: self.tertiaryController)
