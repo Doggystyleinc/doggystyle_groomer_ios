@@ -17,7 +17,7 @@ class HomeController : UITabBarController {
     let databaseRef = Database.database().reference(),
         dashboardController = DashboardController(),
         historyController = HistoryController(),
-        tertiaryController = TertiaryController()
+        profileController = ProfileController()
     
     var statusBarHeight : CGFloat = 0.0,
         outgoingAudioCallAudioPlayer = AVAudioPlayer(),
@@ -307,9 +307,9 @@ class HomeController : UITabBarController {
         self.historyController.homeController = self
         secondarytab.tabBarItem = UITabBarItem(title: nil, image: calendar, selectedImage: calendarFill)
         
-        let tertiaryTab = UINavigationController(rootViewController: self.tertiaryController)
+        let tertiaryTab = UINavigationController(rootViewController: self.profileController)
         tertiaryTab.navigationBar.isHidden = true
-        self.tertiaryController.homeController = self
+        self.profileController.homeController = self
         tertiaryTab.tabBarItem = UITabBarItem(title: nil, image: people, selectedImage: peopleFill)
         
         viewControllers = [mainTab, secondarytab, tertiaryTab]

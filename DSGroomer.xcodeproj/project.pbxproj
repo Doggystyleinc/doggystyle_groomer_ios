@@ -44,7 +44,7 @@
 		E3C2EB69266170C000AB0EF6 /* UserProfileStruc.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB68266170C000AB0EF6 /* UserProfileStruc.swift */; };
 		E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */; };
 		E3C2EB6D2661722900AB0EF6 /* HistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6C2661722900AB0EF6 /* HistoryController.swift */; };
-		E3C2EB6F2661723800AB0EF6 /* TertiaryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6E2661723800AB0EF6 /* TertiaryController.swift */; };
+		E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB6E2661723800AB0EF6 /* ProfileController.swift */; };
 		E3C2EB732661751000AB0EF6 /* RegistrationLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C2EB722661751000AB0EF6 /* RegistrationLoginController.swift */; };
 		E3CFCB6226632792003C1B73 /* ds_splash@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3CFCB5F26632791003C1B73 /* ds_splash@2x.png */; };
 		E3CFCB6326632792003C1B73 /* ds_splash@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3CFCB6026632791003C1B73 /* ds_splash@3x.png */; };
@@ -90,6 +90,9 @@
 		E3FB6B072676B16400DE17D2 /* DashboardMainFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B062676B16400DE17D2 /* DashboardMainFeeder.swift */; };
 		E3FB6B0A2676B63500DE17D2 /* HistoryCollectionSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B092676B63500DE17D2 /* HistoryCollectionSubview.swift */; };
 		E3FB6B0C2676B66600DE17D2 /* HistoryMainFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B0B2676B66600DE17D2 /* HistoryMainFeeder.swift */; };
+		E3FB6B122677C46300DE17D2 /* shareButtonIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */; };
+		E3FB6B132677C46300DE17D2 /* shareButtonIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B102677C46300DE17D2 /* shareButtonIcon@3x.png */; };
+		E3FB6B142677C46300DE17D2 /* shareButtonIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,7 +156,7 @@
 		E3C2EB68266170C000AB0EF6 /* UserProfileStruc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileStruc.swift; sourceTree = "<group>"; };
 		E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardController.swift; sourceTree = "<group>"; };
 		E3C2EB6C2661722900AB0EF6 /* HistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryController.swift; sourceTree = "<group>"; };
-		E3C2EB6E2661723800AB0EF6 /* TertiaryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TertiaryController.swift; sourceTree = "<group>"; };
+		E3C2EB6E2661723800AB0EF6 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		E3C2EB722661751000AB0EF6 /* RegistrationLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationLoginController.swift; sourceTree = "<group>"; };
 		E3CFCB5F26632791003C1B73 /* ds_splash@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds_splash@2x.png"; sourceTree = "<group>"; };
 		E3CFCB6026632791003C1B73 /* ds_splash@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds_splash@3x.png"; sourceTree = "<group>"; };
@@ -199,6 +202,9 @@
 		E3FB6B062676B16400DE17D2 /* DashboardMainFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardMainFeeder.swift; sourceTree = "<group>"; };
 		E3FB6B092676B63500DE17D2 /* HistoryCollectionSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCollectionSubview.swift; sourceTree = "<group>"; };
 		E3FB6B0B2676B66600DE17D2 /* HistoryMainFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMainFeeder.swift; sourceTree = "<group>"; };
+		E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareButtonIcon@2x.png"; sourceTree = "<group>"; };
+		E3FB6B102677C46300DE17D2 /* shareButtonIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareButtonIcon@3x.png"; sourceTree = "<group>"; };
+		E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareButtonIcon.png; sourceTree = "<group>"; };
 		E649080063F16FE9C80E7713 /* Pods-DSGroomer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSGroomer.debug.xcconfig"; path = "Target Support Files/Pods-DSGroomer/Pods-DSGroomer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -352,7 +358,7 @@
 		E333A941265D94CE00897572 /* TabThree */ = {
 			isa = PBXGroup;
 			children = (
-				E3C2EB6E2661723800AB0EF6 /* TertiaryController.swift */,
+				E3C2EB6E2661723800AB0EF6 /* ProfileController.swift */,
 			);
 			path = TabThree;
 			sourceTree = "<group>";
@@ -436,6 +442,7 @@
 		E3CFCB5D26632772003C1B73 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E3FB6B0E2677C45400DE17D2 /* ProfileIcons */,
 				E3FB6AF526768BAA00DE17D2 /* HomeControllerIcons */,
 				E3FB6AB8267682F400DE17D2 /* TabBarIcons */,
 				E32D6BA0266404A1003DEEB3 /* Fonts */,
@@ -551,6 +558,16 @@
 			path = HistoryCollectionSubview;
 			sourceTree = "<group>";
 		};
+		E3FB6B0E2677C45400DE17D2 /* ProfileIcons */ = {
+			isa = PBXGroup;
+			children = (
+				E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */,
+				E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */,
+				E3FB6B102677C46300DE17D2 /* shareButtonIcon@3x.png */,
+			);
+			path = ProfileIcons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -639,6 +656,7 @@
 				E3CFCB6E266327A2003C1B73 /* ds_white_logo@2x.png in Resources */,
 				E3CFCB6226632792003C1B73 /* ds_splash@2x.png in Resources */,
 				E3FB6AF32676895900DE17D2 /* person_selected@2x.png in Resources */,
+				E3FB6B122677C46300DE17D2 /* shareButtonIcon@2x.png in Resources */,
 				E3CFCB682663279C003C1B73 /* ds_orange_logo@3x.png in Resources */,
 				E3CFCB6F266327A2003C1B73 /* ds_white_logo.png in Resources */,
 				E32D6BC026640968003DEEB3 /* google_register_button@2x.png in Resources */,
@@ -662,8 +680,10 @@
 				E333A926265D915400897572 /* Assets.xcassets in Resources */,
 				E3CFCB692663279C003C1B73 /* ds_orange_logo.png in Resources */,
 				E3FB6AE82676894E00DE17D2 /* calendar_selected@3x.png in Resources */,
+				E3FB6B132677C46300DE17D2 /* shareButtonIcon@3x.png in Resources */,
 				E32D6BBA26640960003DEEB3 /* fb_register_button@3x.png in Resources */,
 				E3CFCB6326632792003C1B73 /* ds_splash@3x.png in Resources */,
+				E3FB6B142677C46300DE17D2 /* shareButtonIcon.png in Resources */,
 				E3FB6AB7267586B400DE17D2 /* ds_logo_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -773,7 +793,7 @@
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
-				E3C2EB6F2661723800AB0EF6 /* TertiaryController.swift in Sources */,
+				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
 				E3FB6B0C2676B66600DE17D2 /* HistoryMainFeeder.swift in Sources */,
 				E3FB6B002676A98200DE17D2 /* DashboardHeaderCollectionSubview.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,

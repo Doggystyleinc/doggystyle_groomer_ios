@@ -30,7 +30,7 @@ class DashboardController : UIViewController {
         dcl.translatesAutoresizingMaskIntoConstraints = false
         dcl.backgroundColor = .clear
         dcl.contentMode = .scaleAspectFit
-        dcl.isUserInteractionEnabled = false
+        dcl.isUserInteractionEnabled = true
         let image = UIImage(named: "notification_icon")?.withRenderingMode(.alwaysOriginal)
         dcl.setBackgroundImage(image, for: .normal)
         dcl.clipsToBounds = false
