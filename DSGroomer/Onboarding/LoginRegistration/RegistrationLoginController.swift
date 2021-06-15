@@ -15,7 +15,8 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     
     var isRegistration : Bool = false,
         heightLayoutConstraint : NSLayoutConstraint?,
-        confirmButtonLayoutConstraint : NSLayoutConstraint?
+        confirmButtonLayoutConstraint : NSLayoutConstraint?,
+        enterPasswordTopConstraint : NSLayoutConstraint?
     
     let mainLoadingScreen = MainLoadingScreen()
     
@@ -159,6 +160,13 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         etfc.leftViewMode = .always
         etfc.layer.borderColor = coreRedColor.cgColor
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        etfc.clipsToBounds = false
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.1
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
         return etfc
         
     }()
@@ -184,6 +192,13 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         etfc.leftViewMode = .always
         etfc.layer.borderColor = coreRedColor.cgColor
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        etfc.clipsToBounds = false
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.1
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
         return etfc
         
     }()
@@ -210,6 +225,13 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         etfc.layer.borderColor = coreRedColor.cgColor
         etfc.isSecureTextEntry = true
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
+        etfc.clipsToBounds = false
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.1
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
         return etfc
         
     }()
@@ -334,12 +356,15 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
             self.welcomeBackLabel.text = "Registration is simple"
             self.forgotPasswordButton.isHidden = true
             self.confirmButtonLayoutConstraint?.constant = -20
+//            self.enterPasswordTopConstraint?.constant = 20
         } else {
             self.confirmButton.setTitle("Login", for: .normal)
             self.heightLayoutConstraint?.constant = 10
             self.fullNameTextfield.isHidden = true
             self.welcomeBackLabel.text = "Welcome Back"
             self.confirmButtonLayoutConstraint?.constant = -100
+            self.enterPasswordTopConstraint?.constant = -10
+
         }
     }
     
@@ -414,7 +439,8 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         self.emailTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.emailTextField.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.passwordTextfield.topAnchor.constraint(equalTo: self.fullNameTextfield.bottomAnchor, constant: 10).isActive = true
+        self.enterPasswordTopConstraint = self.passwordTextfield.topAnchor.constraint(equalTo: self.fullNameTextfield.bottomAnchor, constant: 10)
+        self.enterPasswordTopConstraint?.isActive = true
         self.passwordTextfield.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.passwordTextfield.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.passwordTextfield.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -442,6 +468,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
         
         if let error = error {
+            print(error.localizedDescription as Any)
             self.mainLoadingScreen.cancelMainLoadingScreen()
             return
         }

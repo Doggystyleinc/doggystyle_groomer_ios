@@ -14,13 +14,9 @@ struct UserProfileStruct {
     
     var userProfileImageURL : String?
     var usersName : String?
-    var usersCountryCode : String?
-    var usersPhoneNumber : String?
     var usersEmail : String?
-    var usersProfileHexColor : String?
-    var usersQuickBloxID : UInt?
     var usersPushToken : String?
     var usersFirebaseUID : String?
-    var deviceUDID : String?
-    
+    var is_groomer : Bool?
+    var groomers_full_name : String?
 }

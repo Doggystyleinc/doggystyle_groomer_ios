@@ -93,6 +93,8 @@
 		E3FB6B122677C46300DE17D2 /* shareButtonIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */; };
 		E3FB6B132677C46300DE17D2 /* shareButtonIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B102677C46300DE17D2 /* shareButtonIcon@3x.png */; };
 		E3FB6B142677C46300DE17D2 /* shareButtonIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */; };
+		E3FB6B162677FDB100DE17D2 /* ProfileCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B152677FDB100DE17D2 /* ProfileCollectionView.swift */; };
+		E3FB6B182677FDBC00DE17D2 /* ProfileCollectionFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B172677FDBC00DE17D2 /* ProfileCollectionFeeder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -205,6 +207,8 @@
 		E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareButtonIcon@2x.png"; sourceTree = "<group>"; };
 		E3FB6B102677C46300DE17D2 /* shareButtonIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareButtonIcon@3x.png"; sourceTree = "<group>"; };
 		E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareButtonIcon.png; sourceTree = "<group>"; };
+		E3FB6B152677FDB100DE17D2 /* ProfileCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionView.swift; sourceTree = "<group>"; };
+		E3FB6B172677FDBC00DE17D2 /* ProfileCollectionFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionFeeder.swift; sourceTree = "<group>"; };
 		E649080063F16FE9C80E7713 /* Pods-DSGroomer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSGroomer.debug.xcconfig"; path = "Target Support Files/Pods-DSGroomer/Pods-DSGroomer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -359,6 +363,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C2EB6E2661723800AB0EF6 /* ProfileController.swift */,
+				E3FB6B192677FDBF00DE17D2 /* ProfileCollectionController */,
 			);
 			path = TabThree;
 			sourceTree = "<group>";
@@ -566,6 +571,15 @@
 				E3FB6B102677C46300DE17D2 /* shareButtonIcon@3x.png */,
 			);
 			path = ProfileIcons;
+			sourceTree = "<group>";
+		};
+		E3FB6B192677FDBF00DE17D2 /* ProfileCollectionController */ = {
+			isa = PBXGroup;
+			children = (
+				E3FB6B152677FDB100DE17D2 /* ProfileCollectionView.swift */,
+				E3FB6B172677FDBC00DE17D2 /* ProfileCollectionFeeder.swift */,
+			);
+			path = ProfileCollectionController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -776,6 +790,7 @@
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
 				E3FB6B072676B16400DE17D2 /* DashboardMainFeeder.swift in Sources */,
 				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,
+				E3FB6B162677FDB100DE17D2 /* ProfileCollectionView.swift in Sources */,
 				E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */,
 				E3C2EB6D2661722900AB0EF6 /* HistoryController.swift in Sources */,
 				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
@@ -790,6 +805,7 @@
 				E3C2EB732661751000AB0EF6 /* RegistrationLoginController.swift in Sources */,
 				E3FB6B0A2676B63500DE17D2 /* HistoryCollectionSubview.swift in Sources */,
 				E3FB6AB126757FCE00DE17D2 /* PinNumberEntry.swift in Sources */,
+				E3FB6B182677FDBC00DE17D2 /* ProfileCollectionFeeder.swift in Sources */,
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,

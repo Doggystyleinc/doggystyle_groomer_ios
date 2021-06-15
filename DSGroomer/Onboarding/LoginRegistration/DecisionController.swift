@@ -34,8 +34,7 @@ class DecisionController : UIViewController {
         
         self.addViews()
         self.authenticationCheck()
-        print("Device size: \(UIScreen.main.bounds.height)")
-        
+       
     }
     
     func addViews() {

@@ -145,6 +145,14 @@ class HomeController : UITabBarController {
 
         //one more way
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 140, left: 45, bottom: 0, right: 0)
+        
+        self.updateUserProfileStructure { success in
+            if success {
+                print("Updated the users data source")
+            } else {
+                print("Failed to update the users data source")
+            }
+        }
     }
     
     @objc func handleDoubleTap() {
@@ -316,5 +324,40 @@ class HomeController : UITabBarController {
         
         completion()
         
+    }
+    
+    
+    func updateUserProfileStructure(completion : @escaping (_ isComplete : Bool)->()) {
+        
+        let user_uid = Auth.auth().currentUser?.uid ?? "nil"
+        
+        let ref = self.databaseRef.child("all_users").child(user_uid)
+        
+        ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
+            
+            if let JSON = snap.value as? [String : AnyObject] {
+
+            let profile_image = JSON["profile_image_url"] as? String ?? "nil"
+            let users_name = JSON["users_name"] as? String ?? "nil"
+            let groomers_name = JSON["groomers_full_name"] as? String ?? "nil"
+            let email = JSON["users_email"] as? String ?? "nil"
+            let push_token = JSON["push_token"] as? String ?? "nil"
+            let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
+            let is_groomer = JSON["is_groomer"] as? Bool ?? false
+
+            userProfileStruct.userProfileImageURL = profile_image
+            userProfileStruct.usersName = users_name
+            userProfileStruct.usersEmail = email
+            userProfileStruct.usersPushToken = push_token
+            userProfileStruct.usersFirebaseUID = firebase_uid
+            userProfileStruct.is_groomer = is_groomer
+            userProfileStruct.groomers_full_name = groomers_name
+
+            completion(true)
+            
+            } else {
+                completion(false)
+            }
+        }
     }
 }

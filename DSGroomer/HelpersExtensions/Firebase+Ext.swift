@@ -88,7 +88,6 @@ class Service : NSObject {
                     let values : [String : Any] = [
                         "users_firebase_uid" : firebase_uid,
                         "users_email" : usersEmailAddress,
-                        
                         "users_sign_in_method" : signInMethod,
                         "users_sign_up_date" : timeStamp,
                         "groomers_full_name" : fullName,

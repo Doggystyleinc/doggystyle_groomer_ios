@@ -83,7 +83,7 @@ class DashboardController : UIViewController {
         nl.translatesAutoresizingMaskIntoConstraints = false
         nl.backgroundColor = .clear
         nl.text = "Upcoming Appointments"
-        nl.font = UIFont(name: dsHeaderFont, size: 22)
+        nl.font = UIFont(name: dsHeaderFont, size: 20)
         nl.textColor = coreBlackColor
         nl.textAlignment = .left
         nl.adjustsFontSizeToFitWidth = true

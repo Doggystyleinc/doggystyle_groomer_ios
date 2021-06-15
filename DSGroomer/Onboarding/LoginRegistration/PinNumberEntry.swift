@@ -599,47 +599,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
             })
         }
     }
-    
-    func updateUserProfileStructure(completion : @escaping (_ isComplete : Bool)->()) {
-        
-        let user_uid = Auth.auth().currentUser?.uid ?? "nil"
-        
-        let ref = self.databaseRef.child("all_users").child(user_uid)
-        
-        ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
-            
-            if let JSON = snap.value as? [String : AnyObject] {
-
-            let country_code = JSON["country_code"] as? String ?? "nil"
-            let phone_number = JSON["phone_number"] as? String ?? "nil"
-            let profile_image = JSON["profile_image"] as? String ?? "nil"
-            let users_name = JSON["users_name"] as? String ?? "nil"
-            let email = JSON["email"] as? String ?? "nil"
-            let profile_hex_color = JSON["profile_hex_color"] as? String ?? "nil"
-            let push_token = JSON["push_token"] as? String ?? "nil"
-            let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
-            let quickblox_user_id = JSON["quickblox_user_id"] as? UInt ?? 0
-            let device_UDID = JSON["device_UDID"] as? String ?? "nil"
-
-            userProfileStruct.usersCountryCode = country_code
-            userProfileStruct.usersPhoneNumber = phone_number
-            userProfileStruct.userProfileImageURL = profile_image
-            userProfileStruct.usersName = users_name
-            userProfileStruct.usersEmail = email
-            userProfileStruct.usersProfileHexColor = profile_hex_color
-            userProfileStruct.usersPushToken = push_token
-            userProfileStruct.usersFirebaseUID = firebase_uid
-            userProfileStruct.usersQuickBloxID = quickblox_user_id
-            userProfileStruct.deviceUDID = device_UDID
-                
-            completion(true)
-            
-            } else {
-                completion(false)
-            }
-        }
-    }
-    
+   
     func handleRegistration(phone : String, countryCode : String) {
         
         let usersName = self.usersName ?? ""
