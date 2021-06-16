@@ -582,7 +582,7 @@ extension UILabel {
 
 extension UIImageView {
     
-    func loadImageGeneralUse(_ urlString: String) {
+    func loadImageGeneralUse(_ urlString: String, completion : @escaping (_ isComplete : Bool)->()) {
         
         self.image = UIImage()
         
@@ -592,6 +592,9 @@ extension UIImageView {
             
             if error != nil {
                 print("failed load")
+                completion(false)
+            } else {
+                completion(true)
             }
         }
     }

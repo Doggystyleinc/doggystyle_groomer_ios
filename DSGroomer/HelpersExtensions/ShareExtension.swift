@@ -55,7 +55,9 @@ class ShareFunctionHelper : NSObject {
             
             if let url = feeder["image_url"] as? String {
                 
-                imageGrabber.loadImageGeneralUse(url)
+                imageGrabber.loadImageGeneralUse(url) { complete in
+                    print("done loading image for sharing.")
+                }
                 
                 imageActivityItem = imageGrabber.image
                 

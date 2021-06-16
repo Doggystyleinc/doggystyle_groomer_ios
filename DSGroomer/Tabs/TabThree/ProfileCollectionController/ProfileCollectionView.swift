@@ -10,10 +10,7 @@ import UIKit
 
 class ProfileCollectionSubview : UICollectionView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
-    //JUST REFERENCE THE STRING NAME FOR THE ICONS FROM THE ASSETS AND PUT THEM IN ORDER ON THE LINE BELOW
-    private let profileID = "profileID",
-                arrayOfStaticIcons = ["userCircle","dollarSign"],
-                arrayOfStaticLabels = ["Account","Earnings & Reviews"]
+    private let profileID = "profileID", arrayOfStaticLabels = ["Account","Earnings & Reviews"]
     
     var profileController : ProfileController?
     
@@ -38,7 +35,7 @@ class ProfileCollectionSubview : UICollectionView, UICollectionViewDelegateFlowL
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.arrayOfStaticIcons.count
+        return self.arrayOfStaticLabels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -83,6 +80,7 @@ class ProfileCollectionSubview : UICollectionView, UICollectionViewDelegateFlowL
         case "Earnings & Reviews" : print("Earnings & Reviews")
             
         default : print("Button not found, add it to the array")
+            
         }
     }
     

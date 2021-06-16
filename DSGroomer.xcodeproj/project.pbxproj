@@ -95,6 +95,7 @@
 		E3FB6B142677C46300DE17D2 /* shareButtonIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */; };
 		E3FB6B162677FDB100DE17D2 /* ProfileCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B152677FDB100DE17D2 /* ProfileCollectionView.swift */; };
 		E3FB6B182677FDBC00DE17D2 /* ProfileCollectionFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B172677FDBC00DE17D2 /* ProfileCollectionFeeder.swift */; };
+		E3FB6B1B2679781900DE17D2 /* ProfilePhotoUploadExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B1A2679781900DE17D2 /* ProfilePhotoUploadExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -209,6 +210,7 @@
 		E3FB6B112677C46300DE17D2 /* shareButtonIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shareButtonIcon.png; sourceTree = "<group>"; };
 		E3FB6B152677FDB100DE17D2 /* ProfileCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionView.swift; sourceTree = "<group>"; };
 		E3FB6B172677FDBC00DE17D2 /* ProfileCollectionFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionFeeder.swift; sourceTree = "<group>"; };
+		E3FB6B1A2679781900DE17D2 /* ProfilePhotoUploadExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoUploadExt.swift; sourceTree = "<group>"; };
 		E649080063F16FE9C80E7713 /* Pods-DSGroomer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSGroomer.debug.xcconfig"; path = "Target Support Files/Pods-DSGroomer/Pods-DSGroomer.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -578,6 +580,7 @@
 			children = (
 				E3FB6B152677FDB100DE17D2 /* ProfileCollectionView.swift */,
 				E3FB6B172677FDBC00DE17D2 /* ProfileCollectionFeeder.swift */,
+				E3FB6B1A2679781900DE17D2 /* ProfilePhotoUploadExt.swift */,
 			);
 			path = ProfileCollectionController;
 			sourceTree = "<group>";
@@ -793,6 +796,7 @@
 				E3FB6B162677FDB100DE17D2 /* ProfileCollectionView.swift in Sources */,
 				E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */,
 				E3C2EB6D2661722900AB0EF6 /* HistoryController.swift in Sources */,
+				E3FB6B1B2679781900DE17D2 /* ProfilePhotoUploadExt.swift in Sources */,
 				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
 				E3FB6B022676AAE600DE17D2 /* DashHeaderFeeder.swift in Sources */,
 				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,

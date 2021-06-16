@@ -17,7 +17,8 @@ class HomeController : UITabBarController {
     let databaseRef = Database.database().reference(),
         dashboardController = DashboardController(),
         historyController = HistoryController(),
-        profileController = ProfileController()
+        profileController = ProfileController(),
+        storageRef = Storage.storage().reference()
     
     var statusBarHeight : CGFloat = 0.0,
         outgoingAudioCallAudioPlayer = AVAudioPlayer(),
@@ -142,7 +143,7 @@ class HomeController : UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))//Give your left alignment number
-
+        
         //one more way
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 140, left: 45, bottom: 0, right: 0)
         
@@ -296,7 +297,7 @@ class HomeController : UITabBarController {
         //HOME ICONS
         let home = UIImage(named:"tab_home_deselected")?.withRenderingMode(.alwaysOriginal)
         let homeFill = UIImage(named:"tab_home_selected")?.withRenderingMode(.alwaysOriginal)
-    
+        
         //CALENDAR ICONS
         let calendar = UIImage(named:"tab_calendar_deselected")?.withRenderingMode(.alwaysOriginal)
         let calendarFill = UIImage(named:"tab_calendar_selected")?.withRenderingMode(.alwaysOriginal)
@@ -336,28 +337,71 @@ class HomeController : UITabBarController {
         ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
             
             if let JSON = snap.value as? [String : AnyObject] {
-
-            let profile_image = JSON["profile_image_url"] as? String ?? "nil"
-            let users_name = JSON["users_name"] as? String ?? "nil"
-            let groomers_name = JSON["groomers_full_name"] as? String ?? "nil"
-            let email = JSON["users_email"] as? String ?? "nil"
-            let push_token = JSON["push_token"] as? String ?? "nil"
-            let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
-            let is_groomer = JSON["is_groomer"] as? Bool ?? false
-
-            userProfileStruct.userProfileImageURL = profile_image
-            userProfileStruct.usersName = users_name
-            userProfileStruct.usersEmail = email
-            userProfileStruct.usersPushToken = push_token
-            userProfileStruct.usersFirebaseUID = firebase_uid
-            userProfileStruct.is_groomer = is_groomer
-            userProfileStruct.groomers_full_name = groomers_name
-
-            completion(true)
-            
+                
+                let profile_image = JSON["profile_image_url"] as? String ?? "nil"
+                let users_name = JSON["users_name"] as? String ?? "nil"
+                let groomers_name = JSON["groomers_full_name"] as? String ?? "nil"
+                let email = JSON["users_email"] as? String ?? "nil"
+                let push_token = JSON["push_token"] as? String ?? "nil"
+                let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
+                let is_groomer = JSON["is_groomer"] as? Bool ?? false
+                
+                userProfileStruct.userProfileImageURL = profile_image
+                userProfileStruct.usersName = users_name
+                userProfileStruct.usersEmail = email
+                userProfileStruct.usersPushToken = push_token
+                userProfileStruct.usersFirebaseUID = firebase_uid
+                userProfileStruct.is_groomer = is_groomer
+                userProfileStruct.groomers_full_name = groomers_name
+                
+                completion(true)
+                
             } else {
                 completion(false)
             }
+        }
+    }
+    
+    
+    func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool) -> ()) {
+        
+        guard let userUid = Auth.auth().currentUser?.uid else {return}
+        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
+        
+        let randomString = NSUUID().uuidString
+        let imageRef = self.storageRef.child("imageSubmissions").child(userUid).child(randomString)
+        
+        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
+            
+            if error != nil {
+                completion(false);
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (urlGRab, error) in
+                
+                if error != nil {
+                    completion(false);
+                    return
+                }
+                
+                if let uploadUrl = urlGRab?.absoluteString {
+                    
+                    let values : [String : Any] = ["profile_image_url" : uploadUrl]
+                    let refUploadPath = self.databaseRef.child("all_users").child(userUid)
+                    
+                    userProfileStruct.userProfileImageURL = uploadUrl
+                    
+                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                        if error != nil {
+                            completion(false);
+                            return
+                        } else {
+                            completion(true);
+                        }
+                    })
+                }
+            })
         }
     }
 }
