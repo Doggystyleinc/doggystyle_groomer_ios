@@ -34,7 +34,7 @@ class DecisionController : UIViewController {
         
         self.addViews()
         self.authenticationCheck()
-       
+        
     }
     
     func addViews() {
@@ -50,9 +50,7 @@ class DecisionController : UIViewController {
         
         UIView.animate(withDuration: 0.5) {
             self.backDrop.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-
         }
-
     }
     
     func authenticationCheck() {

@@ -29,15 +29,15 @@ extension ProfileController : UIImagePickerControllerDelegate, UINavigationContr
             })
             
         case .restricted:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application") { (complete) in
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
                 print("Alert presented")
             }
         case .denied:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application") { (complete) in
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
                 print("Alert presented")
             }
         default :
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application") { (complete) in
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
                 print("Alert presented")
             }
         }
@@ -49,7 +49,7 @@ extension ProfileController : UIImagePickerControllerDelegate, UINavigationContr
             
             let ip = UIImagePickerController()
             ip.sourceType = .camera
-            ip.mediaTypes = [kUTTypeImage as String] //kUTTypeMovie as String
+            ip.mediaTypes = [kUTTypeImage as String]
             ip.allowsEditing = true
             ip.delegate = self
             

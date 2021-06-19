@@ -21,7 +21,7 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         page2 = SlideTwo(),
         page3 = SlideThree()
     
-    lazy var registerButton : UIButton = {
+    lazy var signUpButton : UIButton = {
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
@@ -30,30 +30,36 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         cbf.titleLabel?.adjustsFontSizeToFitWidth = true
         cbf.titleLabel?.numberOfLines = 1
         cbf.titleLabel?.adjustsFontForContentSizeCategory = true
-        cbf.titleLabel?.textColor = coreBlackColor
-        cbf.backgroundColor = coreWhiteColor
+        cbf.titleLabel?.textColor = coreWhiteColor
+        cbf.backgroundColor = coreOrangeColor
         cbf.layer.cornerRadius = 14
         cbf.layer.masksToBounds = true
-        cbf.tintColor = coreOrangeColor
+        cbf.tintColor = coreWhiteColor
         cbf.addTarget(self, action: #selector(self.handleSignUpButton), for: UIControl.Event.touchUpInside)
         
         return cbf
         
     }()
     
-    lazy var alreadyHaveAccountButton : UIButton = {
+    lazy var loginButton : UIButton = {
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("I already have an account", for: UIControl.State.normal)
+        cbf.setTitle("Login", for: UIControl.State.normal)
         cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 16)
         cbf.titleLabel?.adjustsFontSizeToFitWidth = true
         cbf.titleLabel?.numberOfLines = 1
         cbf.titleLabel?.adjustsFontForContentSizeCategory = true
-        cbf.backgroundColor = .clear
-        cbf.layer.cornerRadius = 3
-        cbf.layer.masksToBounds = true
-        cbf.tintColor = coreWhiteColor
+        cbf.titleLabel?.textColor = coreBlackColor
+        cbf.backgroundColor = coreWhiteColor
+        cbf.layer.cornerRadius = 14
+        cbf.layer.masksToBounds = false
+        cbf.tintColor = coreOrangeColor
+        cbf.layer.shadowColor = coreBlackColor.cgColor
+        cbf.layer.shadowOpacity = 0.2
+        cbf.layer.shadowOffset = CGSize(width: 2, height: 3)
+        cbf.layer.shadowRadius = 8
+        cbf.layer.shouldRasterize = false
         cbf.addTarget(self, action: #selector(self.handleLoginButton), for: UIControl.Event.touchUpInside)
         
         return cbf
@@ -73,20 +79,46 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         return dcl
     }()
     
+    lazy var registerWithfacebookButton : UIButton = {
+        
+        let cbf = UIButton(type: .system)
+        cbf.translatesAutoresizingMaskIntoConstraints = false
+        cbf.backgroundColor = .clear
+        let image = UIImage(named: "fb_register_button")?.withRenderingMode(.alwaysOriginal)
+        cbf.setImage(image, for: .normal)
+        cbf.imageView?.contentMode = .scaleAspectFit
+        //cbf.addTarget(self, action: #selector(self.handleFacebookRegistration), for: UIControl.Event.touchUpInside)
+        
+        return cbf
+        
+    }()
+    
+    lazy var registerWithGoogleButton : UIButton = {
+        
+        let cbf = UIButton(type: .system)
+        cbf.translatesAutoresizingMaskIntoConstraints = false
+        cbf.backgroundColor = .clear
+        let image = UIImage(named: "google_register_button")?.withRenderingMode(.alwaysOriginal)
+        cbf.setImage(image, for: .normal)
+        cbf.imageView?.contentMode = .scaleAspectFit
+        //cbf.addTarget(self, action: #selector(self.handleGoogleRegistration), for: UIControl.Event.touchUpInside)
+        
+        return cbf
+        
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.addViews()
         self.references()
-        self.view.backgroundColor = coreOrangeColor
+        self.view.backgroundColor = coreWhiteColor
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
         navigationController?.navigationBar.barStyle = .black
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,7 +127,6 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.navigationBar.barStyle = .default
         self.navigationItem.setHidesBackButton(true, animated: false)
-        
     }
     
     func addViews() {
@@ -103,12 +134,11 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.dataSource = self
         self.delegate = self
         
-        //ADD THE VIEWCONTROLLERS TO THE PAGEVIEWCONTROLLER ARRAY
         self.pages.append(self.page1)
         self.pages.append(self.page2)
         self.pages.append(self.page3)
         
-        setViewControllers([pages[initialPage]], direction: .forward, animated: true, completion: nil)
+        self.setViewControllers([pages[initialPage]], direction: .forward, animated: true, completion: nil)
         
         self.pageControl.currentPageIndicatorTintColor = coreWhiteColor
         self.pageControl.pageIndicatorTintColor = coreWhiteColor.withAlphaComponent(0.2)
@@ -116,31 +146,67 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.pageControl.currentPage = initialPage
         self.pageControl.translatesAutoresizingMaskIntoConstraints = false
         
-        self.view.addSubview(self.alreadyHaveAccountButton)
-        self.view.addSubview(self.pageControl)
-        self.view.addSubview(self.registerButton)
         self.view.addSubview(self.dsCompanyLogoImage)
+        self.view.addSubview(self.pageControl)
+        self.view.addSubview(self.registerWithfacebookButton)
+        self.view.addSubview(self.registerWithGoogleButton)
+        self.view.addSubview(self.loginButton)
+        self.view.addSubview(self.signUpButton)
         
-        self.alreadyHaveAccountButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -23).isActive = true
-        self.alreadyHaveAccountButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.alreadyHaveAccountButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.alreadyHaveAccountButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.dsCompanyLogoImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 15).isActive = true
+        self.dsCompanyLogoImage.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 120).isActive = true
+        self.dsCompanyLogoImage.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -120).isActive = true
+        self.dsCompanyLogoImage.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        self.registerButton.bottomAnchor.constraint(equalTo: self.alreadyHaveAccountButton.topAnchor, constant: -18).isActive = true
-        self.registerButton.heightAnchor.constraint(equalToConstant: self.view.frame.height / 14).isActive = true
-        self.registerButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.registerButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        
-        self.pageControl.bottomAnchor.constraint(equalTo: self.registerButton.topAnchor, constant: -19).isActive = true
+        self.pageControl.bottomAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 20).isActive = true
         self.pageControl.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         self.pageControl.widthAnchor.constraint(equalTo: self.view.widthAnchor, constant: -20).isActive = true
         self.pageControl.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-        self.dsCompanyLogoImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        self.dsCompanyLogoImage.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 80).isActive = true
-        self.dsCompanyLogoImage.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -80).isActive = true
-        self.dsCompanyLogoImage.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        self.registerWithfacebookButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
+        self.registerWithfacebookButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        self.registerWithfacebookButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        self.registerWithfacebookButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
+        self.registerWithGoogleButton.bottomAnchor.constraint(equalTo: self.registerWithfacebookButton.topAnchor, constant: -20).isActive = true
+        self.registerWithGoogleButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
+        self.registerWithGoogleButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -20).isActive = true
+        self.registerWithGoogleButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
+        
+        self.loginButton.bottomAnchor.constraint(equalTo: self.registerWithGoogleButton.topAnchor, constant: -20).isActive = true
+        self.loginButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        self.loginButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.loginButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        self.signUpButton.bottomAnchor.constraint(equalTo: self.loginButton.topAnchor, constant: -20).isActive = true
+        self.signUpButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        self.signUpButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.signUpButton.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+    }
+    
+    func hideBottomButtons(shouldHide : Bool) {
+        
+        if shouldHide {
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut) {
+                self.loginButton.alpha = 0
+                self.signUpButton.alpha = 0
+                self.registerWithfacebookButton.alpha = 0
+                self.registerWithGoogleButton.alpha = 0
+            } completion: { complete in
+                
+            }
+        } else {
+            UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut) {
+                
+            } completion: { complete in
+                self.loginButton.alpha = 1
+                self.signUpButton.alpha = 1
+                self.registerWithfacebookButton.alpha = 1
+                self.registerWithGoogleButton.alpha = 1
+                
+            }
+        }
     }
     
     func references() {
@@ -148,7 +214,6 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         self.page3.tutorialClass = self
         self.page2.tutorialClass = self
         self.page1.tutorialClass = self
-        
     }
     
     @objc func handleSignUpButton() {
@@ -170,12 +235,10 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         if let viewControllerIndex = self.pages.firstIndex(of: viewController) {
-            print(viewControllerIndex)
             if viewControllerIndex > 0 {
                 return self.pages[viewControllerIndex - 1]
             }
         }
-        
         return nil
         
     }
@@ -193,7 +256,6 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         
-        // set the pageControl.currentPage to the index of the current viewController in pages
         if let viewControllers = pageViewController.viewControllers {
             if let viewControllerIndex = self.pages.firstIndex(of: viewControllers[0]) {
                 self.pageControl.currentPage = viewControllerIndex

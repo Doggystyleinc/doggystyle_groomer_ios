@@ -16,18 +16,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //MARK: - INITIAL ENTRY INTO THE APPLICATION
         guard let sceneWindow = (scene as? UIWindowScene) else { return }
         
+        //MARK: - WINDOW INIT
         let window = UIWindow(windowScene: sceneWindow)
         window.makeKeyAndVisible()
-        
-        let decisionController = DecisionController()
-        let navigationController = UINavigationController(rootViewController: decisionController)
-        
-        navigationController.navigationBar.isHidden = true
-        navigationController.modalPresentationStyle = .fullScreen
+
+        let decisionController = DecisionController(),
+            navigationController = UINavigationController(rootViewController: decisionController)
+            navigationController.navigationBar.isHidden = true
+            navigationController.modalPresentationStyle = .fullScreen
         
         window.rootViewController = navigationController
         self.window = window
         
+        //MARK: - NOTIFICATION PROMPT/ALERT
         UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in
             if error != nil {
                 UIApplication.shared.applicationIconBadgeNumber = 0

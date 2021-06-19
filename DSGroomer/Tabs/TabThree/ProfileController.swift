@@ -14,7 +14,6 @@ class ProfileController : UIViewController {
     let storageRef = Storage.storage().reference(),
         databaseRef = Database.database().reference()
     
-    
     let dsCompanyLogoImage : UIImageView = {
         
         let dcl = UIImageView()

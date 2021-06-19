@@ -257,10 +257,9 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     
     let toolBar : UIToolbar = {
         
-        let bar = UIToolbar()
-        
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(resignation))
+        let bar = UIToolbar(),
+            space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+            done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(resignation))
         
         bar.items = [space, done]
         bar.backgroundColor = .white
@@ -268,7 +267,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         bar.sizeToFit()
         
         return bar
-        
     }()
     
     let errorLabel : UILabel = {
@@ -356,7 +354,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
             self.welcomeBackLabel.text = "Registration is simple"
             self.forgotPasswordButton.isHidden = true
             self.confirmButtonLayoutConstraint?.constant = -20
-//            self.enterPasswordTopConstraint?.constant = 20
         } else {
             self.confirmButton.setTitle("Login", for: .normal)
             self.heightLayoutConstraint?.constant = 10
@@ -364,7 +361,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
             self.welcomeBackLabel.text = "Welcome Back"
             self.confirmButtonLayoutConstraint?.constant = -100
             self.enterPasswordTopConstraint?.constant = -10
-
         }
     }
     
@@ -497,7 +493,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
     
     @objc func handleConfirmButton() {
         
-        //MARK: - Register User
+        //MARK: - user Registration
         if self.isRegistration {
             
             guard let safeEmail = self.emailTextField.text else {return}
@@ -520,10 +516,6 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
                         self.passwordTextfield.layer.borderWidth = 0
                         
                         self.mainLoadingScreen.callMainLoadingScreen()
-                        print("I am here...")
-                        print(safeEmail)
-                        print(safepassword)
-                        print(safeFullName)
                         self.registerUser(usersEmailAddress: safeEmail, usersPassword: safepassword, fullName: safeFullName, signInMethod: Statics.EMAIL_SIGN_IN)
                         
                     } else {
@@ -552,7 +544,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
                 
             }
             
-            //MARK: - Log User In
+        //MARK: - Log User In
         } else {
             
             guard let safeEmail = self.emailTextField.text else {return}

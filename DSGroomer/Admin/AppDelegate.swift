@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         Database.database().isPersistenceEnabled = true
         
-        //GOOGLE OAUTH SIGN IN
+        //GOOGLE-OAUTH SIGN IN
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
         return true
