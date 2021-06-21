@@ -356,7 +356,6 @@ class GrabDeviceID : NSObject {
     }
 }
 
-
 //MARK: - Firebase helpers
 class ProfileImageFetch : NSObject {
     

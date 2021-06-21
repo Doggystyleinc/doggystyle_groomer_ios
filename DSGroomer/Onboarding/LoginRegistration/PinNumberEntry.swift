@@ -11,12 +11,13 @@ import Firebase
 
 class PinNumberVerificationEntryController : UIViewController, UITextFieldDelegate {
     
+    //AND ANY OTHER DATA YOU WOULD LIKE TO PASS IN HERE
     var phoneNumber : String?,
         countryCode : String?,
         usersName : String?,
         pinTimer : Timer?,
         pinCounter : Int = 120
-
+    
     let databaseRef = Database.database().reference(),
         mainLoadingScreen = MainLoadingScreen()
     
@@ -24,14 +25,17 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("Back", for: UIControl.State.normal)
-        cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 16)
-        cbf.titleLabel?.adjustsFontSizeToFitWidth = true
-        cbf.titleLabel?.numberOfLines = 1
-        cbf.titleLabel?.adjustsFontForContentSizeCategory = true
-        cbf.backgroundColor = coreOrangeColor
+        cbf.backgroundColor = coreWhiteColor
         cbf.layer.masksToBounds = true
-        cbf.tintColor = coreWhiteColor
+        cbf.tintColor = coreOrangeColor
+        cbf.clipsToBounds = false
+        cbf.layer.masksToBounds = false
+        cbf.layer.shadowColor = coreBlackColor.cgColor
+        cbf.layer.shadowOpacity = 0.3
+        cbf.layer.shadowOffset = CGSize(width: 2, height: 3)
+        cbf.layer.shadowRadius = 4
+        cbf.layer.shouldRasterize = false
+        cbf.layer.cornerRadius = 4
         cbf.addTarget(self, action: #selector(self.handleCancelButton), for: UIControl.Event.touchUpInside)
         
         return cbf
@@ -42,9 +46,9 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .center
-        thl.text = "Verification"
-        thl.font = UIFont(name: dsHeaderFont, size: 30)
+        thl.textAlignment = .left
+        thl.text = "SMS Verification"
+        thl.font = UIFont(name: dsHeaderFont, size: 27)
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = true
         thl.textColor = coreBlackColor
@@ -53,16 +57,16 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
     }()
     
-    let subHeaderLabel : UILabel = {
+    lazy var subHeaderLabel : UILabel = {
         
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .center
-        thl.text = "Please enter the received pin in the circles below."
-        thl.font = UIFont(name: dsSubHeaderFont, size: 15)
-        thl.numberOfLines = 2
+        thl.textAlignment = .left
+        thl.text = "We have sent you a unique 4 digit code to the phone number ending in \(self.phoneNumber ?? "xxxx")"
+        thl.font = UIFont(name: dsSubHeaderFont, size: 13)
+        thl.numberOfLines = -1
         thl.adjustsFontSizeToFitWidth = true
-        thl.textColor = coreGrayColor
+        thl.textColor = coreGrayColor.withAlphaComponent(0.8)
         
         return thl
         
@@ -72,8 +76,8 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("Submit", for: UIControl.State.normal)
-        cbf.titleLabel?.font = UIFont.init(name: dsSubHeaderFont, size: 20)
+        cbf.setTitle("Send", for: UIControl.State.normal)
+        cbf.titleLabel?.font = UIFont.init(name: dsSubHeaderFont, size: 15)
         cbf.titleLabel?.adjustsFontSizeToFitWidth = true
         cbf.titleLabel?.numberOfLines = 1
         cbf.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -82,7 +86,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         cbf.tintColor = coreWhiteColor
         cbf.addTarget(self, action: #selector(self.handleRegistrationButton), for: UIControl.Event.touchUpInside)
         cbf.layer.masksToBounds = true
-        cbf.layer.cornerRadius = 30.5
+        cbf.layer.cornerRadius = 14
         
         return cbf
         
@@ -92,7 +96,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let etfc = UITextField()
         etfc.translatesAutoresizingMaskIntoConstraints = false
-        let placeholder = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor])
+        let placeholder = NSAttributedString(string: "-", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor.withAlphaComponent(0.2)])
         etfc.attributedPlaceholder = placeholder
         etfc.textAlignment = .center
         etfc.textColor = coreGrayColor
@@ -104,15 +108,18 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         etfc.keyboardAppearance = UIKeyboardAppearance.default
         etfc.returnKeyType = UIReturnKeyType.done
         etfc.keyboardType = .numberPad
-        etfc.layer.masksToBounds = true
-        etfc.layer.cornerRadius = 2
         etfc.isSecureTextEntry = false
         etfc.leftViewMode = .always
-        etfc.layer.borderColor = coreBlackColor.cgColor
-        etfc.layer.borderWidth = 0.5
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.2
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
+        etfc.layer.cornerRadius = 6
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
-
+        
         return etfc
         
     }()
@@ -121,7 +128,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let etfc = UITextField()
         etfc.translatesAutoresizingMaskIntoConstraints = false
-        let placeholder = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor])
+        let placeholder = NSAttributedString(string: "-", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor.withAlphaComponent(0.2)])
         etfc.attributedPlaceholder = placeholder
         etfc.textAlignment = .center
         etfc.textColor = coreGrayColor
@@ -133,15 +140,18 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         etfc.keyboardAppearance = UIKeyboardAppearance.default
         etfc.returnKeyType = UIReturnKeyType.done
         etfc.keyboardType = .numberPad
-        etfc.layer.masksToBounds = true
-        etfc.layer.cornerRadius = 2
         etfc.isSecureTextEntry = false
         etfc.leftViewMode = .always
-        etfc.layer.borderColor = coreBlackColor.cgColor
-        etfc.layer.borderWidth = 0.5
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.2
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
+        etfc.layer.cornerRadius = 6
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
-
+        
         return etfc
         
     }()
@@ -150,7 +160,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let etfc = UITextField()
         etfc.translatesAutoresizingMaskIntoConstraints = false
-        let placeholder = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor])
+        let placeholder = NSAttributedString(string: "-", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor.withAlphaComponent(0.2)])
         etfc.attributedPlaceholder = placeholder
         etfc.textAlignment = .center
         etfc.textColor = coreGrayColor
@@ -162,15 +172,18 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         etfc.keyboardAppearance = UIKeyboardAppearance.default
         etfc.returnKeyType = UIReturnKeyType.done
         etfc.keyboardType = .numberPad
-        etfc.layer.masksToBounds = true
-        etfc.layer.cornerRadius = 2
         etfc.isSecureTextEntry = false
         etfc.leftViewMode = .always
-        etfc.layer.borderColor = coreBlackColor.cgColor
-        etfc.layer.borderWidth = 0.5
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.2
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
+        etfc.layer.cornerRadius = 6
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
-
+        
         return etfc
         
     }()
@@ -179,7 +192,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         
         let etfc = UITextField()
         etfc.translatesAutoresizingMaskIntoConstraints = false
-        let placeholder = NSAttributedString(string: "", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor])
+        let placeholder = NSAttributedString(string: "-", attributes: [NSAttributedString.Key.foregroundColor: coreGrayColor.withAlphaComponent(0.2)])
         etfc.attributedPlaceholder = placeholder
         etfc.textAlignment = .center
         etfc.textColor = coreGrayColor
@@ -191,30 +204,33 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         etfc.keyboardAppearance = UIKeyboardAppearance.default
         etfc.returnKeyType = UIReturnKeyType.done
         etfc.keyboardType = .numberPad
-        etfc.layer.masksToBounds = true
-        etfc.layer.cornerRadius = 2
         etfc.isSecureTextEntry = false
         etfc.leftViewMode = .always
-        etfc.layer.borderColor = coreBlackColor.cgColor
-        etfc.layer.borderWidth = 0.5
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowOpacity = 0.2
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 4
+        etfc.layer.shouldRasterize = false
+        etfc.layer.cornerRadius = 6
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
-
+        
         return etfc
         
     }()
     
     lazy var stackView : UIStackView = {
-               
-         let sv = UIStackView()
-         sv.translatesAutoresizingMaskIntoConstraints = false
-         sv.axis = .horizontal
-         sv.distribution = .equalCentering
-         sv.alignment = .center
-         sv.spacing = 2
-         
-         return sv
-     }()
+        
+        let sv = UIStackView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.axis = .horizontal
+        sv.distribution = .equalCentering
+        sv.alignment = .center
+        sv.spacing = 6
+        
+        return sv
+    }()
     
     let counterForPinLabel : UILabel = {
         
@@ -222,7 +238,7 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .center
         thl.text = "120"
-        thl.font = UIFont(name: dsHeaderFont, size: 21)
+        thl.font = UIFont(name: dsSubHeaderFont, size: 15)
         thl.numberOfLines = 2
         thl.adjustsFontSizeToFitWidth = true
         thl.textColor = coreGrayColor
@@ -254,22 +270,12 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.counterForPinLabel.alpha = 0
-        print("Called?")
-    }
-
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        self.cancelButton.layer.cornerRadius = self.cancelButton.frame.height / 2
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
         self.slotOneTextField.becomeFirstResponder()
-        
         UIView.animate(withDuration: 1.0) {
             self.counterForPinLabel.alpha = 1
         }
@@ -292,19 +298,19 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         self.view.addSubview(self.registerButton)
         self.view.addSubview(self.cancelButton)
         self.view.addSubview(self.counterForPinLabel)
-
+        
         self.stackView.addArrangedSubview(self.slotOneTextField)
         self.stackView.addArrangedSubview(self.slotTwoTextField)
         self.stackView.addArrangedSubview(self.slotThreeTextField)
         self.stackView.addArrangedSubview(self.slotFourTextField)
         
-        self.cancelButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 19).isActive = true
-        self.cancelButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 20).isActive = true
-        self.cancelButton.widthAnchor.constraint(equalToConstant: 72).isActive = true
-        self.cancelButton.heightAnchor.constraint(equalToConstant: 35).isActive = true
-
+        self.cancelButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        self.cancelButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 25).isActive = true
+        self.cancelButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        self.cancelButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
         self.mainHeaderLabel.topAnchor.constraint(equalTo: self.cancelButton.bottomAnchor, constant: 15).isActive = true
-        self.mainHeaderLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        self.mainHeaderLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.mainHeaderLabel.sizeToFit()
         
         self.subHeaderLabel.topAnchor.constraint(equalTo: self.mainHeaderLabel.bottomAnchor, constant: 0).isActive = true
@@ -313,51 +319,45 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         self.subHeaderLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         self.stackView.topAnchor.constraint(equalTo: self.subHeaderLabel.bottomAnchor, constant: 10).isActive = true
-        self.stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 60).isActive = true
-        self.stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -60).isActive = true
+        self.stackView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 40).isActive = true
+        self.stackView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -40).isActive = true
         self.stackView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.slotOneTextField.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotOneTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotOneTextField.layer.cornerRadius = 45/2
-
-        self.slotTwoTextField.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotTwoTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotTwoTextField.layer.cornerRadius = 45/2
-
-        self.slotThreeTextField.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotThreeTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotThreeTextField.layer.cornerRadius = 45/2
-
-        self.slotFourTextField.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotFourTextField.heightAnchor.constraint(equalToConstant: 45).isActive = true
-        self.slotFourTextField.layer.cornerRadius = 45/2
-
-        self.registerButton.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 15).isActive = true
+        self.slotOneTextField.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        self.slotOneTextField.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        
+        self.slotTwoTextField.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        self.slotTwoTextField.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        
+        self.slotThreeTextField.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        self.slotThreeTextField.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        
+        self.slotFourTextField.widthAnchor.constraint(equalToConstant: 55).isActive = true
+        self.slotFourTextField.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        
+        self.registerButton.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 25).isActive = true
         self.registerButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 36).isActive = true
         self.registerButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -36).isActive = true
         self.registerButton.heightAnchor.constraint(equalToConstant: 61).isActive = true
         
-        self.counterForPinLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        self.counterForPinLabel.topAnchor.constraint(equalTo: self.registerButton.bottomAnchor, constant: 10).isActive = true
-        self.counterForPinLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        self.counterForPinLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
-
+        self.counterForPinLabel.bottomAnchor.constraint(equalTo: self.mainHeaderLabel.bottomAnchor, constant: 0).isActive = true
+        self.counterForPinLabel.leftAnchor.constraint(equalTo: self.mainHeaderLabel.rightAnchor, constant: 8).isActive = true
+        self.counterForPinLabel.sizeToFit()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        if let entrySlot = textField.text {
             
-            if let entrySlot = textField.text {
-                
-                let maxLength = 1
-                let currentString: NSString = textField.text! as NSString
-                let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
-                
-                textField.text = entrySlot
-                
-                return newString.length <= maxLength
-                
-            }
+            let maxLength = 1
+            let currentString: NSString = textField.text! as NSString
+            let newString: NSString = currentString.replacingCharacters(in: range, with: string) as NSString
+            
+            textField.text = entrySlot
+            
+            return newString.length <= maxLength
+            
+        }
         
         return true
     }
@@ -370,37 +370,29 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         let slotFourText = self.slotFourTextField.text ?? ""
         
         if slotOneText.isEmpty {
-            self.slotOneTextField.layer.borderColor = coreBlackColor.cgColor
-            self.slotOneTextField.layer.borderWidth = 0.5
         } else {
             self.slotOneTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotOneTextField.layer.borderWidth = 1.5
         }
         
         if slotTwoText.isEmpty {
-            self.slotTwoTextField.layer.borderColor = coreBlackColor.cgColor
-            self.slotTwoTextField.layer.borderWidth = 0.5
         } else {
             self.slotTwoTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotTwoTextField.layer.borderWidth = 1.5
         }
         
         if slotThreeText.isEmpty {
-            self.slotThreeTextField.layer.borderColor = coreBlackColor.cgColor
-            self.slotThreeTextField.layer.borderWidth = 0.5
         } else {
             self.slotThreeTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotThreeTextField.layer.borderWidth = 1.5
         }
         
         if slotFourText.isEmpty {
-            self.slotFourTextField.layer.borderColor = coreBlackColor.cgColor
-            self.slotFourTextField.layer.borderWidth = 0.5
         } else {
             self.slotFourTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotFourTextField.layer.borderWidth = 1.5
         }
-
+        
         if self.slotOneTextField.isFirstResponder && slotOneText.count > 0 {
             self.slotTwoTextField.becomeFirstResponder()
         } else if slotTwoTextField.isFirstResponder && slotTwoText.count > 0 {
@@ -418,7 +410,6 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         self.slotTwoTextField.resignFirstResponder()
         self.slotThreeTextField.resignFirstResponder()
         self.slotFourTextField.resignFirstResponder()
-
     }
     
     @objc func handleRegistrationButton() {
@@ -436,22 +427,17 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
         let slotFour = self.slotFourTextField.text ?? ""
         
         if slotOne.isEmpty || slotTwo.isEmpty || slotThree.isEmpty || slotFour.isEmpty {
-            print("Not complete")
             return
         }
         
         let pin = "\(slotOne)\(slotTwo)\(slotThree)\(slotFour)"
-
-        print("Fire")
+        
         self.registerButton.isHidden = true
-        if self.phoneNumber == nil || self.countryCode == nil {
-            self.navigationController?.popViewController(animated: true)
-        } else {
-            self.pinTimer?.invalidate()
-            self.counterForPinLabel.text = ""
-            self.pinCounter = 120
-            self.handleVerification(phone: self.phoneNumber ?? "", countryCode: self.countryCode ?? "", enteredCode: pin)
-        }
+        self.navigationController?.popViewController(animated: true)
+        self.pinTimer?.invalidate()
+        self.counterForPinLabel.text = ""
+        self.pinCounter = 120
+        self.handleVerification(phone: self.phoneNumber ?? "", countryCode: self.countryCode ?? "", enteredCode: pin)
     }
     
     func handleVerification(phone : String, countryCode : String, enteredCode : String) {
@@ -474,14 +460,11 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
                 return
             }
             
-            //ALL CLEAR AND SUCCESSFUL
-            print("Called listener")
             self.listenForPendingResponsesFromToken(listeningKey: unique_key, phone: phone, countryCode: countryCode)
             
         }
     }
-   
-            
+    
     func listenForPendingResponsesFromToken(listeningKey : String, phone : String, countryCode : String) {
         
         let ref = Database.database().reference().child("pin_verification_responses").child(listeningKey)
@@ -493,14 +476,13 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
                 guard let dic = snap.value as? [String : AnyObject] else {return}
                 
                 let status = dic["status"] as? String ?? ""
-
+                
                 switch status {
                 
-                case "error" : print("Error on the listening key")
+                case "error" : print("Error: listening key")
                     self.mainLoadingScreen.cancelMainLoadingScreen()
                     AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems something went wrong attempting to validate. Plase try again. If this problem persists, please contact Team Doggystyle directly.") { (isComplete) in
                         self.registerButton.isHidden = false
-
                     }
                     
                 case "expired" : print("Verification code has been approved")
@@ -524,184 +506,24 @@ class PinNumberVerificationEntryController : UIViewController, UITextFieldDelega
                     }
                     
                 case "approved" : print("Verification code has been approved")
-                    self.handleSuccessDecision(phone: phone, countryCode: countryCode)
+                    self.handleVerifiedPinState()
                     
                 default :
                     self.mainLoadingScreen.cancelMainLoadingScreen()
                     AlertControllerCompletion.handleAlertWithCompletion(title: "Unknown Error", message: "Something is not right. Please try again.") { (true) in
                         self.navigationController?.popViewController(animated: true)
                     }
-                   
+                    
                 }
                 
             } else if !snap.exists() {
-                
                 print("nothing yet here from the linker")
-                
             }
         }
     }
     
-    func handleSuccessDecision(phone : String, countryCode : String) {
-
-        if onboardingPath == .fromLogin {
-            
-            print("SUCCESS! - moving to login flow")
-
-            self.handleLogin(phone: phone, countryCode: countryCode)
-            
-        } else if onboardingPath == .fromRegistration {
-            
-            print("SUCCESS! - moving to registration flow")
-
-            self.handleRegistration(phone: phone, countryCode: countryCode)
-            
-        }
-    }
-    
-    
-    func handleLogin(phone : String, countryCode : String) {
-        
-        let usersEmail = "address_\(countryCode)_\(phone)@gmail.com"
-        let usersPassword = "password_\(countryCode)_\(phone)"
-        
-        let timeStamp : Double = NSDate().timeIntervalSince1970
-        let emailGrab = usersEmail
-        let passswordGrab = usersPassword
-        
-        UIDevice.vibrateLight()
-        
-        Auth.auth().signIn(withEmail: emailGrab, password: passswordGrab) { (res, error) in
-            
-            if error != nil {
-              
-             print("Issue with login: ", error as Any)
-             self.mainLoadingScreen.cancelMainLoadingScreen()
-             AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we are having trouble logging you in. Things to try:\n- Check for an active internet connection\n- Check your credentials\n- Try logging in again") { (done) in
-                 print("Finished, try again")
-             }
-             
-                return
-            }
-            
-            //LOGIN SUCCESS
-            let values = ["last_sign_in_time" : timeStamp]
-            
-            //USER MUST
-            guard let user_uid = Auth.auth().currentUser?.uid else {return}
-            
-            let ref = self.databaseRef.child("all_users").child(user_uid)
-            
-            ref.updateChildValues(values, withCompletionBlock: { (error, ref) in
-
-            //LOGIN SUCCESS
-                
-            })
-        }
-    }
-   
-    func handleRegistration(phone : String, countryCode : String) {
-        
-        let usersName = self.usersName ?? ""
-        
-        let usersEmail = "address_\(countryCode)_\(phone)@gmail.com"
-        let usersPassword = "password_\(countryCode)_\(phone)"
-        
-        UIDevice.vibrateLight()
-        
-        Auth.auth().createUser(withEmail: usersEmail, password: usersPassword) { (result, error) in
-            
-            if error != nil {
-                
-                if let errCode = AuthErrorCode(rawValue: error!._code) {
-                    
-                    switch errCode {
-                    
-                    case .emailAlreadyInUse:
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Email is already registered. Tap ‘Log In’ and try again. Thank you.") { (done) in
-                            self.mainLoadingScreen.cancelMainLoadingScreen()
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    default:
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we are having trouble with registration. Things to try:\n- Check for an active internet connection\n- Check your credentials\n- Try registering again") { (done) in
-                            self.mainLoadingScreen.cancelMainLoadingScreen()
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    }
-                    return
-                } else {
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we are having trouble with registration. Things to try:\n- Check for an active internet connection\n- Check your credentials\n- Try registering again") { (done) in
-                        self.mainLoadingScreen.cancelMainLoadingScreen()
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    return
-                }
-            }
-            
-            //STEP 2 - SIGN THE USER IN WITH THEIR NEW CREDENTIALS
-            Auth.auth().signIn(withEmail: usersEmail, password: usersPassword) { (user, error) in
-                
-                if error != nil {
-                    
-                    print("Issue with sign in after registration: ", error as Any)
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "We were able to make you an account, but we could not sign you in. Please go back and tap 'Log In' since you now have an active account. Thank you.") { (done) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    
-                    return
-                    
-                }
-                
-                //STEP 3 - UPDATE THE USERS CREDENTIALS IN THE DATABASE AS A BACKUP
-                guard let firebase_uid = user?.user.uid else {return} //THIS CAN CAUSE AN ISSUE, NOTHING TO DO HERE AND SHOULD BE VERY RARE
-                
-                let ref = self.databaseRef.child("all_users").child(firebase_uid)
-                
-                let timeStamp : Double = NSDate().timeIntervalSince1970
-                let sign_in_method = "phone_number_login"
-                let ref_key = ref.key ?? ""
-                
-                let values : [String : Any] = ["firebase_uid" : firebase_uid, "users_name" : usersName, "email" : usersEmail, "sign_in_method" : sign_in_method, "sign_up_date" : timeStamp, "terms_and_conditions_accepted" : true, "phone_number" : phone, "country_code" : countryCode, "ref_key" : ref_key]
-                
-                ref.updateChildValues(values) { (error, ref) in
-                    
-                    if error != nil {
-                        print(error?.localizedDescription as Any)
-                        self.mainLoadingScreen.cancelMainLoadingScreen()
-                        return
-                    }
-                    
-                    if let request = Auth.auth().currentUser?.createProfileChangeRequest() {
-                        
-                        request.displayName = usersName
-                        
-                        request.commitChanges { (error) in
-                            
-                            print("User has successfully registered with firebase and logged in")
-                            
-                        }
-                        
-                    } else {
-                        
-                        print("User has successfully registered with firebase and logged in")
-                        
-                    }
-                }
-            }
-        }
-    }
-    
-    func handleHomeController() {
-        
-        DispatchQueue.main.async {
-        self.mainLoadingScreen.cancelMainLoadingScreen()
-        let homeController = HomeController()
-        let nav = UINavigationController(rootViewController: homeController)
-        nav.navigationBar.isHidden = true
-        nav.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(nav, animated: true, completion: nil)
-        }
+    @objc func handleVerifiedPinState() {
+        print("User is verified - push them to the next controller in the flow")
     }
     
     @objc func handleCancelButton() {

@@ -217,5 +217,148 @@ class Service : NSObject {
             completion(true, "success")
         }
     }
+    
+    //INITIAL TWILIO PING TO RECEIVE A CODE
+    func twilioPinRequest(phone : String, countryCode : String,  deliveryMethod : String, completion : @escaping ( _ isComplete : Bool)->()) {
+        
+        let unique_key = NSUUID().uuidString
+        
+        GrabDeviceID.getID { (isComplete, device_id) in
+            
+            let ref = Database.database().reference().child("verification_requests").child(unique_key)
+            let values = ["unique_key" : unique_key, "users_phone_number" : phone, "users_country_code" : countryCode, "delivery_method" : deliveryMethod, "device_id" : device_id]
+            
+            ref.updateChildValues(values) { (error, ref) in
+                
+                if error != nil {
+                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems something went wrong attempting to register. Plase try again. If this problem persists, please contact DuvMessenger directly.") { (isComplete) in
+                    }
+                    return
+                }
+                
+                //ALL CLEAR AND SUCCESSFUL
+                self.twilioPinRequestListener(listeningKey: unique_key, phone: phone, countryCode: countryCode) { allSuccess in
+                    
+                    if allSuccess {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func twilioPinRequestListener(listeningKey : String, phone : String, countryCode : String, completion : @escaping ( _ isComplete : Bool)->()) {
+        
+        var observingRefOne = Database.database().reference(),
+            handleOne = DatabaseHandle()
+        
+        observingRefOne = Database.database().reference().child("verification_responses").child(listeningKey)
+        
+        handleOne = observingRefOne.observe(.value) { (snap : DataSnapshot) in
+            
+            if snap.exists() {
+                
+                guard let dic = snap.value as? [String : AnyObject] else {return}
+                
+                let status = dic["status"] as? String ?? ""
+                
+                switch status {
+                
+                case "error" :
+                    
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(false)
+                    
+                default : print("Default for pin request")
+                    
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(true)
+                }
+                
+            } else if !snap.exists() {
+                
+                print("nothing yet here from the doggystyle linker")
+                
+            }
+        }
+    }
+    
+    //TWILIO - SEND RECEIVED PIN UP FOR APPROVAL
+    func twilioPinApprovalRequest(phone : String, countryCode : String, enteredCode : String, completion : @escaping ( _ isComplete : Bool)->()) {
+        
+        let unique_key = NSUUID().uuidString
+        let ref = Database.database().reference().child("pin_verification_requests").child(unique_key)
+        let values = ["unique_key" : unique_key, "users_phone_number" : phone, "users_country_code" : countryCode, "entered_code" : enteredCode]
+        
+        ref.updateChildValues(values) { (error, ref) in
+            
+            if error != nil {
+                completion(false)
+                return
+            }
+            
+            //ALL CLEAR
+            self.twilioPinApprovalRequestListener(listeningKey: unique_key, phone: phone, countryCode: countryCode) { isComplete in
+                if isComplete {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    //TWILIO - RECEIVE TWILIO PIN RESPONSE
+    func twilioPinApprovalRequestListener(listeningKey : String, phone : String, countryCode : String, completion : @escaping ( _ isComplete : Bool)->()) {
+        
+        var observingRefOne = Database.database().reference(),
+            handleOne = DatabaseHandle()
+        
+        observingRefOne = Database.database().reference().child("pin_verification_responses").child(listeningKey)
+        
+        handleOne = observingRefOne.observe(.value) { (snap : DataSnapshot) in
+            
+            if snap.exists() {
+                
+                guard let dic = snap.value as? [String : AnyObject] else {return}
+                
+                let status = dic["status"] as? String ?? ""
+                
+                switch status {
+                
+                case "error" : print("Error on the listening key")
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(false)
+                    
+                case "expired" : print("Verification has expired")
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(false)
+                    
+                case "failed" : print("Failed Verification")
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(false)
+                    
+                case "canceled" : print("Canceled Verification")
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(false)
+                    
+                case "approved" : print("Verification code has been approved")
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(true)
+                    
+                default : print("Default for pin approval")
+                    observingRefOne.removeObserver(withHandle: handleOne)
+                    completion(false)
+                    
+                }
+                
+            } else if !snap.exists() {
+                print("Waiting for pin approval response...")
+            }
+        }
+    }
 }
 
