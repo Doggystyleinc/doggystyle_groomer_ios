@@ -36,6 +36,8 @@ def shared_pods
     #Google Sign in OAUTH
     pod 'GoogleSignIn'
     
+    #Places API
+    pod 'GooglePlaces'
     
    
 end

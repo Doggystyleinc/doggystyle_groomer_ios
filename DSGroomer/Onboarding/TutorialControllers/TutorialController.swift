@@ -55,10 +55,10 @@ class TutorialClass : UIPageViewController, UIPageViewControllerDataSource, UIPa
         cbf.layer.cornerRadius = 14
         cbf.layer.masksToBounds = false
         cbf.tintColor = coreOrangeColor
-        cbf.layer.shadowColor = coreBlackColor.cgColor
-        cbf.layer.shadowOpacity = 0.2
+        cbf.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
+        cbf.layer.shadowOpacity = 0.1
         cbf.layer.shadowOffset = CGSize(width: 2, height: 3)
-        cbf.layer.shadowRadius = 8
+        cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.addTarget(self, action: #selector(self.handleLoginButton), for: UIControl.Event.touchUpInside)
         

@@ -74,7 +74,8 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         cbf.setImage(image, for: .normal)
         cbf.imageView?.contentMode = .scaleAspectFit
         cbf.addTarget(self, action: #selector(self.handleFacebookRegistration), for: UIControl.Event.touchUpInside)
-        
+        cbf.isHidden = true
+
         return cbf
         
     }()
@@ -90,7 +91,7 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         cbf.setImage(image, for: .normal)
         cbf.imageView?.contentMode = .scaleAspectFit
         cbf.addTarget(self, action: #selector(self.handleGoogleRegistration), for: UIControl.Event.touchUpInside)
-        
+        cbf.isHidden = true
         return cbf
         
     }()
@@ -105,7 +106,8 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = true
         thl.textColor = coreGrayColor.withAlphaComponent(0.5)
-        
+        thl.isHidden = true
+
         return thl
         
     }()
@@ -162,10 +164,10 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         etfc.clipsToBounds = false
         etfc.layer.masksToBounds = false
-        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
         etfc.layer.shadowOpacity = 0.1
         etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
-        etfc.layer.shadowRadius = 4
+        etfc.layer.shadowRadius = 9
         etfc.layer.shouldRasterize = false
         return etfc
         
@@ -194,10 +196,10 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         etfc.clipsToBounds = false
         etfc.layer.masksToBounds = false
-        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
         etfc.layer.shadowOpacity = 0.1
         etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
-        etfc.layer.shadowRadius = 4
+        etfc.layer.shadowRadius = 9
         etfc.layer.shouldRasterize = false
         return etfc
         
@@ -227,10 +229,10 @@ class RegistrationLoginController : UIViewController, UITextFieldDelegate, GIDSi
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         etfc.clipsToBounds = false
         etfc.layer.masksToBounds = false
-        etfc.layer.shadowColor = coreBlackColor.cgColor
+        etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
         etfc.layer.shadowOpacity = 0.1
         etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
-        etfc.layer.shadowRadius = 4
+        etfc.layer.shadowRadius = 9
         etfc.layer.shouldRasterize = false
         return etfc
         

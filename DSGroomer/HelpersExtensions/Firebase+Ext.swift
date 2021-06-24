@@ -247,7 +247,6 @@ class Service : NSObject {
                 }
             }
         }
-        
     }
     
     func twilioPinRequestListener(listeningKey : String, phone : String, countryCode : String, completion : @escaping ( _ isComplete : Bool)->()) {
@@ -352,7 +351,6 @@ class Service : NSObject {
                 default : print("Default for pin approval")
                     observingRefOne.removeObserver(withHandle: handleOne)
                     completion(false)
-                    
                 }
                 
             } else if !snap.exists() {

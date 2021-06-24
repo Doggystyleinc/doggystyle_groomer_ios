@@ -106,6 +106,14 @@ class DashboardController : UIViewController {
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
         
+        Service.shared.twilioPinRequest(phone: "8455581855", countryCode: "1", deliveryMethod: "sms") { isComplete in
+            
+            if isComplete {
+                print("complete!!!!!!!")
+            } else {
+                print("failed")
+            }
+        }
     }
     
     func addViews() {

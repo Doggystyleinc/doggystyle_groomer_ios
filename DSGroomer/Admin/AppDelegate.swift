@@ -8,6 +8,7 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import GooglePlaces
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //GOOGLE-OAUTH SIGN IN
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        
+        //GOOGLE PLACES KEY
+        GMSPlacesClient.provideAPIKey("AIzaSyCfb7KxeoO6WSfQ7jpcBbykiMvyRHv6zaw")
         
         return true
     }

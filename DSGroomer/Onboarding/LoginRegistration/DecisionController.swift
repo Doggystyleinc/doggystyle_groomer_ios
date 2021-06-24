@@ -59,7 +59,7 @@ class DecisionController : UIViewController {
         if Auth.auth().currentUser?.uid == nil {
             self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
             
-            //USER IS AUTHENTICATED
+        //USER IS AUTHENTICATED
         } else if Auth.auth().currentUser?.uid != nil {
             
             AuthCheckUsers.authCheck { (hasAuth) in

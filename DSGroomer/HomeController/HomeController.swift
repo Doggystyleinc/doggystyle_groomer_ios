@@ -362,7 +362,6 @@ class HomeController : UITabBarController {
         }
     }
     
-    
     func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool) -> ()) {
         
         guard let userUid = Auth.auth().currentUser?.uid else {return}
