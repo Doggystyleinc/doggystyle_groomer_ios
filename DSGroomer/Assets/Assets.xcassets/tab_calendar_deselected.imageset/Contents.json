@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "calendar_deselected.png",
+      "filename" : "tab_calendar_icon@1x.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "calendar_deselected@2x.png",
+      "filename" : "tab_calendar_icon@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "calendar_deselected@3x.png",
+      "filename" : "tab_calendar_icon@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

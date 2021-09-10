@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "home_deselected_3.png",
+      "filename" : "tab_home_icon@1x.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "home_deselected_3@2x.png",
+      "filename" : "tab_home_icon@2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "home_deselected_3@3x.png",
+      "filename" : "tab_home_icon@3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

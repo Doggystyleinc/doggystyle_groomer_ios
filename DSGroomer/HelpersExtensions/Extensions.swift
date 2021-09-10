@@ -12,6 +12,8 @@ import AVFoundation
 import Firebase
 import DeviceCheck
 import PINRemoteImage
+import PhoneNumberKit
+
 
 //MARK: - PUBLIC VARIABLES
 var friends_array_phone_number = [String](),
@@ -37,7 +39,14 @@ var friends_array_phone_number = [String](),
     predictionGrey = UIColor(hex: 0x707070),
     dividerGrey = UIColor(hex: 0xBCBCBC),
     imageBorderBlue = UIColor(hex: 0x1F5FC5),
-    
+    dsFlatBlack = UIColor(hex: 0x302F3C),
+    dsButtonLightGrey = UIColor(hex: 0xEDEDED),
+    dsDeepBlue = UIColor(hex: 0x020659),
+    dsLightBlack = UIColor(hex: 0x353535),
+    slotGrey = UIColor(hex: 0xF4F4F4),
+    tabBarIconGrey = UIColor(hex: 0x979797),
+    bellgrey = UIColor(hex: 0xD7D7D7),
+
     globalStatusBarHeight : CGFloat = 0.0,
     globalFooterHeight : CGFloat = 0.0,
     
@@ -57,7 +66,185 @@ var friends_array_phone_number = [String](),
     
     photoSelectionPath = PhotoSelectionPath.fromOnboarding,
     onboardingPath = OnboardingPath.fromLogin,
-    chatEntryPath = ChatEntryPath.fromMessagesController
+    chatEntryPath = ChatEntryPath.fromMessagesController,
+
+    rubikRegular : String = "Rubik-Regular",
+    rubikItalic : String = "Rubik-Italic",
+    rubikLight : String = "Rubik-Light",
+    rubikLightItalic : String = "Rubik-LightItalic",
+    rubikMedium : String = "Rubik-Medium",
+    rubikMediumItalic : String = "Rubik-MediumItalic",
+    rubikSemiBold : String = "Rubik-SemiBold",
+    rubikSemiBoldItalic : String = "Rubik-SemiBoldItalic",
+    rubikBold : String = "Rubik-Bold",
+    rubikBoldItalic : String = "Rubik-BoldItalic",
+    rubikExtraBold: String = "Rubik-ExtraBold",
+    rubikExtraBoldItalic : String = "Rubik-ExtraBoldItalic",
+    rubikBlack : String = "Rubik-Black",
+    rubikBlackitalic : String = "Rubik-BlackItalic"
+
+class fileUPloader : NSObject {
+    
+   static func upload(localFilePath : URL, completion : @escaping (_ isComplete : Bool, _ urlToStoreInDatabase : String)->()) {
+        
+            let storageRef = Storage.storage().reference()
+            
+            guard let user_uid = Auth.auth().currentUser?.uid else {return}
+            
+            let randomUUID = NSUUID().uuidString
+            
+            let storageReference = storageRef.child("vaccine_files").child(user_uid).child(randomUUID)
+            
+            let uploadTask = storageReference.putFile(from: localFilePath, metadata: nil)
+
+            uploadTask.observe(.failure) { snapshot in
+                print("FAILED HERE ONE")
+                completion(false, "nil")
+                return
+            }
+                
+            uploadTask.observe(.progress) { snapshot in
+                let percentComplete = Double(snapshot.progress!.completedUnitCount)
+                    / Double(snapshot.progress!.totalUnitCount)
+                print("PROGRESS: ", CGFloat(percentComplete))
+            }
+            
+            uploadTask.observe(.success) { snapshot in
+
+                storageReference.downloadURL { (url, error) in
+                    
+                    if error != nil {
+                        print(error?.localizedDescription as Any, "Error 1")
+                        print("ERROR RAN")
+                        completion(false, "nil")
+                        return
+                    }
+                    
+                    guard let safeUrl = url else {return}
+                    print("Uploaded audio clip successfully to Firebase Storage")
+                    completion(true, "\(safeUrl)")
+                    
+                }
+            }
+        }
+    }
+
+
+enum TextFieldImageSide {
+    case left
+    case right
+}
+
+extension UITextField {
+    func setUpImage(imageName: String, on side: TextFieldImageSide) {
+        let imageView = UIImageView(frame: CGRect(x: 20, y: 10, width: 20, height: 20))
+        if let imageWithSystemName = UIImage(systemName: imageName) {
+            imageView.image = imageWithSystemName.withRenderingMode(.alwaysOriginal).withTintColor(dsFlatBlack.withAlphaComponent(0.4))
+        } else {
+            imageView.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal).withTintColor(dsFlatBlack.withAlphaComponent(0.4))
+        }
+        
+        let imageContainerView = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+        imageContainerView.addSubview(imageView)
+        
+        switch side {
+        case .left:
+            leftView = imageContainerView
+            leftViewMode = .always
+        case .right:
+            rightView = imageContainerView
+            rightViewMode = .always
+        }
+    }
+}
+
+class CustomTextField: UITextField {
+
+    let padding = UIEdgeInsets(top: 15, left: 25, bottom: 0, right: 0);
+
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+}
+
+
+
+class CustomPasswordTextField: UITextField {
+
+    let padding = UIEdgeInsets(top: 15, left: 25, bottom: 0, right: 70);
+
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+}
+
+class CustomCardNumberTextField: UITextField {
+
+    let padding = UIEdgeInsets(top: 5, left: 25, bottom: 0, right: 70);
+
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+}
+
+class PhoneTextFieldWithPadding: PhoneNumberTextField {
+
+    let padding = UIEdgeInsets(top: 15, left: 25, bottom: 0, right: 0);
+
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+}
+
+//class CustomTextFieldMaps: TextFieldWithImage {
+//
+//    let padding = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 50);
+//
+//    override func textRect(forBounds bounds: CGRect) -> CGRect {
+//        return bounds.inset(by: padding)
+//    }
+//
+//    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+//        return bounds.inset(by: padding)
+//    }
+//
+//    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+//        return bounds.inset(by: padding)
+//    }
+//}
+
 
 
 //MARK: - URLS/KEYS/TONES
@@ -73,6 +260,7 @@ struct Statics {
     
     static let GOOGLE_SIGN_IN : String = "google"
     static let EMAIL_SIGN_IN : String = "email"
+    static let DOGGYSTYLE_CONSUMER_APP_URL : String = "https://www.google.com"
     
 }
 

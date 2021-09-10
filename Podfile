@@ -39,6 +39,9 @@ def shared_pods
     #Places API
     pod 'GooglePlaces'
     
+    #Google Maps
+    pod 'GoogleMaps'
+    
    
 end
 

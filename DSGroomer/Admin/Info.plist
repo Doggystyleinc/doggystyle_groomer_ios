@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Please allow doggystyle to access your devices current location to better find nearby grooming locations.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow Doggystyle access to your photos so you can upload a profile photo. </string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -40,8 +36,27 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Please allow doggystyle to access your devices current location to better find nearby grooming locations.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please allow Doggystyle access to your photos so you can upload a profile photo. </string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Rubik-SemiBoldItalic.ttf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>Rubik-SemiBold.ttf</string>
+		<string>Rubik-Medium.ttf</string>
+		<string>Rubik-MediumItalic.ttf</string>
+		<string>Rubik-LightItalic.ttf</string>
+		<string>Rubik-LightItalic.ttf</string>
+		<string>Rubik-Light.ttf</string>
+		<string>Rubik-Italic.ttf</string>
+		<string>Rubik-ExtraBold.ttf</string>
+		<string>Rubik-ExtraBoldItalic.ttf</string>
+		<string>Rubik-BoldItalic.ttf</string>
+		<string>Rubik-Bold.ttf</string>
+		<string>Rubik-BlackItalic.ttf</string>
+		<string>Rubik-Black.ttf</string>
 		<string>Font Awesome 5 Pro-Solid-900.otf</string>
 		<string>Font Awesome 5 Pro-Regular-400.otf</string>
 		<string>Font Awesome 5 Pro-Light-300.otf</string>

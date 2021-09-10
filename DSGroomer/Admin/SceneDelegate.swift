@@ -19,13 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //MARK: - WINDOW INIT
         let window = UIWindow(windowScene: sceneWindow)
         window.makeKeyAndVisible()
-
-        let decisionController = GroomerLocationOne(),
-            navigationController = UINavigationController(rootViewController: decisionController)
-            navigationController.navigationBar.isHidden = true
-            navigationController.modalPresentationStyle = .fullScreen
         
+        let decisionController = DecisionController(),
+            navigationController = UINavigationController(rootViewController: decisionController)
+        navigationController.navigationBar.isHidden = true
+        navigationController.modalPresentationStyle = .fullScreen
         window.rootViewController = navigationController
+        
         self.window = window
         
         //MARK: - NOTIFICATION PROMPT/ALERT
@@ -34,21 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 UIApplication.shared.applicationIconBadgeNumber = 0
             }
         }
-    }
-    
-    func sceneDidDisconnect(_ scene: UIScene) {
-    }
-    
-    func sceneDidBecomeActive(_ scene: UIScene) {
-    }
-    
-    func sceneWillResignActive(_ scene: UIScene) {
-    }
-    
-    func sceneWillEnterForeground(_ scene: UIScene) {
-    }
-    
-    func sceneDidEnterBackground(_ scene: UIScene) {
     }
 }
 

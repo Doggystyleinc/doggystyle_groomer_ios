@@ -21,14 +21,6 @@ class HomeController : UITabBarController {
         storageRef = Storage.storage().reference()
     
     var statusBarHeight : CGFloat = 0.0,
-        outgoingAudioCallAudioPlayer = AVAudioPlayer(),
-        incomingAudioCallAudioPlayer = AVAudioPlayer(),
-        missedAudioCallAudioPlayer = AVAudioPlayer(),
-        missedVideoCallAudioPlayer = AVAudioPlayer(),
-        outgoingVideoCallAudioPlayer = AVAudioPlayer(),
-        incomingVideoCallAudioPlayer = AVAudioPlayer(),
-        hasApplicationLockBeenPresented : Bool = false,
-        hasApplicationLockCallSubviewBeenPresented : Bool = false,
         keyWindow : UIWindow = UIWindow(),
         viewHasBeenLaidOut : Bool = false,
         startingVerticalConstant: CGFloat  = 0.0,
@@ -295,16 +287,16 @@ class HomeController : UITabBarController {
     func addTabsAndCustomCenterCircle(completion : @escaping () -> ()) {
         
         //HOME ICONS
-        let home = UIImage(named:"tab_home_deselected")?.withRenderingMode(.alwaysOriginal)
-        let homeFill = UIImage(named:"tab_home_selected")?.withRenderingMode(.alwaysOriginal)
+        let home = UIImage(named:"tab_home_deselected")?.withRenderingMode(.alwaysOriginal).withTintColor(tabBarIconGrey) ?? UIImage()
+        let homeFill = UIImage(named:"tab_home_deselected")?.withRenderingMode(.alwaysOriginal).withTintColor(coreOrangeColor)
         
         //CALENDAR ICONS
-        let calendar = UIImage(named:"tab_calendar_deselected")?.withRenderingMode(.alwaysOriginal)
-        let calendarFill = UIImage(named:"tab_calendar_selected")?.withRenderingMode(.alwaysOriginal)
+        let calendar = UIImage(named:"tab_calendar_deselected")?.withRenderingMode(.alwaysOriginal).withTintColor(tabBarIconGrey)
+        let calendarFill = UIImage(named:"tab_calendar_deselected")?.withRenderingMode(.alwaysOriginal).withTintColor(coreOrangeColor)
         
         //PEOPLE ICONS
-        let people = UIImage(named:"tab_person_deselected")?.withRenderingMode(.alwaysOriginal)
-        let peopleFill = UIImage(named:"tab_person_selected")?.withRenderingMode(.alwaysOriginal)
+        let people = UIImage(named:"tab_person_deselected")?.withRenderingMode(.alwaysOriginal).withTintColor(tabBarIconGrey)
+        let peopleFill = UIImage(named:"tab_person_deselected")?.withRenderingMode(.alwaysOriginal).withTintColor(coreOrangeColor)
         
         let mainTab = UINavigationController(rootViewController: self.dashboardController)
         self.dashboardController.homeController = self
