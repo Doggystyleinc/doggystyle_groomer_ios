@@ -7,9 +7,14 @@
 
 import Foundation
 import UIKit
+import AVFoundation
+import MobileCoreServices
+import Photos
 
 
 class GroomerProfileController : UIViewController {
+    
+    var selectedImage : UIImage?
     
     lazy var backButton : UIButton = {
         
@@ -79,7 +84,8 @@ class GroomerProfileController : UIViewController {
         cbf.setTitleColor(coreOrangeColor, for: .normal)
         cbf.layer.borderColor = coreOrangeColor.cgColor
         cbf.layer.borderWidth = 1
-        cbf.addTarget(self, action: #selector(self.handleProfileImageTap), for: UIControl.Event.touchUpInside)
+        cbf.clipsToBounds = true
+        cbf.isUserInteractionEnabled = false
         return cbf
         
     }()
@@ -100,6 +106,7 @@ class GroomerProfileController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
+        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleCustomPhotoController)))
         
         return cbf
         
@@ -150,7 +157,8 @@ class GroomerProfileController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
-        
+        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePhotoLibrarySelection)))
+
         return cbf
         
     }()
@@ -188,7 +196,7 @@ class GroomerProfileController : UIViewController {
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("Looking good!", for: UIControl.State.normal)
+        cbf.setTitle("Done", for: UIControl.State.normal)
         cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 18)
         cbf.titleLabel?.adjustsFontSizeToFitWidth = true
         cbf.titleLabel?.numberOfLines = 1
@@ -198,9 +206,22 @@ class GroomerProfileController : UIViewController {
         cbf.layer.cornerRadius = 15
         cbf.layer.masksToBounds = true
         cbf.tintColor = coreWhiteColor
+        cbf.alpha = 0.5
+        cbf.isEnabled = false
         cbf.addTarget(self, action: #selector(self.handleLookingGoodButton), for: .touchUpInside)
         
         return cbf
+        
+    }()
+    
+    let activityIndicator : UIActivityIndicatorView = {
+        
+        let ai = UIActivityIndicatorView(style: .medium)
+        ai.translatesAutoresizingMaskIntoConstraints = false
+        ai.backgroundColor = .clear
+        ai.hidesWhenStopped = true
+        
+       return ai
         
     }()
     
@@ -219,6 +240,7 @@ class GroomerProfileController : UIViewController {
         self.view.addSubview(self.headerLabel)
         self.view.addSubview(self.subHeaderLabel)
         self.view.addSubview(self.profileImageview)
+        self.profileImageview.addSubview(self.activityIndicator)
         
         self.view.addSubview(self.cameraButton)
         self.cameraButton.addSubview(self.cameraIcon)
@@ -290,6 +312,10 @@ class GroomerProfileController : UIViewController {
         self.lookingGoodButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -53).isActive = true
         self.lookingGoodButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+        self.activityIndicator.centerYAnchor.constraint(equalTo: self.profileImageview.centerYAnchor, constant: 0).isActive = true
+        self.activityIndicator.centerXAnchor.constraint(equalTo: self.profileImageview.centerXAnchor, constant: 0).isActive = true
+        self.activityIndicator.sizeToFit()
+
     }
     
     @objc func handleProfileImageTap() {
@@ -298,9 +324,158 @@ class GroomerProfileController : UIViewController {
     
     @objc func handleLookingGoodButton() {
         print("looking good button")
+        
+        if self.selectedImage == nil {
+
+            print("no image has been selected")
+            
+        } else {
+            
+            print("AN image has been selected")
+            
+        }
+    }
+    
+    @objc func handlePhotoLibrarySelection() {
+        self.checkForGalleryAuth()
+    }
+    
+    @objc func handleCustomPhotoController() {
+        
+        let customPhotoController = CustomPhotoController()
+        let nav = UINavigationController(rootViewController: customPhotoController)
+        nav.navigationBar.isHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(nav, animated: true, completion: nil)
     }
     
     @objc func handleBackButton() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }
+
+extension GroomerProfileController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    @objc func checkForGalleryAuth() {
+        
+        UIDevice.vibrateLight()
+        
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch photoAuthorizationStatus {
+        
+        case .authorized:
+            self.openGallery()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({
+                (newStatus) in
+                
+                if newStatus ==  PHAuthorizationStatus.authorized {
+                    self.openGallery()
+                }
+            })
+            
+        case .restricted:
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
+                print("Alert presented")
+            }
+        case .denied:
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
+                print("Alert presented")
+            }
+        default :
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
+                print("Alert presented")
+            }
+        }
+    }
+    
+    func openGallery() {
+        
+        DispatchQueue.main.async {
+            
+            let imagePicker = UIImagePickerController()
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            
+            if let topViewController = UIApplication.getTopMostViewController() {
+                topViewController.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        picker.dismiss(animated: true) {
+            print("Dismissed the image picker or camera")
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true) {
+            
+            let mediaType = info[.mediaType] as! CFString
+            
+            switch mediaType {
+            
+            case kUTTypeImage :
+                
+                if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                    
+                    self.profileImageview.setTitle("", for: .normal)
+                    self.lookingGoodButton.alpha = 1
+                    self.lookingGoodButton.isEnabled = true
+                    self.lookingGoodButton.setTitle("Looking good!", for: .normal)
+                    self.activityInvoke(shouldStart: true)
+                    self.profileImageview.setBackgroundImage(editedImage, for: .normal)
+                    self.activityInvoke(shouldStart: false)
+                    self.selectedImage = editedImage
+                    
+                } else if let originalImage = info[.originalImage] as? UIImage  {
+                    
+                    self.profileImageview.setTitle("", for: .normal)
+                    self.lookingGoodButton.alpha = 1
+                    self.lookingGoodButton.isEnabled = true
+                    self.lookingGoodButton.setTitle("Looking good!", for: .normal)
+                    self.activityInvoke(shouldStart: true)
+                    self.profileImageview.setBackgroundImage(originalImage, for: .normal)
+                    self.activityInvoke(shouldStart: false)
+                    self.selectedImage = originalImage
+
+                } else {
+                    print("Failed grabbing the photo")
+                }
+                
+            default : print("SHOULD NOT HIT FOR THE CAMERA PICKER")
+                
+            }
+        }
+    }
+    
+    func activityInvoke(shouldStart : Bool) {
+        
+        if shouldStart {
+            UIView.animate(withDuration: 0.35) {
+                self.profileImageview.alpha = 0.25
+            } completion: { complete in
+                self.activityIndicator.startAnimating()
+            }
+        } else {
+            UIView.animate(withDuration: 0.35) {
+                self.profileImageview.alpha = 1.0
+            } completion: { complete in
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+    
+    
+    
+    
+    
+}
+
+
+

@@ -121,6 +121,7 @@
 		E3D2816726F393D600ACE7C8 /* groomer_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = E3D2816626F393D600ACE7C8 /* groomer_loading.json */; };
 		E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D2816B26F3AEB900ACE7C8 /* PasswordResetController.swift */; };
 		E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D2817026F3DA6500ACE7C8 /* GroomerProfilePhoto.swift */; };
+		E3D2817326F3EB8500ACE7C8 /* CustomCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D2817226F3EB8500ACE7C8 /* CustomCameraController.swift */; };
 		E3D53F2C26A9EA5B003B4317 /* ios_doggystyle_icon60.png in Resources */ = {isa = PBXBuildFile; fileRef = E3D53F2826A9EA5B003B4317 /* ios_doggystyle_icon60.png */; };
 		E3D53F2D26A9EA5B003B4317 /* ios_doggystyle_icon87.png in Resources */ = {isa = PBXBuildFile; fileRef = E3D53F2926A9EA5B003B4317 /* ios_doggystyle_icon87.png */; };
 		E3D53F2E26A9EA5B003B4317 /* ios_doggystyle_icon40.png in Resources */ = {isa = PBXBuildFile; fileRef = E3D53F2A26A9EA5B003B4317 /* ios_doggystyle_icon40.png */; };
@@ -283,6 +284,7 @@
 		E3D2816926F3977600ACE7C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3D2816B26F3AEB900ACE7C8 /* PasswordResetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetController.swift; sourceTree = "<group>"; };
 		E3D2817026F3DA6500ACE7C8 /* GroomerProfilePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerProfilePhoto.swift; sourceTree = "<group>"; };
+		E3D2817226F3EB8500ACE7C8 /* CustomCameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCameraController.swift; sourceTree = "<group>"; };
 		E3D53F2826A9EA5B003B4317 /* ios_doggystyle_icon60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_doggystyle_icon60.png; sourceTree = "<group>"; };
 		E3D53F2926A9EA5B003B4317 /* ios_doggystyle_icon87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_doggystyle_icon87.png; sourceTree = "<group>"; };
 		E3D53F2A26A9EA5B003B4317 /* ios_doggystyle_icon40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_doggystyle_icon40.png; sourceTree = "<group>"; };
@@ -707,6 +709,7 @@
 			isa = PBXGroup;
 			children = (
 				E3D2817026F3DA6500ACE7C8 /* GroomerProfilePhoto.swift */,
+				E3D2817226F3EB8500ACE7C8 /* CustomCameraController.swift */,
 			);
 			path = ProfilePhotoController;
 			sourceTree = "<group>";
@@ -1088,6 +1091,7 @@
 				E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */,
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
+				E3D2817326F3EB8500ACE7C8 /* CustomCameraController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
 				E3176B6726EBBD4A003D6CEF /* TermsOfService.swift in Sources */,

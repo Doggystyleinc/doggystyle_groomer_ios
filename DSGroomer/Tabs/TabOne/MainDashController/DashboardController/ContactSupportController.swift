@@ -9,34 +9,34 @@ import Foundation
 import UIKit
 
 class ContactSupportController : UIViewController {
-
-lazy var backButton : UIButton = {
     
-    let cbf = UIButton(type: .system)
-    cbf.translatesAutoresizingMaskIntoConstraints = false
-    cbf.backgroundColor = .clear
-    cbf.contentMode = .scaleAspectFill
-    cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 22, style: .solid)
-    cbf.setTitle(String.fontAwesomeIcon(name: .times), for: .normal)
-    cbf.titleLabel?.tintColor = dsRedColor
-    cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
-    return cbf
+    lazy var backButton : UIButton = {
+        
+        let cbf = UIButton(type: .system)
+        cbf.translatesAutoresizingMaskIntoConstraints = false
+        cbf.backgroundColor = .clear
+        cbf.contentMode = .scaleAspectFill
+        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 22, style: .solid)
+        cbf.setTitle(String.fontAwesomeIcon(name: .times), for: .normal)
+        cbf.titleLabel?.tintColor = dsRedColor
+        cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
+        return cbf
+        
+    }()
     
-}()
-
-let headerLabel : UILabel = {
-    
-    let hl = UILabel()
-    hl.translatesAutoresizingMaskIntoConstraints = false
-    hl.backgroundColor = .clear
-    hl.text = "Contact Support"
-    hl.font = UIFont(name: dsHeaderFont, size: 24)
-    hl.numberOfLines = 1
-    hl.adjustsFontSizeToFitWidth = true
-    hl.textAlignment = .left
-    
-    return hl
-}()
+    let headerLabel : UILabel = {
+        
+        let hl = UILabel()
+        hl.translatesAutoresizingMaskIntoConstraints = false
+        hl.backgroundColor = .clear
+        hl.text = "Contact Support"
+        hl.font = UIFont(name: dsHeaderFont, size: 24)
+        hl.numberOfLines = 1
+        hl.adjustsFontSizeToFitWidth = true
+        hl.textAlignment = .left
+        
+        return hl
+    }()
     
     let subHeaderLabel : UILabel = {
         
@@ -49,7 +49,7 @@ let headerLabel : UILabel = {
         hl.adjustsFontSizeToFitWidth = true
         hl.textAlignment = .left
         hl.textColor = dsLightBlack
-
+        
         return hl
     }()
     
@@ -173,8 +173,8 @@ let headerLabel : UILabel = {
         return cbf
         
     }()
-
-
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -192,7 +192,7 @@ let headerLabel : UILabel = {
         self.view.addSubview(self.chatWithSupportButton)
         self.view.addSubview(self.callSupportButton)
         self.view.addSubview(self.safetyButton)
-
+        
         self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
         self.backButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -11).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
@@ -221,8 +221,8 @@ let headerLabel : UILabel = {
         self.safetyButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.safetyButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.safetyButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-
-
+        
+        
         
     }
     
