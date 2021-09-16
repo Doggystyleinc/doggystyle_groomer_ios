@@ -84,6 +84,15 @@ var friends_array_phone_number = [String](),
     rubikBlack : String = "Rubik-Black",
     rubikBlackitalic : String = "Rubik-BlackItalic"
 
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
 
 extension UIScrollView {
     

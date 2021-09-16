@@ -120,6 +120,7 @@
 		E3CFCB70266327A2003C1B73 /* ds_white_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3CFCB6D266327A2003C1B73 /* ds_white_logo@3x.png */; };
 		E3D2816726F393D600ACE7C8 /* groomer_loading.json in Resources */ = {isa = PBXBuildFile; fileRef = E3D2816626F393D600ACE7C8 /* groomer_loading.json */; };
 		E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D2816B26F3AEB900ACE7C8 /* PasswordResetController.swift */; };
+		E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D2817026F3DA6500ACE7C8 /* GroomerProfilePhoto.swift */; };
 		E3D53F2C26A9EA5B003B4317 /* ios_doggystyle_icon60.png in Resources */ = {isa = PBXBuildFile; fileRef = E3D53F2826A9EA5B003B4317 /* ios_doggystyle_icon60.png */; };
 		E3D53F2D26A9EA5B003B4317 /* ios_doggystyle_icon87.png in Resources */ = {isa = PBXBuildFile; fileRef = E3D53F2926A9EA5B003B4317 /* ios_doggystyle_icon87.png */; };
 		E3D53F2E26A9EA5B003B4317 /* ios_doggystyle_icon40.png in Resources */ = {isa = PBXBuildFile; fileRef = E3D53F2A26A9EA5B003B4317 /* ios_doggystyle_icon40.png */; };
@@ -153,8 +154,6 @@
 		E3FB6AF926768BB800DE17D2 /* notification_bell.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AF626768BB800DE17D2 /* notification_bell.png */; };
 		E3FB6AFA26768BB800DE17D2 /* notification_bell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AF726768BB800DE17D2 /* notification_bell@2x.png */; };
 		E3FB6AFB26768BB800DE17D2 /* notification_bell@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AF826768BB800DE17D2 /* notification_bell@3x.png */; };
-		E3FB6B002676A98200DE17D2 /* DashboardHeaderCollectionSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6AFF2676A98200DE17D2 /* DashboardHeaderCollectionSubview.swift */; };
-		E3FB6B022676AAE600DE17D2 /* DashHeaderFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B012676AAE600DE17D2 /* DashHeaderFeeder.swift */; };
 		E3FB6B052676B13800DE17D2 /* GroomerChecklistCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B042676B13800DE17D2 /* GroomerChecklistCollection.swift */; };
 		E3FB6B072676B16400DE17D2 /* GroomerChecklistFeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3FB6B062676B16400DE17D2 /* GroomerChecklistFeeder.swift */; };
 		E3FB6B122677C46300DE17D2 /* shareButtonIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */; };
@@ -283,6 +282,7 @@
 		E3D2816826F3974800ACE7C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3D2816926F3977600ACE7C8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E3D2816B26F3AEB900ACE7C8 /* PasswordResetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetController.swift; sourceTree = "<group>"; };
+		E3D2817026F3DA6500ACE7C8 /* GroomerProfilePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerProfilePhoto.swift; sourceTree = "<group>"; };
 		E3D53F2826A9EA5B003B4317 /* ios_doggystyle_icon60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_doggystyle_icon60.png; sourceTree = "<group>"; };
 		E3D53F2926A9EA5B003B4317 /* ios_doggystyle_icon87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_doggystyle_icon87.png; sourceTree = "<group>"; };
 		E3D53F2A26A9EA5B003B4317 /* ios_doggystyle_icon40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ios_doggystyle_icon40.png; sourceTree = "<group>"; };
@@ -316,8 +316,6 @@
 		E3FB6AF626768BB800DE17D2 /* notification_bell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notification_bell.png; sourceTree = "<group>"; };
 		E3FB6AF726768BB800DE17D2 /* notification_bell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_bell@2x.png"; sourceTree = "<group>"; };
 		E3FB6AF826768BB800DE17D2 /* notification_bell@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notification_bell@3x.png"; sourceTree = "<group>"; };
-		E3FB6AFF2676A98200DE17D2 /* DashboardHeaderCollectionSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardHeaderCollectionSubview.swift; sourceTree = "<group>"; };
-		E3FB6B012676AAE600DE17D2 /* DashHeaderFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashHeaderFeeder.swift; sourceTree = "<group>"; };
 		E3FB6B042676B13800DE17D2 /* GroomerChecklistCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerChecklistCollection.swift; sourceTree = "<group>"; };
 		E3FB6B062676B16400DE17D2 /* GroomerChecklistFeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerChecklistFeeder.swift; sourceTree = "<group>"; };
 		E3FB6B0F2677C46300DE17D2 /* shareButtonIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shareButtonIcon@2x.png"; sourceTree = "<group>"; };
@@ -519,8 +517,6 @@
 			isa = PBXGroup;
 			children = (
 				E3FB6B082676B47B00DE17D2 /* MainDashController */,
-				E3FB6B032676B12400DE17D2 /* GroomerChecklistCollection */,
-				E3FB6AFE2676A96C00DE17D2 /* DashBoardCalendarHeader */,
 			);
 			path = TabOne;
 			sourceTree = "<group>";
@@ -689,6 +685,32 @@
 			path = ForgotPasswordController;
 			sourceTree = "<group>";
 		};
+		E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */ = {
+			isa = PBXGroup;
+			children = (
+				E3D2816F26F3DA0D00ACE7C8 /* ProfilePhotoController */,
+				E3FB6B032676B12400DE17D2 /* GroomerChecklistCollection */,
+			);
+			path = ProfileRegistrationState;
+			sourceTree = "<group>";
+		};
+		E3D2816E26F3D90E00ACE7C8 /* DashboardController */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */,
+				E3F1205026EE87B9008F2421 /* ContactSupportController.swift */,
+			);
+			path = DashboardController;
+			sourceTree = "<group>";
+		};
+		E3D2816F26F3DA0D00ACE7C8 /* ProfilePhotoController */ = {
+			isa = PBXGroup;
+			children = (
+				E3D2817026F3DA6500ACE7C8 /* GroomerProfilePhoto.swift */,
+			);
+			path = ProfilePhotoController;
+			sourceTree = "<group>";
+		};
 		E3D53F2726A9EA51003B4317 /* AppIcons */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,15 +770,6 @@
 			path = HomeControllerIcons;
 			sourceTree = "<group>";
 		};
-		E3FB6AFE2676A96C00DE17D2 /* DashBoardCalendarHeader */ = {
-			isa = PBXGroup;
-			children = (
-				E3FB6AFF2676A98200DE17D2 /* DashboardHeaderCollectionSubview.swift */,
-				E3FB6B012676AAE600DE17D2 /* DashHeaderFeeder.swift */,
-			);
-			path = DashBoardCalendarHeader;
-			sourceTree = "<group>";
-		};
 		E3FB6B032676B12400DE17D2 /* GroomerChecklistCollection */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,8 +782,8 @@
 		E3FB6B082676B47B00DE17D2 /* MainDashController */ = {
 			isa = PBXGroup;
 			children = (
-				E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */,
-				E3F1205026EE87B9008F2421 /* ContactSupportController.swift */,
+				E3D2816E26F3D90E00ACE7C8 /* DashboardController */,
+				E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */,
 			);
 			path = MainDashController;
 			sourceTree = "<group>";
@@ -1062,9 +1075,9 @@
 				E3176B6B26EBC80B003D6CEF /* MapViewSubclass.swift in Sources */,
 				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
 				E304ED9126ED357D002D625A /* RegistrationController.swift in Sources */,
+				E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */,
 				E3502130268B99B100E5186E /* ServiceSingleton.swift in Sources */,
 				E3176B6526EABBFB003D6CEF /* NotificationsController.swift in Sources */,
-				E3FB6B022676AAE600DE17D2 /* DashHeaderFeeder.swift in Sources */,
 				E3176B5F26EAA450003D6CEF /* LoginController.swift in Sources */,
 				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,
 				E3C2EB69266170C000AB0EF6 /* GroomerOnboardingStruct.swift in Sources */,
@@ -1077,7 +1090,6 @@
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
-				E3FB6B002676A98200DE17D2 /* DashboardHeaderCollectionSubview.swift in Sources */,
 				E3176B6726EBBD4A003D6CEF /* TermsOfService.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,
 				E3FB6B052676B13800DE17D2 /* GroomerChecklistCollection.swift in Sources */,

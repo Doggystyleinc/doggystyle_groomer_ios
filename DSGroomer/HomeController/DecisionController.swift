@@ -51,15 +51,14 @@ class DecisionController : UIViewController {
         
         //USER IS NOT AUTHENTICATED
         if Auth.auth().currentUser?.uid == nil {
-            self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
+            
+                self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
             
         //USER IS AUTHENTICATED
         } else if Auth.auth().currentUser?.uid != nil {
             
-            AuthCheckUsers.authCheck { (hasAuth) in
-                
+            Service.shared.fillGroomerDataStruct { isComplete in
                 self.perform(#selector(self.handleHomeController), with: nil, afterDelay: 1.0)
-
             }
         }
     }

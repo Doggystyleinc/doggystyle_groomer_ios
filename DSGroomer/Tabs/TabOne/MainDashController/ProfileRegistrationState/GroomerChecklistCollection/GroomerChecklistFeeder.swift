@@ -12,9 +12,9 @@ class GroomerChecklistFeeder : UICollectionViewCell {
     
     var groomerChecklistCollection : GroomerChecklistCollection?
     
-    let mainContainer : UIView = {
+    lazy var mainContainer : UIButton = {
         
-        let dc = UIView()
+        let dc = UIButton(type: .system)
         dc.translatesAutoresizingMaskIntoConstraints = false
         dc.backgroundColor = dsDeepBlue.withAlphaComponent(0.12)
         dc.isUserInteractionEnabled = true
@@ -25,6 +25,8 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         dc.layer.shadowOffset = CGSize(width: 2, height: 3)
         dc.layer.shadowRadius = 9
         dc.layer.shouldRasterize = false
+        dc.isUserInteractionEnabled = true
+        dc.addTarget(self, action: #selector(self.handleSelection(sender:)), for: .touchUpInside)
         
        return dc
     }()
@@ -36,6 +38,7 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         dcl.contentMode = .scaleAspectFit
         dcl.isUserInteractionEnabled = false
         dcl.backgroundColor = .clear
+        dcl.isUserInteractionEnabled = false
         
         return dcl
     }()
@@ -50,6 +53,8 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = true
         thl.textColor = dsFlatBlack
+        thl.isUserInteractionEnabled = false
+
         return thl
         
     }()
@@ -63,6 +68,8 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 12, style: .solid)
         cbf.setTitle(String.fontAwesomeIcon(name: .check), for: .normal)
         cbf.setTitleColor(coreGreenColor, for: .normal)
+        cbf.isUserInteractionEnabled = false
+
         return cbf
         
     }()
@@ -103,6 +110,12 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         self.checkListLabel.topAnchor.constraint(equalTo: self.mainContainer.topAnchor, constant: 0).isActive = true
         self.checkListLabel.bottomAnchor.constraint(equalTo: self.mainContainer.bottomAnchor, constant: 0).isActive = true
 
+    }
+    
+    @objc func handleSelection(sender : UIButton) {
+        
+        self.groomerChecklistCollection?.handleSelection(sender:sender)
+        
     }
     
     required init?(coder: NSCoder) {

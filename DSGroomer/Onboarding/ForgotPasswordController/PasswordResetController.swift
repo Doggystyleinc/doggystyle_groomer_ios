@@ -13,7 +13,6 @@ import Firebase
 
 class PasswordResetController : UIViewController, UITextFieldDelegate {
     
-    
     let databaseRef = Database.database().reference()
     let mainLoadingScreen = MainLoadingScreen()
     

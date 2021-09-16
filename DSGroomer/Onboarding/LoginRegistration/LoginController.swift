@@ -471,8 +471,13 @@ final class LoginController: UIViewController, UITextFieldDelegate {
                 Service.shared.FirebaseLogin(usersEmailAddress: cleanEmail, usersPassword: cleanPassword) { loginSuccess, response, responseCode in
                     
                     if loginSuccess {
+                        
                         self.mainLoadingScreen.cancelMainLoadingScreen()
+                        
+                        Service.shared.fillGroomerDataStruct { isComplete in
                         self.presentHomeController()
+                        }
+                        
                     } else {
                         self.mainLoadingScreen.cancelMainLoadingScreen()
                         AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: response) { complete in

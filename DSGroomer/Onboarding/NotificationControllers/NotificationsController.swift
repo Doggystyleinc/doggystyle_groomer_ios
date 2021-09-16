@@ -204,7 +204,11 @@ class NotificationsController : UIViewController {
 
             if isComplete {
                 self.mainLoadingScreen.cancelMainLoadingScreen()
+                
+                Service.shared.fillGroomerDataStruct { isComplete in
                 self.presentHomeController()
+                }
+                
             } else {
                 self.mainLoadingScreen.cancelMainLoadingScreen()
                 AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "\(responseMessage)") { complete in

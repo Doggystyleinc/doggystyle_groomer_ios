@@ -42,6 +42,7 @@ class DashboardController : UIViewController {
         nb.layer.borderWidth = 1.5
         nb.text = "1"
         nb.textColor = coreWhiteColor
+        nb.isHidden = true
         
         return nb
     }()
@@ -80,7 +81,7 @@ class DashboardController : UIViewController {
         let hl = UILabel()
         hl.translatesAutoresizingMaskIntoConstraints = false
         hl.backgroundColor = .clear
-        hl.text = "Welcome, User"
+        hl.text = "Welcome!"
         hl.font = UIFont(name: dsHeaderFont, size: 24)
         hl.numberOfLines = 1
         hl.adjustsFontSizeToFitWidth = true
@@ -120,6 +121,11 @@ class DashboardController : UIViewController {
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
       
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.fillValues()
     }
     
     func addViews() {
@@ -169,6 +175,14 @@ class DashboardController : UIViewController {
 
     }
     
+    func fillValues() {
+        
+        let groomersFirstName = groomerUserStruct.groomers_first_name ?? "stylist"
+        let capsFirstLetter = groomersFirstName.capitalizingFirstLetter()
+        self.headerLabel.text = "Welcome, \(capsFirstLetter)"
+        
+    }
+    
     @objc func handleNotificationsController() {
         print("Notifications")
     }
@@ -181,6 +195,18 @@ class DashboardController : UIViewController {
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         self.navigationController?.present(nav, animated: true, completion: nil)
+        
+    }
+    
+    @objc func handleGroomerProfileController() {
+        
+        let groomerProfileController = GroomerProfileController()
+        let nav = UINavigationController(rootViewController: groomerProfileController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("presented the groomers profile controller")
+        })
     }
 }
 

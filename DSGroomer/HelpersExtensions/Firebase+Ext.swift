@@ -220,6 +220,61 @@ class Service : NSObject {
         }
     }
     
+    func fillGroomerDataStruct(completion : @escaping (_ isComplete : Bool)->()) {
+        
+        let databaseRef = Database.database().reference()
+        guard let user_uid = Auth.auth().currentUser?.uid else {return}
+        let path = databaseRef.child("all_users").child(user_uid)
+        
+        groomerUserStruct = GroomerUserStruct()
+        
+        path.observeSingleEvent(of: .value) { snap in
+            
+            if let JSON = snap.value as? [String : Any] {
+                
+                let groomers_phone_number = JSON["groomers_phone_number"] as? String ?? "nil"
+                let groomers_area_code = JSON["groomers_area_code"] as? String ?? "nil"
+                let groomers_complete_phone_number = JSON["groomers_complete_phone_number"] as? String ?? "nil"
+                
+                let groomers_location_latitude = JSON["groomers_location_latitude"] as? Double ?? 0.0
+                let groomers_location_longitude = JSON["groomers_location_longitude"] as? Double ?? 0.0
+                
+                let groomers_first_name = JSON["groomers_first_name"] as? String ?? "nil"
+                let groomers_last_name = JSON["groomers_last_name"] as? String ?? "nil"
+                let groomers_email = JSON["groomers_email"] as? String ?? "nil"
+                let groomers_city = JSON["groomers_city"] as? String ?? "nil"
+                let groomers_referral_code = JSON["groomers_referral_code"] as? String ?? "nil"
+                
+                let groomer_enable_notifications = JSON["groomer_enable_notifications"] as? Bool ?? false
+                let users_sign_up_date = JSON["users_sign_up_date"] as? Double ?? 0.0
+                let groomer_child_key_from_playbook = JSON["groomer_child_key_from_playbook"] as? String ?? "nil"
+                let users_ref_key = JSON["users_ref_key"] as? String ?? "nil"
+              
+                groomerUserStruct.groomers_phone_number = groomers_phone_number
+                groomerUserStruct.groomers_area_code = groomers_area_code
+                groomerUserStruct.groomers_complete_phone_number = groomers_complete_phone_number
+                
+                groomerUserStruct.groomers_location_latitude = groomers_location_latitude
+                groomerUserStruct.groomers_location_longitude = groomers_location_longitude
+                
+                groomerUserStruct.groomers_first_name = groomers_first_name
+                groomerUserStruct.groomers_last_name = groomers_last_name
+                groomerUserStruct.groomers_email = groomers_email
+                groomerUserStruct.groomers_city = groomers_city
+                groomerUserStruct.groomers_referral_code = groomers_referral_code
+                
+                groomerUserStruct.groomer_enable_notifications = groomer_enable_notifications
+                groomerUserStruct.users_sign_up_date = users_sign_up_date
+                groomerUserStruct.groomer_child_key_from_playbook = groomer_child_key_from_playbook
+                groomerUserStruct.users_ref_key = users_ref_key
+                completion(true)
+                
+            } else {
+                completion(false)
+            }
+        }
+    }
+    
     //MARK:- IN THE CASE LOGIN FAILS DURING REGISTRATION AND LOGIN, CALL LOGIN AGAIN ONLY.
     func FirebaseLogin(usersEmailAddress : String, usersPassword : String, completion : @escaping (_ loginSuccess : Bool, _ response : String, _ responseCode : Int) -> ()) {
         
