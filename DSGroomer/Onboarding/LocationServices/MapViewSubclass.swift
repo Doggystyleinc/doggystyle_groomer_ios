@@ -33,8 +33,7 @@ class MapsSubview : GMSMapView, CLLocationManagerDelegate{
 
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-    {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let userLocation = locations.last
         let center = CLLocationCoordinate2D(latitude: userLocation!.coordinate.latitude, longitude: userLocation!.coordinate.longitude)
 
@@ -46,6 +45,10 @@ class MapsSubview : GMSMapView, CLLocationManagerDelegate{
         marker.map = self
 
         locationManager.stopUpdatingLocation()
+        
+        groomerOnboardingStruct.groomers_location_latitude = userLocation!.coordinate.latitude
+        groomerOnboardingStruct.groomers_location_longitude = userLocation!.coordinate.longitude
+        
     }
 
     func setupMap() {
@@ -55,29 +58,6 @@ class MapsSubview : GMSMapView, CLLocationManagerDelegate{
         self.camera = camera
         self.mapStyle = .none
         self.backgroundColor = coreWhiteColor
-    }
-   
-    //REMOVED FOR VERSION 1 WHEN WE TOOK AWAY MAP TAPS.
-    func addCustomMarker(latitude : Double, longitude : Double) {
-
-        let image = UIImage(named: "map_marker_icon")?.withRenderingMode(.alwaysOriginal)
-
-        let marker = GMSMarker()
-
-        marker.position = CLLocationCoordinate2DMake(latitude, longitude)
-        marker.accessibilityLabel = "\(longitude)"
-        marker.isDraggable = false
-        marker.map = self
-        marker.icon = image
-        self.moveToCoordinate(latitude: latitude, longitude: longitude)
-
-    }
-
-    func moveToCoordinate(latitude : Double, longitude : Double) {
-
-        let location = GMSCameraPosition.camera(withLatitude: latitude, longitude: longitude, zoom: 15)
-        self.animate(to: location)
-
     }
     
     //ENABLE LOCATION SERVICES OR ELSE DISMISS THE CONTROLLER

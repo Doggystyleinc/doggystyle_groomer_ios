@@ -7,8 +7,11 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 class NotificationsController : UIViewController {
+    
+    let mainLoadingScreen = MainLoadingScreen()
     
     lazy var backButton : UIButton = {
         
@@ -100,7 +103,7 @@ class NotificationsController : UIViewController {
         cbf.layer.cornerRadius = 15
         cbf.layer.masksToBounds = true
         cbf.tintColor = coreOrangeColor
-        cbf.addTarget(self, action: #selector(self.presentHomeController), for: .touchUpInside)
+        cbf.addTarget(self, action: #selector(self.handleNotNowButton), for: .touchUpInside)
         
         return cbf
         
@@ -180,17 +183,46 @@ class NotificationsController : UIViewController {
     }
     
     @objc func handleAllowNotificationButton() {
+        groomerOnboardingStruct.groomer_enable_notifications = true
+        self.loadAndSave()
+    }
+    
+    @objc func handleNotNowButton() {
+        groomerOnboardingStruct.groomer_enable_notifications = false
+        self.loadAndSave()
+    }
+    
+    @objc func loadAndSave() {
         
-        self.presentHomeController()
-        
+        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+       
+        Service.shared.FirebaseRegistrationAndLogin { isComplete, response, responseCode, responseMessage  in
+            
+            print(response)
+            print(responseCode)
+            print(responseMessage)
+
+            if isComplete {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                self.presentHomeController()
+            } else {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "\(responseMessage)") { complete in
+                    print("FAIL ERROR")
+                    self.navigationController?.dismiss(animated: true, completion: nil)
+                }
+            }
+        }
     }
     
     @objc func presentHomeController() {
+        
         let homeController = HomeController()
         let navVC = UINavigationController(rootViewController: homeController)
         navVC.modalPresentationStyle = .fullScreen
         navVC.navigationBar.isHidden = true
         navigationController?.present(navVC, animated: true)
+        
     }
 }
 

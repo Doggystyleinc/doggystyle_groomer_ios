@@ -7,8 +7,13 @@
 
 import Foundation
 import UIKit
+import PhoneNumberKit
+import Firebase
 
 class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
+    
+    let databaseRef = Database.database().reference()
+    let mainLoadingScreen = MainLoadingScreen()
     
     lazy var backButton : UIButton = {
         
@@ -227,14 +232,99 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
     
     @objc func handleNextButton() {
         
-        let pinNumberEntry = PinNumberEntry()
-        pinNumberEntry.modalPresentationStyle = .fullScreen
-        pinNumberEntry.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.pushViewController(pinNumberEntry, animated: true)
+        guard let safePhoneNumber = self.phoneNumberTextField.text else {
+            self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
+            return
+        }
         
+        if safePhoneNumber.count < 5 {
+            self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
+            return
+        }
+        
+        let phoneNumberKit = PhoneNumberKit()
+        
+          let isValid = phoneNumberKit.isValidPhoneNumber(safePhoneNumber)
+
+          if isValid {
+            
+            self.phoneNumberTextField.layer.borderColor = UIColor .clear.cgColor
+
+            let phoneNumberText = self.phoneNumberTextField.phoneNumber?.nationalNumber ?? 0
+            let phoneNumberCountryCode = self.phoneNumberTextField.phoneNumber?.countryCode ?? 0
+
+            let phoneNumberAsString = String(phoneNumberText)
+            let countryCodeAsString = String(phoneNumberCountryCode)
+            
+            self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+            self.phoneNumberTextField.resignFirstResponder()
+            
+            Service.shared.handlePlaybookChecker(phoneNumber: phoneNumberAsString, areaCode: countryCodeAsString) { isComplete, message, groomersFirstName, groomersLastName, groomersEmail, groomerChildKey  in
+                
+                if groomersFirstName != "nil" {
+                    self.headerLabel.text = "Hello \(groomersFirstName)! Welcome to the Doggystyle team!"
+                }
+                
+                if isComplete == true {
+                    self.handlePhoneAuthRequest(phoneNumberCountryCode: countryCodeAsString, phoneNumberAsString: phoneNumberAsString, groomersFirstName: groomersFirstName, groomersLastName: groomersLastName, groomersEmail: groomersEmail, groomerChildKey: groomerChildKey)
+                } else {
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: message) { complete in
+                    }
+                }
+            }
+        
+          } else {
+            
+            self.mainLoadingScreen.cancelMainLoadingScreen()
+            self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
+            
+          }
     }
     
+    @objc func handlePhoneAuthRequest(phoneNumberCountryCode : String, phoneNumberAsString : String, groomersFirstName : String, groomersLastName : String, groomersEmail : String, groomerChildKey : String) {
+        
+        ServiceHTTP.shared.twilioGetRequest(function_call: "request_for_pin", users_country_code: phoneNumberCountryCode, users_phone_number: phoneNumberAsString, delivery_method: "sms", entered_code: "nil") { object, error in
+            
+            if error != nil || object == nil {
+                
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "This is on us, please try again.") { complete in
+            }
+                return
+                
+            } else {
+                
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                
+                DispatchQueue.main.async {
+                    
+                    let pinNumberEntry = PinNumberEntry()
+                    pinNumberEntry.phoneNumber = phoneNumberAsString
+                    pinNumberEntry.countryCode = phoneNumberCountryCode
+                    pinNumberEntry.groomersFirstName = groomersFirstName
+                    pinNumberEntry.groomersLastName = groomersLastName
+                    pinNumberEntry.groomersEmail = groomersEmail
+                    
+                    groomerOnboardingStruct.groomers_phone_number = phoneNumberAsString
+                    groomerOnboardingStruct.groomers_area_code = phoneNumberCountryCode
+                    groomerOnboardingStruct.groomers_complete_phone_number = "\(phoneNumberCountryCode)\(phoneNumberAsString)"
+
+                    groomerOnboardingStruct.groomers_first_name = groomersFirstName
+                    groomerOnboardingStruct.groomers_last_name = groomersLastName
+                    groomerOnboardingStruct.groomers_email = groomersEmail
+                    groomerOnboardingStruct.groomer_child_key = groomerChildKey
+
+                    pinNumberEntry.modalPresentationStyle = .fullScreen
+                    pinNumberEntry.navigationController?.navigationBar.isHidden = true
+                    
+                    self.navigationController?.pushViewController(pinNumberEntry, animated: true)
+                }
+            }
+        }
+    }
+
     @objc func handleBackButton() {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.dismiss(animated: true, completion: nil)
     }
 }

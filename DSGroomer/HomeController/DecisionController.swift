@@ -30,7 +30,6 @@ class DecisionController : UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreOrangeColor
-        userProfileStruct = UserProfileStruct()
         
         self.addViews()
         self.authenticationCheck()
@@ -59,11 +58,8 @@ class DecisionController : UIViewController {
             
             AuthCheckUsers.authCheck { (hasAuth) in
                 
-                if hasAuth {
-                    self.perform(#selector(self.handleHomeController), with: nil, afterDelay: 1.0)
-                } else {
-                    self.perform(#selector(self.handleWelcomeController), with: nil, afterDelay: 1.0)
-                }
+                self.perform(#selector(self.handleHomeController), with: nil, afterDelay: 1.0)
+
             }
         }
     }
@@ -86,7 +82,7 @@ class DecisionController : UIViewController {
         let nav = UINavigationController(rootViewController: homeController)
         nav.navigationBar.isHidden = true
         nav.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(nav, animated: false, completion: nil)
+        self.navigationController?.present(nav, animated: true, completion: nil)
         
     }
     

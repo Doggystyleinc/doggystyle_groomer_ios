@@ -16,8 +16,8 @@ class HomeController : UITabBarController {
     
     let databaseRef = Database.database().reference(),
         dashboardController = DashboardController(),
-        historyController = HistoryController(),
-        profileController = ProfileController(),
+        tabTwoController = TabTwoController(),
+        tabThreeController = TabThreeController(),
         storageRef = Storage.storage().reference()
     
     var statusBarHeight : CGFloat = 0.0,
@@ -134,18 +134,10 @@ class HomeController : UITabBarController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))//Give your left alignment number
         
-        //one more way
+        self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))//Give your left alignment number
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 140, left: 45, bottom: 0, right: 0)
         
-        self.updateUserProfileStructure { success in
-            if success {
-                print("Updated the users data source")
-            } else {
-                print("Failed to update the users data source")
-            }
-        }
     }
     
     @objc func handleDoubleTap() {
@@ -303,55 +295,20 @@ class HomeController : UITabBarController {
         mainTab.navigationBar.isHidden = true
         mainTab.tabBarItem = UITabBarItem(title: nil, image: home, selectedImage: homeFill)
         
-        let secondarytab = UINavigationController(rootViewController: self.historyController)
+        let secondarytab = UINavigationController(rootViewController: self.tabTwoController)
         secondarytab.navigationBar.isHidden = true
-        self.historyController.homeController = self
+        self.tabTwoController.homeController = self
         secondarytab.tabBarItem = UITabBarItem(title: nil, image: calendar, selectedImage: calendarFill)
         
-        let tertiaryTab = UINavigationController(rootViewController: self.profileController)
+        let tertiaryTab = UINavigationController(rootViewController: self.tabThreeController)
         tertiaryTab.navigationBar.isHidden = true
-        self.profileController.homeController = self
+        self.tabThreeController.homeController = self
         tertiaryTab.tabBarItem = UITabBarItem(title: nil, image: people, selectedImage: peopleFill)
         
         viewControllers = [mainTab, secondarytab, tertiaryTab]
         
         completion()
         
-    }
-    
-    
-    func updateUserProfileStructure(completion : @escaping (_ isComplete : Bool)->()) {
-        
-        let user_uid = Auth.auth().currentUser?.uid ?? "nil"
-        
-        let ref = self.databaseRef.child("all_users").child(user_uid)
-        
-        ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
-            
-            if let JSON = snap.value as? [String : AnyObject] {
-                
-                let profile_image = JSON["profile_image_url"] as? String ?? "nil"
-                let users_name = JSON["users_name"] as? String ?? "nil"
-                let groomers_name = JSON["groomers_full_name"] as? String ?? "nil"
-                let email = JSON["users_email"] as? String ?? "nil"
-                let push_token = JSON["push_token"] as? String ?? "nil"
-                let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
-                let is_groomer = JSON["is_groomer"] as? Bool ?? false
-                
-                userProfileStruct.userProfileImageURL = profile_image
-                userProfileStruct.usersName = users_name
-                userProfileStruct.usersEmail = email
-                userProfileStruct.usersPushToken = push_token
-                userProfileStruct.usersFirebaseUID = firebase_uid
-                userProfileStruct.is_groomer = is_groomer
-                userProfileStruct.groomers_full_name = groomers_name
-                
-                completion(true)
-                
-            } else {
-                completion(false)
-            }
-        }
     }
     
     func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool) -> ()) {
@@ -380,8 +337,6 @@ class HomeController : UITabBarController {
                     
                     let values : [String : Any] = ["profile_image_url" : uploadUrl]
                     let refUploadPath = self.databaseRef.child("all_users").child(userUid)
-                    
-                    userProfileStruct.userProfileImageURL = uploadUrl
                     
                     refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
                         if error != nil {

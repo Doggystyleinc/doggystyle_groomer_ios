@@ -12,6 +12,9 @@ import Firebase
 final class LoginController: UIViewController, UITextFieldDelegate {
     
     let databaseRef = Database.database().reference()
+    var isKeyboardShowing : Bool = false
+    var lastKeyboardHeight : CGFloat = 0.0
+    let mainLoadingScreen = MainLoadingScreen()
     
     lazy var backButton : UIButton = {
         
@@ -197,7 +200,7 @@ final class LoginController: UIViewController, UITextFieldDelegate {
         cbf.layer.masksToBounds = true
         cbf.tintColor = coreWhiteColor
         cbf.backgroundColor = coreOrangeColor
-        cbf.addTarget(self, action: #selector(self.didTapLogin), for: .touchUpInside)
+        cbf.addTarget(self, action: #selector(self.handleGroomerLogin), for: .touchUpInside)
         
         return cbf
         
@@ -261,6 +264,49 @@ final class LoginController: UIViewController, UITextFieldDelegate {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func handleKeyboardShow(notification : Notification) {
+        
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        
+        if keyboardRectangle.height > 200 {
+            
+            if self.isKeyboardShowing == true {return}
+            self.isKeyboardShowing = true
+            self.lastKeyboardHeight = keyboardRectangle.height
+            
+            UIView.animate(withDuration: 0.25) {
+                self.forgortPasswordButton.alpha = 0
+            }
+        }
+    }
+    
+    @objc func handleKeyboardHide(notification : Notification) {
+        
+        self.isKeyboardShowing = false
+        
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        self.lastKeyboardHeight = keyboardRectangle.height
+        
+        UIView.animate(withDuration: 0.25) {
+            self.forgortPasswordButton.alpha = 1
+        }
+    }
+    
     private func addViews() {
         
         self.view.addSubview(self.backButton)
@@ -309,7 +355,7 @@ final class LoginController: UIViewController, UITextFieldDelegate {
         self.typingPasswordLabel.topAnchor.constraint(equalTo: self.passwordTextField.topAnchor, constant: 14).isActive = true
         self.typingPasswordLabel.sizeToFit()
         
-        self.passwordTextField.topAnchor.constraint(equalTo: self.emailTextField.bottomAnchor, constant: 25).isActive = true
+        self.passwordTextField.topAnchor.constraint(equalTo: self.emailTextField.bottomAnchor, constant: 10).isActive = true
         self.passwordTextField.leftAnchor.constraint(equalTo: self.headerLabel.leftAnchor, constant: 0).isActive = true
         self.passwordTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.passwordTextField.heightAnchor.constraint(equalToConstant: 70).isActive = true
@@ -323,12 +369,12 @@ final class LoginController: UIViewController, UITextFieldDelegate {
         self.showHideEyeButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.showHideEyeButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         
-        self.loginButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 30).isActive = true
+        self.loginButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 10).isActive = true
         self.loginButton.leftAnchor.constraint(equalTo: self.headerLabel.leftAnchor, constant: 0).isActive = true
         self.loginButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.loginButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.forgortPasswordButton.topAnchor.constraint(equalTo: self.loginButton.bottomAnchor, constant: 32).isActive = true
+        self.forgortPasswordButton.topAnchor.constraint(equalTo: self.loginButton.bottomAnchor, constant: 10).isActive = true
         self.forgortPasswordButton.leftAnchor.constraint(equalTo: self.headerLabel.leftAnchor, constant: 0).isActive = true
         self.forgortPasswordButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.forgortPasswordButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -367,7 +413,7 @@ final class LoginController: UIViewController, UITextFieldDelegate {
             nextTextField.becomeFirstResponder()
         } else {
             textField.resignFirstResponder()
-            didTapLogin()
+            handleGroomerLogin()
         }
         return false
     }
@@ -398,45 +444,57 @@ final class LoginController: UIViewController, UITextFieldDelegate {
         if self.passwordTextField.text != "" {
             typingPasswordLabel.isHidden = false
             placeHolderPasswordLabel.isHidden = true
-            
         }
     }
     
-    @objc private func didTapLogin() {
+    @objc private func handleGroomerLogin() {
         
         UIDevice.vibrateLight()
-        
         self.resignation()
-//
-//        guard let emailText = emailTextField.text, let passwordText = passwordTextField.text else { return }
-//
-//        emailTextField.layer.borderColor = emailText.isValidEmail ? UIColor.clear.cgColor : UIColor.dsError.cgColor
-//        passwordTextField.layer.borderColor = passwordText.isValidPassword ? UIColor.clear.cgColor : UIColor.dsError.cgColor
-//
-//        guard emailText.isValidEmail, passwordText.isValidPassword else {
-//            return
-//        }
-//
-//        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.PAW_ANIMATION)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//            Service.shared.FirebaseLogin(usersEmailAddress: emailText, usersPassword: passwordText) { loginSuccess, response, responseCode in
-//
-//                guard loginSuccess == true else {
-//                    self.mainLoadingScreen.cancelMainLoadingScreen()
-//                    self.presentAlertOnMainThread(title: "Credential Mismatch", message: response, buttonTitle: "Ok")
-//                    return
-//                }
-//                self.mainLoadingScreen.cancelMainLoadingScreen()
-                self.presentHomeController()
-//            }
-//        }
+
+        guard let emailText = emailTextField.text,
+              let passwordText = passwordTextField.text else { return }
+        
+        let cleanEmail = emailText.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanPassword = passwordText.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if cleanEmail.count > 2 && cleanEmail.contains("@") && cleanEmail.contains(".") {
+            self.emailTextField.layer.borderColor = UIColor .clear.cgColor
+            if cleanPassword.count > 3 {
+                
+                self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+                
+                self.emailTextField.layer.borderColor = UIColor .clear.cgColor
+                self.passwordTextField.layer.borderColor = UIColor .clear.cgColor
+                
+                //ALL SYSTEMS GO FOR LOGIN
+                Service.shared.FirebaseLogin(usersEmailAddress: cleanEmail, usersPassword: cleanPassword) { loginSuccess, response, responseCode in
+                    
+                    if loginSuccess {
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        self.presentHomeController()
+                    } else {
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: response) { complete in
+                            print("user error logging in")
+                        }
+                    }
+                }
+                
+            } else {
+                self.passwordTextField.layer.borderColor = coreRedColor.cgColor
+            }
+            
+        } else {
+            self.emailTextField.layer.borderColor = coreRedColor.cgColor
+        }
     }
     
     
     @objc private func didTapForgotPassword() {
-//        let instructionsVC = PasswordResetController()
-//        instructionsVC.navigationController?.navigationBar.isHidden = true
-//        self.navigationController?.pushViewController(instructionsVC, animated: true)
+        let passwordResetController = PasswordResetController()
+        passwordResetController.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.pushViewController(passwordResetController, animated: true)
     }
     
     private func presentHomeController() {

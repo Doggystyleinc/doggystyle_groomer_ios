@@ -46,12 +46,15 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         let titleFeeder = self.titleArray[indexPath.item]
         cell.checkListLabel.text = titleFeeder
         
+        let backgroundColorForSwitch = dsFlatBlack.withAlphaComponent(0.12)
+        
         switch titleFeeder {
         
         case "Profile picture" :
             
             cell.checkListIcon.backgroundColor = coreWhiteColor
             cell.checkListIcon.setTitle("", for: .normal)
+            cell.mainContainer.backgroundColor = coreOrangeColor
             
         case "Drivers license" :
             
@@ -59,6 +62,7 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
             cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
             cell.checkListIcon.setTitleColor(coreWhiteColor, for: .normal)
             cell.checkListIcon.backgroundColor = .clear
+            cell.mainContainer.backgroundColor = backgroundColorForSwitch
 
         case "Background check" :
             
@@ -66,6 +70,7 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
             cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .userCheck), for: .normal)
             cell.checkListIcon.setTitleColor(coreWhiteColor, for: .normal)
             cell.checkListIcon.backgroundColor = .clear
+            cell.mainContainer.backgroundColor = backgroundColorForSwitch
 
         case "Payment preferences" :
             
@@ -73,6 +78,7 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
             cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .passport), for: .normal)
             cell.checkListIcon.setTitleColor(coreWhiteColor, for: .normal)
             cell.checkListIcon.backgroundColor = .clear
+            cell.mainContainer.backgroundColor = backgroundColorForSwitch
 
         default: print("nothing here")
             

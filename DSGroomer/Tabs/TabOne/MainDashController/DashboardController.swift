@@ -70,7 +70,7 @@ class DashboardController : UIViewController {
         dcl.titleLabel?.font = UIFont.fontAwesome(ofSize: 20, style: .solid)
         dcl.setTitle(String.fontAwesomeIcon(name: .questionCircle), for: .normal)
         dcl.tintColor = bellgrey
-        dcl.addTarget(self, action: #selector(self.handleNotificationsController), for: .touchUpInside)
+        dcl.addTarget(self, action: #selector(self.handleHelpController), for: .touchUpInside)
         
         return dcl
     }()
@@ -170,11 +170,18 @@ class DashboardController : UIViewController {
     }
     
     @objc func handleNotificationsController() {
-        
-        
-        
+        print("Notifications")
     }
- 
+    
+    @objc func handleHelpController() {
+        
+        let supportController = ContactSupportController()
+        
+        let nav = UINavigationController(rootViewController: supportController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: nil)
+    }
 }
 
 

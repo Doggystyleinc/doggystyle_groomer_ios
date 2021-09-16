@@ -149,6 +149,8 @@ class TermsOfServiceController : UIViewController {
     
     @objc func handleNextButton() {
         
+        groomerOnboardingStruct.groomer_accepted_terms_of_service = true
+        
         let notificationsController = NotificationsController()
         notificationsController.modalPresentationStyle = .fullScreen
         notificationsController.navigationController?.navigationBar.isHidden = true

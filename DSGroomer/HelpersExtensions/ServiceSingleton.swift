@@ -3,7 +3,6 @@
 //  DSGroomer
 //
 //  Created by Charlie Arcodia on 6/29/21.
-//
 
 /*
  
@@ -21,6 +20,7 @@
  const users_country_code = req.body.users_country_code; c
  onst users_phone_number = req.body.users_phone_number;
  const entered_code = req.body.entered_code;
+ 
  */
 
 import Foundation
@@ -40,7 +40,7 @@ class ServiceHTTP : NSObject {
         //create the url with NSURL
         let url = URL(string: "https://doggystyle-dev.herokuapp.com/\(slug)")!
 
-        //create the session object
+        //create the session object/
         let session = URLSession.shared
 
         //now create the Request object using the url object
@@ -76,12 +76,24 @@ class ServiceHTTP : NSObject {
                     completion(nil, NSError(domain: "invalidJSONTypeError", code: -100009, userInfo: nil))
                     return
                 }
+                
+                print("JSON IS: \(json)")
+                
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                    }
+                
+                print("RESPONSE JSON IS: \(responseJSON)")
+                
                 completion(json, nil)
+                
             } catch let error {
                 print(error.localizedDescription)
                 completion(nil, error)
             }
         })
+        
         task.resume()
     }
 }

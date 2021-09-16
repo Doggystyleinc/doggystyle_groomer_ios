@@ -10,6 +10,12 @@ import UIKit
 
 class LocationController : UIViewController {
     
+    var phoneNumber : String?
+    var countryCode : String?
+    var groomersFirstName : String?
+    var groomersLastName : String?
+    var groomersEmail : String?
+    
     lazy var backButton : UIButton = {
         
         let cbf = UIButton(type: .system)
@@ -189,10 +195,17 @@ class LocationController : UIViewController {
     
     @objc func handleNextButton() {
         
-        let termsOfServiceController = TermsOfServiceController()
-        termsOfServiceController.modalPresentationStyle = .fullScreen
-        termsOfServiceController.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.pushViewController(termsOfServiceController, animated: true)
+        let registrationController = RegistrationController()
+        
+        registrationController.phoneNumber = self.phoneNumber
+        registrationController.countryCode = self.countryCode
+        registrationController.groomersFirstName = self.groomersFirstName
+        registrationController.groomersLastName = self.groomersLastName
+        registrationController.groomersEmail = self.groomersEmail
+        
+        registrationController.modalPresentationStyle = .fullScreen
+        registrationController.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.pushViewController(registrationController, animated: true)
         
     }
     

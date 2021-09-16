@@ -40,67 +40,180 @@ class Service : NSObject {
         }
     }
     
-    
-    //MARK:- REGISTRATION: ERROR CODE 200 PROMPTS REGISTRATION SUCCESS WITH LOGIN FAILURE, SO CALL LOGIN FUNCTION AGAIN INDEPENDENTLY. 500 = REGISTRATION FAILED, CALL THIS FUNCTION AGAIN FROM SCRATCH.
-    func FirebaseRegistrationAndLogin(usersEmailAddress : String, usersPassword : String, fullName : String, signInMethod : String, completion : @escaping (_ registrationSuccess : Bool, _ response : String, _ responseCode : Int)->()) {
+    func handlePlaybookChecker(phoneNumber : String, areaCode : String, completion : @escaping (_ isComplete : Bool, _ message : String, _ groomersFirstName : String, _ groomersLastName : String, _ groomersEmail : String, _ groomerChildKey : String) -> ()) {
         
         let databaseRef = Database.database().reference()
         
-        //STEP 1 - AUTHENTICATE A NEW ACCOUNT ON BEHALF OF THE USER
-        Auth.auth().createUser(withEmail: usersEmailAddress, password: usersPassword) { (result, error) in
+        var observingRefOne = Database.database().reference(),
+            handleOne = DatabaseHandle()
+        
+        let ref = databaseRef.child("play_books")
+        
+        observingRefOne = databaseRef.child("play_books")
+        
+        var counter : Int = 0
+        
+        ref.observeSingleEvent(of: .value) { snapShot in
+            
+            if snapShot.exists() {
+                
+                let childrenCount = Int(snapShot.childrenCount)
+                
+                //LISTENING LIVE HERE FOR THE LOOP
+                handleOne = observingRefOne.observe(.childAdded) { snapLoop in
+                    
+                    counter += 1;
+                    
+                    if let JSON = snapLoop.value as? [String : Any] {
+                        
+                        let groomers_phone_number = JSON["groomers_phone_number"] as? String ?? "nil"
+                        
+                        if groomers_phone_number == phoneNumber {
+                            
+                            let groomer_has_registered = JSON["groomer_has_registered"] as? Bool ?? false
+                            let groomers_first_name = JSON["groomers_first_name"] as? String ?? "Incognito"
+                            let groomers_last_name = JSON["groomers_last_name"] as? String ?? "Incognito"
+                            let groomers_email = JSON["groomers_email"] as? String ?? "Incognito"
+                            let groomer_child_key = JSON["groomer_child_key"] as? String ?? "nil"
+
+                            if groomer_has_registered == false {
+                                
+                                observingRefOne.removeObserver(withHandle: handleOne)
+                                completion(true, "ok", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
+                                
+                            } else {
+                                observingRefOne.removeObserver(withHandle: handleOne)
+                                completion(false, "Hello! Seems we already have an account setup for you. Please go back and tap Login. Further assistance can be found at: \(Statics.SUPPORT_EMAIL_ADDRESS)", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
+                            }
+                            
+                        } else {
+                        
+                        if counter == childrenCount {
+
+                            observingRefOne.removeObserver(withHandle: handleOne)
+                            completion(false, "Seems we cannot find you in our system. Please check the phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                        }
+                            
+                        }
+                        
+                    } else {
+                        
+                        observingRefOne.removeObserver(withHandle: handleOne)
+                        completion(false, "Please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                    }
+                }
+                
+            } else {
+                
+                observingRefOne.removeObserver(withHandle: handleOne)
+                completion(false, "Seems we cannot find you in our system. Please check the phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+            }
+        }
+    }
+    
+    
+    //MARK:- REGISTRATION: ERROR CODE 200 PROMPTS REGISTRATION SUCCESS WITH LOGIN FAILURE, SO CALL LOGIN FUNCTION AGAIN INDEPENDENTLY. 500 = REGISTRATION FAILED, CALL THIS FUNCTION AGAIN FROM SCRATCH.
+    func FirebaseRegistrationAndLogin(completion : @escaping (_ registrationSuccess : Bool, _ response : String, _ responseCode : Int, _ errorMessage : String)->()) {
+        
+        guard let groomers_phone_number = groomerOnboardingStruct.groomers_phone_number else {return}
+        guard let groomers_area_code = groomerOnboardingStruct.groomers_area_code else {return}
+        guard let groomers_complete_phone_number = groomerOnboardingStruct.groomers_complete_phone_number else {return}
+
+        guard let groomers_location_latitude = groomerOnboardingStruct.groomers_location_latitude else {return}
+        guard let groomers_location_longitude = groomerOnboardingStruct.groomers_location_longitude else {return}
+
+        guard let groomers_first_name = groomerOnboardingStruct.groomers_first_name else {return}
+        guard let groomers_last_name = groomerOnboardingStruct.groomers_last_name else {return}
+        guard let groomers_email = groomerOnboardingStruct.groomers_email else {return}
+        guard let groomers_city = groomerOnboardingStruct.groomers_city else {return}
+        guard let groomers_referral_code = groomerOnboardingStruct.groomers_referral_code else {return}
+
+        guard let groomer_accepted_terms_of_service = groomerOnboardingStruct.groomer_accepted_terms_of_service else {return}
+        guard let groomer_enable_notifications = groomerOnboardingStruct.groomer_enable_notifications else {return}
+        guard let groomer_child_key = groomerOnboardingStruct.groomer_child_key else {return}
+        guard let groomers_password = groomerOnboardingStruct.groomers_password else {return}
+        
+        //MARK: - AUTHENTICATE A NEW ACCOUNT ON BEHALF OF THE GROOMER
+        Auth.auth().createUser(withEmail: groomers_email, password: groomers_password) { (result, error) in
+            
             if error != nil {
                 if let errCode = AuthErrorCode(rawValue: error!._code) {
                     
                     switch errCode {
-                    case .emailAlreadyInUse: completion(false, "\(errCode)", 500)
-                    case .accountExistsWithDifferentCredential: completion(false, "\(errCode)", 500)
-                    case .credentialAlreadyInUse: completion(false, "\(errCode)", 500)
-                    case .emailChangeNeedsVerification: completion(false, "\(errCode)", 500)
-                    case .expiredActionCode: completion(false, "\(errCode)", 500)
-                    default: completion(false, "Registration Error: \(error?.localizedDescription as Any).", 500)
+                    case .emailAlreadyInUse: completion(false, "\(errCode)", 500, "Email: \(groomers_email) is already in use by another groomer. If this is not you, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS).")
+                    case .accountExistsWithDifferentCredential: completion(false, "\(errCode)", 501, "Account already exists with different credentials. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS) for further assistance.")
+                    case .credentialAlreadyInUse: completion(false, "\(errCode)", 502, "Credentials already in use. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS) for further assistance. ")
+                    case .emailChangeNeedsVerification: completion(false, "\(errCode)", 503, "Email change needs verification. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS) for further assistance.")
+                    case .expiredActionCode: completion(false, "\(errCode)", 504, "Registration code has expired. Please try again. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS) for further assistance.")
+                    default: completion(false, "Registration Error: \(error?.localizedDescription as Any).", 505, "This one may be on us. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS) for further assistance.")
                     }
                     
                     return
                     
                 } else {
-                    completion(false, "Registration Error: \(error?.localizedDescription as Any).", 500)
+                    completion(false, "Registration Error: \(error?.localizedDescription as Any).", 500, "This one may be on us. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS) for further assistance.")
                 }
+                
             } else {
-                //STEP 2 - SIGN THE USER IN WITH THEIR NEW CREDENTIALS
-                Auth.auth().signIn(withEmail: usersEmailAddress, password: usersPassword) { (user, error) in
+                
+                //MARK: - SIGN IN ON BEHALF OF THE GROOMER
+                Auth.auth().signIn(withEmail: groomers_email, password: groomers_password) { (user, error) in
                     
                     if error != nil {
-                        completion(false, "Login Error: \(error?.localizedDescription as Any).", 200)
+                        completion(false, "Login Error: \(error?.localizedDescription as Any).", 200, "Hello! Okay, here’s what happened. We were able to complete your account, but we were unable to sign you in. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS). Thank you.")
                         return
                     }
                     
-                    //STEP 3 - UPDATE THE USERS CREDENTIALS IN THE DATABASE AS A BACKUP
+                    //MARK: - UPDATE THE DATABASE ON BEHALF OF THE GROOMER
                     guard let firebase_uid = user?.user.uid else {
-                        completion(false, "UID Error: \(error?.localizedDescription as Any).", 200)
+                        completion(false, "UID Error: \(error?.localizedDescription as Any).", 200, "Hello! Okay, here’s what happened. We were able to complete your account, but we were unable to sign you in. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS). Thank you.")
                         return
                     }
                     
+                    let databaseRef = Database.database().reference()
+
                     let ref = databaseRef.child("all_users").child(firebase_uid)
-                    
+
                     let timeStamp : Double = NSDate().timeIntervalSince1970,
                         ref_key = ref.key ?? "nil_key"
                     
-                    let values : [String : Any] = [
-                        "users_firebase_uid" : firebase_uid,
-                        "users_email" : usersEmailAddress,
-                        "users_sign_in_method" : signInMethod,
-                        "users_sign_up_date" : timeStamp,
-                        "groomers_full_name" : fullName,
-                        "is_groomer" : true,
-                        "is_users_terms_and_conditions_accepted" : true,
-                        "users_ref_key" : ref_key]
+                    let values : [String : Any] = ["groomers_phone_number" : groomers_phone_number,
+                                                   "groomers_area_code" : groomers_area_code,
+                                                   "groomers_complete_phone_number" : groomers_complete_phone_number,
+                                                   
+                                                   "groomers_location_latitude" : groomers_location_latitude,
+                                                   "groomers_location_longitude" : groomers_location_longitude,
+                                                   
+                                                   "groomers_first_name" : groomers_first_name,
+                                                   "groomers_last_name" : groomers_last_name,
+                                                   "groomers_email" : groomers_email,
+                                                   "groomers_city" : groomers_city,
+                                                   "groomers_referral_code" : groomers_referral_code,
+                                                   
+                                                   "groomer_accepted_terms_of_service" : groomer_accepted_terms_of_service,
+                                                   "groomer_enable_notifications" : groomer_enable_notifications,
+                                                   "is_groomer" : true,
+                                                   "users_ref_key" : ref_key,
+                                                   "users_sign_up_date" : timeStamp,
+                                                   "groomer_child_key_from_playbook" : groomer_child_key
+                                                  ]
                     
                     ref.updateChildValues(values) { (error, ref) in
+                        
                         if error != nil {
-                            completion(false, "Login Error: \(error?.localizedDescription as Any).", 200)
+                            completion(false, "Login Error: \(error?.localizedDescription as Any).", 200, "Hello! Okay, here’s what happened. We were able to complete your account and sign you in, but we were unable to complete your registration. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS). Thank you.")
                             return
                         }
-                        completion(true, "Success", 200)
+                        
+                    let playbookRef = databaseRef.child("play_books").child(groomer_child_key)
+                        
+                        let playbookValues : [String : Any] = ["groomer_has_registered" : true]
+                        
+                        playbookRef.updateChildValues(playbookValues) { error, ref in
+                            
+                            completion(true, "Success", 200, "Registration/login/datasource account creation success.")
+                            
+                        }
                     }
                 }
             }
@@ -116,6 +229,7 @@ class Service : NSObject {
                 completion(false, "Login Error: \(error!.localizedDescription as Any).", 500)
                 return
             }
+            
             completion(true, "Success", 200)
         }
     }
@@ -129,70 +243,6 @@ class Service : NSObject {
             }
             completion(true, "Success")
         })
-    }
-    
-    func firebaseGoogleSignIn(credentials : AuthCredential, completion : @escaping (_ success : Bool, _ response : String)->()) {
-        
-        let databaseRef = Database.database().reference()
-        
-        Auth.auth().signIn(with: credentials) { (result, error) in
-            
-            guard let usersUID = result?.user.uid else {
-                completion(false, "Failed to grab the users UID for firebase")
-                return
-            }
-            guard let usersEmail = result?.user.email else {
-                completion(false, "Failed to grab the users email")
-                return
-            }
-            
-            let ref = databaseRef.child("all_users").child(usersUID)
-            
-            let timeStamp : Double = NSDate().timeIntervalSince1970,
-                ref_key = ref.key ?? "nil_key"
-            
-            let values : [String : Any] = [
-                "users_firebase_uid" : usersUID,
-                "users_email" : usersEmail,
-                "users_sign_in_method" : Statics.GOOGLE_SIGN_IN,
-                "users_sign_up_date" : timeStamp,
-                "is_users_terms_and_conditions_accepted" : true,
-                "users_ref_key" : ref_key,
-                "is_groomer" : true]
-            
-            ref.updateChildValues(values) { (error, ref) in
-                if error != nil {
-                    completion(false, "Login Error: \(error?.localizedDescription as Any).")
-                    return
-                }
-                completion(true, "Success")
-            }
-        }
-    }
-    
-    func updateAllUsers(usersEmail: String, userSignInMethod: String, completion: @escaping (_ updateUserSuccess: Bool) -> ()) {
-        if let user_uid = Auth.auth().currentUser?.uid {
-            let ref = Database.database().reference().child("all_users").child(user_uid)
-            let timeStamp : Double = NSDate().timeIntervalSince1970
-            let ref_key = ref.key ?? "nil_key"
-            
-            let values : [String : Any] = [
-                "users_firebase_uid" : user_uid,
-                "users_email" : usersEmail,
-                "users_sign_in_method" : userSignInMethod,
-                "users_sign_up_date" : timeStamp,
-                "is_groomer" : true,
-                "is_users_terms_and_conditions_accepted" : true,
-                "users_ref_key" : ref_key]
-            
-            ref.updateChildValues(values) { error, databaseReference in
-                if error != nil {
-                    completion(false)
-                } else {
-                    completion(true)
-                }
-            }
-        }
     }
     
     //MARK: - GROOMERS WILL BE ABLE TO REQUEST TIME OFF - APPROVAL CHANGES is_request_approved -> TRUE/has_request_been_satisfied -> TRUE (THIS WILL BE CONTROLLED FROM THE WEBSITE)

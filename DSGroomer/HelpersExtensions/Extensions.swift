@@ -46,6 +46,7 @@ var friends_array_phone_number = [String](),
     slotGrey = UIColor(hex: 0xF4F4F4),
     tabBarIconGrey = UIColor(hex: 0x979797),
     bellgrey = UIColor(hex: 0xD7D7D7),
+    dsRedColor = UIColor(hex: 0x90241E),
 
     globalStatusBarHeight : CGFloat = 0.0,
     globalFooterHeight : CGFloat = 0.0,
@@ -82,6 +83,78 @@ var friends_array_phone_number = [String](),
     rubikExtraBoldItalic : String = "Rubik-ExtraBoldItalic",
     rubikBlack : String = "Rubik-Black",
     rubikBlackitalic : String = "Rubik-BlackItalic"
+
+
+extension UIScrollView {
+    
+    func scrollToTop() {
+        let desiredOffset = CGPoint(x: 0, y: -contentInset.top)
+        setContentOffset(desiredOffset, animated: true)
+    }
+    
+    func scrollToBottom() {
+        let bottomOffset = CGPoint(x: 0, y: self.contentSize.height - self.bounds.size.height)
+        self.setContentOffset(bottomOffset, animated: true)
+    }
+}
+
+
+extension UITextField {
+    //Toggle Password Image
+    func setPasswordToggleImage(_ button: UIButton) {
+        if isSecureTextEntry {
+            button.setImage(UIImage(systemName: "eye.slash"), for: .normal)
+            button.tintColor = tabBarIconGrey
+        } else {
+            button.setImage(UIImage(systemName: "eye"), for: .normal)
+            button.tintColor = tabBarIconGrey
+        }
+    }
+    
+    func enablePasswordToggle() {
+        let button = UIButton(type: .custom)
+        setPasswordToggleImage(button)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
+        button.frame = CGRect(x: CGFloat(self.frame.size.width - 25), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
+        button.addTarget(self, action: #selector(self.togglePasswordView), for: .touchUpInside)
+        self.rightView = button
+        self.rightViewMode = .always
+    }
+    
+    //Enable Left Padding
+    func setLeftPaddingPoints(_ amount:CGFloat){
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+            self.leftView = paddingView
+            self.leftViewMode = .always
+        }
+    
+    func setRightPaddingPoints(_ amount:CGFloat){
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+            self.rightView = paddingView
+            self.rightViewMode = .always
+        }
+   
+    //Show/Hide Password
+    @objc func togglePasswordView(_ sender: Any) {
+        self.isSecureTextEntry = !self.isSecureTextEntry
+        setPasswordToggleImage(sender as! UIButton)
+    }
+}
+
+extension UITextField {
+    func setupLeftImage(imageName: String){
+        let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 20, height: 20))
+        imageView.image = UIImage(systemName: imageName)
+        
+        let imageContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 40))
+        imageContainerView.addSubview(imageView)
+        
+        self.leftView = imageContainerView
+        self.leftViewMode = .always
+        self.tintColor = .lightGray
+    }
+}
+
 
 class fileUPloader : NSObject {
     
@@ -254,13 +327,16 @@ struct Statics {
     static let  TERMS_OF_SERVICE : String = "https://www..com"
     static let  PRIVACY_POLICY : String = "https://www..com"
     
-    static let  SUPPORT_EMAIL_ADDRESS : String = "support@.com"
+    static let  SUPPORT_EMAIL_ADDRESS : String = "support@doggystyle.ca"
     static let  FAQS : String = "https://www..com"
     static let  APP_STORE_URL : String = "https://"
     
     static let GOOGLE_SIGN_IN : String = "google"
     static let EMAIL_SIGN_IN : String = "email"
     static let DOGGYSTYLE_CONSUMER_APP_URL : String = "https://www.google.com"
+    
+    //MARK: - LOTTI JSON ANIMATIONS
+    static let LOADING_ANIMATION_GENERAL : String = "groomer_loading"
     
 }
 

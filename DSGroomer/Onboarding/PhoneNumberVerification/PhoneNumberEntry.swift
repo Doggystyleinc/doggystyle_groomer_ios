@@ -13,7 +13,10 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
     
     var phoneNumber : String?
     var countryCode : String?
-    var usersName : String?
+    var groomersFirstName : String?
+    var groomersLastName : String?
+    var groomersEmail : String?
+
     var pinTimer : Timer?
     var pinCounter : Int = 120
 
@@ -98,6 +101,7 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
         cbf.backgroundColor = .clear
         cbf.layer.masksToBounds = true
         cbf.tintColor = coreOrangeColor
+        cbf.addTarget(self, action: #selector(self.handleCancelButton), for: .touchUpInside)
         
         return cbf
         
@@ -393,7 +397,7 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
             self.slotOneTextField.layer.borderColor = coreBlackColor.cgColor
             self.slotOneTextField.layer.borderWidth = 0.5
         } else {
-            self.slotOneTextField.layer.borderColor = dmMainColor.cgColor
+            self.slotOneTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotOneTextField.layer.borderWidth = 1.5
         }
         
@@ -401,7 +405,7 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
             self.slotTwoTextField.layer.borderColor = coreBlackColor.cgColor
             self.slotTwoTextField.layer.borderWidth = 0.5
         } else {
-            self.slotTwoTextField.layer.borderColor = dmMainColor.cgColor
+            self.slotTwoTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotTwoTextField.layer.borderWidth = 1.5
         }
         
@@ -409,7 +413,7 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
             self.slotThreeTextField.layer.borderColor = coreBlackColor.cgColor
             self.slotThreeTextField.layer.borderWidth = 0.5
         } else {
-            self.slotThreeTextField.layer.borderColor = dmMainColor.cgColor
+            self.slotThreeTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotThreeTextField.layer.borderWidth = 1.5
         }
         
@@ -417,7 +421,7 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
             self.slotFourTextField.layer.borderColor = coreBlackColor.cgColor
             self.slotFourTextField.layer.borderWidth = 0.5
         } else {
-            self.slotFourTextField.layer.borderColor = dmMainColor.cgColor
+            self.slotFourTextField.layer.borderColor = coreOrangeColor.cgColor
             self.slotFourTextField.layer.borderWidth = 1.5
         }
 
@@ -444,8 +448,7 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
     @objc func handleRegistrationButton() {
         
         self.resignation()
-        self.handleNextButton()
-//        self.handlePinCompletionEntry()
+        self.handlePinCompletionEntry()
         
     }
     
@@ -464,296 +467,40 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
         let pin = "\(slotOne)\(slotTwo)\(slotThree)\(slotFour)"
 
         self.registerButton.isHidden = true
+        
         if self.phoneNumber == nil || self.countryCode == nil {
             self.navigationController?.popViewController(animated: true)
         } else {
+            
             self.pinTimer?.invalidate()
             self.counterForPinLabel.text = ""
             self.pinCounter = 120
             self.handleVerification(phone: self.phoneNumber ?? "", countryCode: self.countryCode ?? "", enteredCode: pin)
+            
         }
     }
     
-    func handleVerification(phone : String, countryCode : String, enteredCode : String) {
+    private func handleVerification(phone : String, countryCode : String, enteredCode : String) {
         
-//        self.mainLoadingScreen.callMainLoadingScreen(animationViewName: "loader_animation_final")
+        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
         self.resignation()
         
-        let unique_key = NSUUID().uuidString
-        let ref = Database.database().reference().child("pin_verification_requests").child(unique_key)
-        let values = ["unique_key" : unique_key, "users_phone_number" : phone, "users_country_code" : countryCode, "entered_code" : enteredCode]
-        
-        ref.updateChildValues(values) { (error, ref) in
+        ServiceHTTP.shared.twilioGetRequest(function_call: "request_for_authorization", users_country_code: countryCode, users_phone_number: phone, delivery_method: "sms", entered_code: enteredCode) { object, error in
             
-            if error != nil {
-                print(error?.localizedDescription as Any)
-                self.mainLoadingScreen.cancelMainLoadingScreen()
-                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems something went wrong attempting to register. Plase try again. If this problem persists, please contact DuvMessenger directly.") { (isComplete) in
+            DispatchQueue.main.async {
+                if error == nil {
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    self.handleNextButton()
+                } else {
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Please check your pin # and try again.") { complete in
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
-                self.registerButton.isHidden = false
-                return
             }
-            
-            //ALL CLEAR AND SUCCESSFUL
-            print("Called listener")
-            self.listenForPendingResponsesFromToken(listeningKey: unique_key, phone: phone, countryCode: countryCode)
-            
         }
     }
    
-            
-    func listenForPendingResponsesFromToken(listeningKey : String, phone : String, countryCode : String) {
-        
-        let ref = Database.database().reference().child("pin_verification_responses").child(listeningKey)
-        
-        ref.observe(.value) { (snap : DataSnapshot) in
-            
-            if snap.exists() {
-                
-                guard let dic = snap.value as? [String : AnyObject] else {return}
-                
-                let status = dic["status"] as? String ?? ""
-
-                switch status {
-                
-                case "error" : print("Error on the listening key")
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems something went wrong attempting to validate. Plase try again. If this problem persists, please contact Duv Messenger directly.") { (isComplete) in
-                        self.registerButton.isHidden = false
-
-                    }
-                    
-                case "expired" : print("Verification code has been approved")
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Expired", message: "Code has expired. Please try again.") { (true) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    
-                case "failed" : print("Failed Verification")
-                    
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Failed", message: "Please check your phone/pin # and try again.") { (true) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    
-                case "canceled" : print("Canceled Verification")
-                    
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Canceled", message: "Verification was canceled.") { (true) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    
-                case "approved" : print("Verification code has been approved")
-                    self.handleSuccessDecision(phone: phone, countryCode: countryCode)
-                    
-                default :
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Unknown Error", message: "Something is not right. Please try again.") { (true) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                   
-                }
-                
-            } else if !snap.exists() {
-                
-                print("nothing yet here from the linker")
-                
-            }
-        }
-    }
-    
-    func handleSuccessDecision(phone : String, countryCode : String) {
-
-        if onboardingPath == .fromLogin {
-            
-            self.handleLogin(phone: phone, countryCode: countryCode)
-            
-        } else if onboardingPath == .fromRegistration {
-
-            self.handleRegistration(phone: phone, countryCode: countryCode)
-            
-        }
-    }
-    
-    
-    func handleLogin(phone : String, countryCode : String) {
-        
-        let usersEmail = "address_\(countryCode)_\(phone)@gmail.com"
-        let usersPassword = "password_\(countryCode)_\(phone)"
-        
-        let timeStamp : Double = NSDate().timeIntervalSince1970
-        let emailGrab = usersEmail
-        let passswordGrab = usersPassword
-        
-        UIDevice.vibrateLight()
-        
-        Auth.auth().signIn(withEmail: emailGrab, password: passswordGrab) { (res, error) in
-            
-            if error != nil {
-              
-             print("Issue with login: ", error as Any)
-             self.mainLoadingScreen.cancelMainLoadingScreen()
-             AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we are having trouble logging you in. Things to try:\n- Check for an active internet connection\n- Check your credentials\n- Try logging in again") { (done) in
-                 print("Finished, try again")
-             }
-                return
-            }
-            
-            //LOGIN SUCCESS
-            let values = ["last_sign_in_time" : timeStamp]
-            
-            //USER MUST
-            guard let user_uid = Auth.auth().currentUser?.uid else {return}
-            
-            let ref = self.databaseRef.child("all_users").child(user_uid)
-            
-            ref.updateChildValues(values, withCompletionBlock: { (error, ref) in
-                
-                self.updateUserProfileStructure { (isComplete) in
-//                    self.handleHomeController()
-                }
-            })
-        }
-    }
- 
-    func updateUserProfileStructure(completion : @escaping (_ isComplete : Bool)->()) {
-        
-        let user_uid = Auth.auth().currentUser?.uid ?? "nil"
-        
-        let ref = self.databaseRef.child("all_users").child(user_uid)
-        
-        ref.observeSingleEvent(of: .value) { (snap : DataSnapshot) in
-            
-            if let JSON = snap.value as? [String : AnyObject] {
-
-            let country_code = JSON["country_code"] as? String ?? "nil"
-            let phone_number = JSON["phone_number"] as? String ?? "nil"
-            let profile_image = JSON["profile_image"] as? String ?? "nil"
-            let users_name = JSON["users_name"] as? String ?? "nil"
-            let email = JSON["email"] as? String ?? "nil"
-            let profile_hex_color = JSON["profile_hex_color"] as? String ?? "nil"
-            let push_token = JSON["push_token"] as? String ?? "nil"
-            let firebase_uid = JSON["firebase_uid"] as? String ?? "nil"
-            let quickblox_user_id = JSON["quickblox_user_id"] as? UInt ?? 0
-            let device_UDID = JSON["device_UDID"] as? String ?? "nil"
-
-//            userProfileStruct.usersCountryCode = country_code
-//            userProfileStruct.usersPhoneNumber = phone_number
-            userProfileStruct.userProfileImageURL = profile_image
-            userProfileStruct.usersName = users_name
-            userProfileStruct.usersEmail = email
-//            userProfileStruct.usersProfileHexColor = profile_hex_color
-            userProfileStruct.usersPushToken = push_token
-            userProfileStruct.usersFirebaseUID = firebase_uid
-//            userProfileStruct.usersQuickBloxID = quickblox_user_id
-//            userProfileStruct.deviceUDID = device_UDID
-                
-            completion(true)
-            
-            } else {
-                completion(false)
-            }
-        }
-    }
-    
-    func handleRegistration(phone : String, countryCode : String) {
-        
-        let usersName = self.usersName ?? ""
-        
-        let usersEmail = "address_\(countryCode)_\(phone)@gmail.com"
-        let usersPassword = "password_\(countryCode)_\(phone)"
-        
-        UIDevice.vibrateLight()
-        
-        Auth.auth().createUser(withEmail: usersEmail, password: usersPassword) { (result, error) in
-            
-            if error != nil {
-                
-                if let errCode = AuthErrorCode(rawValue: error!._code) {
-                    
-                    switch errCode {
-                    
-                    case .emailAlreadyInUse:
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Email is already registered. Tap ‘Log In’ and try again. Thank you.") { (done) in
-                            self.mainLoadingScreen.cancelMainLoadingScreen()
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    default:
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we are having trouble with registration. Things to try:\n- Check for an active internet connection\n- Check your credentials\n- Try registering again") { (done) in
-                            self.mainLoadingScreen.cancelMainLoadingScreen()
-                            self.navigationController?.popViewController(animated: true)
-                        }
-                    }
-                    return
-                } else {
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems we are having trouble with registration. Things to try:\n- Check for an active internet connection\n- Check your credentials\n- Try registering again") { (done) in
-                        self.mainLoadingScreen.cancelMainLoadingScreen()
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    return
-                }
-            }
-            
-            //STEP 2 - SIGN THE USER IN WITH THEIR NEW CREDENTIALS
-            Auth.auth().signIn(withEmail: usersEmail, password: usersPassword) { (user, error) in
-                
-                if error != nil {
-                    
-                    print("Issue with sign in after registration: ", error as Any)
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "We were able to make you an account, but we could not sign you in. Please go back and tap 'Log In' since you now have an active account. Thank you.") { (done) in
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                    
-                    return
-                    
-                }
-                
-                //STEP 3 - UPDATE THE USERS CREDENTIALS IN THE DATABASE AS A BACKUP
-                guard let firebase_uid = user?.user.uid else {return} //THIS CAN CAUSE AN ISSUE, NOTHING TO DO HERE AND SHOULD BE VERY RARE
-                
-                let ref = self.databaseRef.child("all_users").child(firebase_uid)
-                
-                let timeStamp : Double = NSDate().timeIntervalSince1970
-                let sign_in_method = "phone_number_login"
-                let ref_key = ref.key ?? ""
-                
-                let values : [String : Any] = ["firebase_uid" : firebase_uid, "users_name" : usersName, "email" : usersEmail, "sign_in_method" : sign_in_method, "sign_up_date" : timeStamp, "terms_and_conditions_accepted" : true, "phone_number" : phone, "country_code" : countryCode, "ref_key" : ref_key]
-                
-                ref.updateChildValues(values) { (error, ref) in
-                    
-                    if error != nil {
-                        print(error?.localizedDescription as Any)
-                        self.mainLoadingScreen.cancelMainLoadingScreen()
-                        return
-                    }
-                    
-                    if let request = Auth.auth().currentUser?.createProfileChangeRequest() {
-                        
-                        request.displayName = usersName
-                        
-                        request.commitChanges { (error) in
-                            
-                            print("User has successfully registered with firebase and logged in")
-//                            self.handlePhotoSelectionScreen()
-
-//                            self.handleRegistrationWithQuickBlox(usersEmail: usersEmail, usersPassword: usersPassword, usersName: usersName, phoneNumber: phone, countryCode: countryCode)
-                            
-                        }
-                        
-                    } else {
-                        
-                        print("User has successfully registered with firebase and logged in")
-//                        self.handlePhotoSelectionScreen()
-
-//                        self.handleRegistrationWithQuickBlox(usersEmail: usersEmail, usersPassword: usersPassword, usersName: usersName, phoneNumber: phone, countryCode: countryCode)
-                        
-                    }
-                }
-            }
-        }
-    }
-    
     @objc func handleCancelButton() {
         
         self.navigationController?.popViewController(animated: true)
@@ -762,6 +509,13 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
     @objc func handleNextButton() {
         
         let locationController = LocationController()
+        
+        locationController.phoneNumber = self.phoneNumber
+        locationController.countryCode = self.countryCode
+        locationController.groomersFirstName = self.groomersFirstName
+        locationController.groomersLastName = self.groomersLastName
+        locationController.groomersEmail = self.groomersEmail
+
         locationController.modalPresentationStyle = .fullScreen
         locationController.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(locationController, animated: true)

@@ -10,6 +10,8 @@ import UIKit
 
 class WelcomeController : UIViewController, UITextViewDelegate {
     
+    let mainLoadingScreen = MainLoadingScreen()
+    
     var topContainer : UIView = {
         
         let tc = UIView()
@@ -250,9 +252,17 @@ class WelcomeController : UIViewController, UITextViewDelegate {
 
     
     @objc func handleRegistrationButton() {
+        
         let phoneNumberVerification = PhoneNumberVerification()
-        phoneNumberVerification.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(phoneNumberVerification, animated: true)
+        let nav = UINavigationController(rootViewController: phoneNumberVerification)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        
+        //BUILDER STRUCT - RESET WHEN HITTING THE REGISTRATION FLOW
+        groomerOnboardingStruct = GroomerOnboardingStruct()
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("Onboarding has began")
+        })
     }
     
     @objc func handleApplyButton() {
