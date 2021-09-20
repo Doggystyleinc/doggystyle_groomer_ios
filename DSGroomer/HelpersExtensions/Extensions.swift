@@ -47,7 +47,7 @@ var friends_array_phone_number = [String](),
     tabBarIconGrey = UIColor(hex: 0x979797),
     bellgrey = UIColor(hex: 0xD7D7D7),
     dsRedColor = UIColor(hex: 0x90241E),
-
+    signatureGrey = UIColor(hex: 0xE7F3F5),
     globalStatusBarHeight : CGFloat = 0.0,
     globalFooterHeight : CGFloat = 0.0,
     

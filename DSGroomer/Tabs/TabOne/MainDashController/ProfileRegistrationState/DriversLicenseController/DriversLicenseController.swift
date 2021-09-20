@@ -1,22 +1,15 @@
 //
-//  GroomerProfilePhoto.swift
+//  DriversLicenseController.swift
 //  DSGroomer
 //
-//  Created by Charlie Arcodia on 9/16/21.
+//  Created by Charlie Arcodia on 9/20/21.
 //
 
 import Foundation
 import UIKit
-import AVFoundation
-import MobileCoreServices
-import Photos
 
 
-class GroomerProfileController : UIViewController {
-    
-    var selectedImage : UIImage?
-    var dashboardController : DashboardController?
-    let mainLoadingScreen = MainLoadingScreen()
+class DriverLicenseController : UIViewController {
     
     lazy var backButton : UIButton = {
         
@@ -50,7 +43,7 @@ class GroomerProfileController : UIViewController {
         let hl = UILabel()
         hl.translatesAutoresizingMaskIntoConstraints = false
         hl.backgroundColor = .clear
-        hl.text = "Profile Photo"
+        hl.text = "Drivers License"
         hl.font = UIFont(name: dsHeaderFont, size: 24)
         hl.numberOfLines = 2
         hl.adjustsFontSizeToFitWidth = true
@@ -65,7 +58,7 @@ class GroomerProfileController : UIViewController {
         let hl = UILabel()
         hl.translatesAutoresizingMaskIntoConstraints = false
         hl.backgroundColor = .clear
-        hl.text = "This is how doggy owners will recognize you for pickups and dropoffs. Smile!"
+        hl.text = "Please take a photo of your driver’s license. Make sure your information is visible and clear in the photo."
         hl.font = UIFont(name: rubikRegular, size: 16)
         hl.numberOfLines = 2
         hl.adjustsFontSizeToFitWidth = true
@@ -75,17 +68,15 @@ class GroomerProfileController : UIViewController {
         return hl
     }()
     
-    lazy var profileImageview : UIButton = {
+    lazy var driversLicenseImageButton : UIButton = {
         
         let cbf = UIButton()
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
+        cbf.backgroundColor = .clear
         cbf.contentMode = .scaleAspectFill
-        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 65, style: .solid)
-        cbf.setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
+        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 85, style: .solid)
+        cbf.setTitle(String.fontAwesomeIcon(name: .creditCard), for: .normal)
         cbf.setTitleColor(coreOrangeColor, for: .normal)
-        cbf.layer.borderColor = coreOrangeColor.cgColor
-        cbf.layer.borderWidth = 1
         cbf.clipsToBounds = true
         cbf.isUserInteractionEnabled = false
         return cbf
@@ -108,7 +99,7 @@ class GroomerProfileController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
-        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleCustomPhotoController)))
+//        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleCustomPhotoController)))
         
         return cbf
         
@@ -159,7 +150,7 @@ class GroomerProfileController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
-        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePhotoLibrarySelection)))
+//        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePhotoLibrarySelection)))
 
         return cbf
         
@@ -194,11 +185,62 @@ class GroomerProfileController : UIViewController {
         
     }()
     
+    lazy var documentsButton: UIView = {
+        
+        let cbf = UIView()
+        cbf.translatesAutoresizingMaskIntoConstraints = false
+        cbf.layer.masksToBounds = true
+        cbf.backgroundColor = coreWhiteColor
+        cbf.layer.masksToBounds = false
+        cbf.tintColor = dsFlatBlack
+        cbf.clipsToBounds = false
+        cbf.layer.masksToBounds = false
+        cbf.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
+        cbf.layer.shadowOpacity = 0.05
+        cbf.layer.shadowOffset = CGSize(width: 2, height: 3)
+        cbf.layer.shadowRadius = 9
+        cbf.layer.shouldRasterize = false
+        cbf.layer.cornerRadius = 10
+//        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePhotoLibrarySelection)))
+
+        return cbf
+        
+    }()
+    
+    var documentsIcon : UIButton = {
+        
+        let ci = UIButton()
+        ci.backgroundColor = .clear
+        ci.translatesAutoresizingMaskIntoConstraints = false
+        ci.contentMode = .scaleAspectFill
+        ci.isUserInteractionEnabled = false
+        ci.titleLabel?.font = UIFont.fontAwesome(ofSize: 24, style: .solid)
+        ci.setTitle(String.fontAwesomeIcon(name: .image), for: .normal)
+        ci.setTitleColor(dsFlatBlack, for: .normal)
+       
+        return ci
+        
+    }()
+    
+    let documentsLabel : UILabel = {
+        
+        let thl = UILabel()
+        thl.translatesAutoresizingMaskIntoConstraints = false
+        thl.textAlignment = .left
+        thl.text = "Documents"
+        thl.font = UIFont(name: rubikMedium, size: 18)
+        thl.numberOfLines = 1
+        thl.adjustsFontSizeToFitWidth = true
+        thl.textColor = coreBlackColor
+        return thl
+        
+    }()
+    
     lazy var lookingGoodButton : UIButton = {
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("Done", for: UIControl.State.normal)
+        cbf.setTitle("Submit", for: UIControl.State.normal)
         cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 18)
         cbf.titleLabel?.adjustsFontSizeToFitWidth = true
         cbf.titleLabel?.numberOfLines = 1
@@ -210,7 +252,7 @@ class GroomerProfileController : UIViewController {
         cbf.tintColor = coreWhiteColor
         cbf.alpha = 0.5
         cbf.isEnabled = false
-        cbf.addTarget(self, action: #selector(self.handleLookingGoodButton), for: .touchUpInside)
+//        cbf.addTarget(self, action: #selector(self.handleLookingGoodButton), for: .touchUpInside)
         
         return cbf
         
@@ -227,12 +269,12 @@ class GroomerProfileController : UIViewController {
         
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-        
     }
     
     func addViews() {
@@ -241,8 +283,8 @@ class GroomerProfileController : UIViewController {
         self.view.addSubview(self.dsCompanyLogoImage)
         self.view.addSubview(self.headerLabel)
         self.view.addSubview(self.subHeaderLabel)
-        self.view.addSubview(self.profileImageview)
-        self.profileImageview.addSubview(self.activityIndicator)
+        self.view.addSubview(self.driversLicenseImageButton)
+        self.driversLicenseImageButton.addSubview(self.activityIndicator)
         
         self.view.addSubview(self.cameraButton)
         self.cameraButton.addSubview(self.cameraIcon)
@@ -251,6 +293,10 @@ class GroomerProfileController : UIViewController {
         self.view.addSubview(self.photoLibraryButton)
         self.photoLibraryButton.addSubview(self.photoLibraryIcon)
         self.photoLibraryButton.addSubview(self.photoLibraryLabel)
+        
+        self.view.addSubview(self.documentsButton)
+        self.documentsButton.addSubview(self.documentsIcon)
+        self.documentsButton.addSubview(self.documentsLabel)
         
         self.view.addSubview(self.lookingGoodButton)
 
@@ -273,13 +319,13 @@ class GroomerProfileController : UIViewController {
         self.subHeaderLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.subHeaderLabel.sizeToFit()
         
-        self.profileImageview.topAnchor.constraint(equalTo: self.subHeaderLabel.bottomAnchor, constant: 31).isActive = true
-        self.profileImageview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        self.profileImageview.heightAnchor.constraint(equalToConstant: 142).isActive = true
-        self.profileImageview.widthAnchor.constraint(equalToConstant: 142).isActive = true
-        self.profileImageview.layer.cornerRadius = 71
+        self.driversLicenseImageButton.topAnchor.constraint(equalTo: self.subHeaderLabel.bottomAnchor, constant: 31).isActive = true
+        self.driversLicenseImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        self.driversLicenseImageButton.heightAnchor.constraint(equalToConstant: 142).isActive = true
+        self.driversLicenseImageButton.widthAnchor.constraint(equalToConstant: 142).isActive = true
+        self.driversLicenseImageButton.layer.cornerRadius = 71
         
-        self.cameraButton.topAnchor.constraint(equalTo: self.profileImageview.bottomAnchor, constant: 26).isActive = true
+        self.cameraButton.topAnchor.constraint(equalTo: self.driversLicenseImageButton.bottomAnchor, constant: 26).isActive = true
         self.cameraButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.cameraButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.cameraButton.heightAnchor.constraint(equalToConstant: 66).isActive = true
@@ -309,196 +355,30 @@ class GroomerProfileController : UIViewController {
         self.photoLibraryLabel.centerYAnchor.constraint(equalTo: self.photoLibraryButton.centerYAnchor, constant: 0).isActive = true
         self.photoLibraryLabel.sizeToFit()
         
+        self.documentsButton.topAnchor.constraint(equalTo: self.photoLibraryButton.bottomAnchor, constant: 10).isActive = true
+        self.documentsButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        self.documentsButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.documentsButton.heightAnchor.constraint(equalToConstant: 66).isActive = true
+        
+        self.documentsIcon.rightAnchor.constraint(equalTo: self.documentsButton.rightAnchor, constant: -22).isActive = true
+        self.documentsIcon.centerYAnchor.constraint(equalTo: self.documentsButton.centerYAnchor, constant: 0).isActive = true
+        self.documentsIcon.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        self.documentsIcon.widthAnchor.constraint(equalToConstant: 26).isActive = true
+        
+        self.documentsLabel.leftAnchor.constraint(equalTo: self.documentsButton.leftAnchor, constant: 31).isActive = true
+        self.documentsLabel.rightAnchor.constraint(equalTo: self.documentsIcon.leftAnchor, constant: -20).isActive = true
+        self.documentsLabel.centerYAnchor.constraint(equalTo: self.documentsButton.centerYAnchor, constant: 0).isActive = true
+        self.documentsLabel.sizeToFit()
+        
         self.lookingGoodButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.lookingGoodButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.lookingGoodButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -53).isActive = true
         self.lookingGoodButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.activityIndicator.centerYAnchor.constraint(equalTo: self.profileImageview.centerYAnchor, constant: 0).isActive = true
-        self.activityIndicator.centerXAnchor.constraint(equalTo: self.profileImageview.centerXAnchor, constant: 0).isActive = true
-        self.activityIndicator.sizeToFit()
-
-    }
-    
-    @objc func handleProfileImageTap() {
-        print("profile photo tap")
-    }
-    
-    @objc func handleLookingGoodButton() {
-        
-        if self.selectedImage != nil {
-            
-            guard let safeSelectedImage = self.selectedImage else {return}
-            
-            self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
-            
-            self.dashboardController?.homeController?.uploadProfileImage(imageToUpload: safeSelectedImage, completion: { isComplete in
-                
-                if isComplete {
-                    
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    self.handleBackButton()
-                    
-                } else {
-                    
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Photo failed to upload. Please try again. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS)") { isComplete in
-                        self.handleBackButton()
-                    }
-                }
-            })
-        }
-    }
-    
-    @objc func handlePhotoLibrarySelection() {
-        self.checkForGalleryAuth()
-    }
-    
-    @objc func handleCustomPhotoController() {
-        
-        let customPhotoController = CustomPhotoController()
-        customPhotoController.groomerProfileController = self
-        let nav = UINavigationController(rootViewController: customPhotoController)
-        nav.navigationBar.isHidden = true
-        nav.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(nav, animated: true, completion: nil)
     }
     
     @objc func handleBackButton() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    func undoPhoto() {
-        
-        self.profileImageview.titleLabel?.font = UIFont.fontAwesome(ofSize: 65, style: .solid)
-        self.profileImageview.setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
-        self.lookingGoodButton.alpha = 0.5
-        self.lookingGoodButton.isEnabled = false
-        self.lookingGoodButton.setTitle("Done", for: .normal)
-        self.activityInvoke(shouldStart: false)
-        self.profileImageview.setBackgroundImage(UIImage(), for: .normal)
-        self.selectedImage = nil
-        
-    }
 }
-
-extension GroomerProfileController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    @objc func checkForGalleryAuth() {
-        
-        UIDevice.vibrateLight()
-        
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch photoAuthorizationStatus {
-        
-        case .authorized:
-            self.openGallery()
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization({
-                (newStatus) in
-                
-                if newStatus ==  PHAuthorizationStatus.authorized {
-                    self.openGallery()
-                }
-            })
-            
-        case .restricted:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
-        case .denied:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
-        default :
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
-        }
-    }
-    
-    func openGallery() {
-        
-        DispatchQueue.main.async {
-            
-            let imagePicker = UIImagePickerController()
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.delegate = self
-            
-            if let topViewController = UIApplication.getTopMostViewController() {
-                topViewController.present(imagePicker, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
-        picker.dismiss(animated: true) {
-            print("Dismissed the image picker or camera")
-        }
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        picker.dismiss(animated: true) {
-            
-            let mediaType = info[.mediaType] as! CFString
-            
-            switch mediaType {
-            
-            case kUTTypeImage :
-                
-                if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
-                    
-                    self.profileImageview.setTitle("", for: .normal)
-                    self.lookingGoodButton.alpha = 1
-                    self.lookingGoodButton.isEnabled = true
-                    self.lookingGoodButton.setTitle("Looking good!", for: .normal)
-                    self.activityInvoke(shouldStart: true)
-                    self.profileImageview.setBackgroundImage(editedImage, for: .normal)
-                    self.activityInvoke(shouldStart: false)
-                    self.selectedImage = editedImage
-                    
-                } else if let originalImage = info[.originalImage] as? UIImage  {
-                    
-                    self.profileImageview.setTitle("", for: .normal)
-                    self.lookingGoodButton.alpha = 1
-                    self.lookingGoodButton.isEnabled = true
-                    self.lookingGoodButton.setTitle("Looking good!", for: .normal)
-                    self.activityInvoke(shouldStart: true)
-                    self.profileImageview.setBackgroundImage(originalImage, for: .normal)
-                    self.activityInvoke(shouldStart: false)
-                    self.selectedImage = originalImage
-
-                } else {
-                    print("Failed grabbing the photo")
-                }
-                
-            default : print("SHOULD NOT HIT FOR THE CAMERA PICKER")
-                
-            }
-        }
-    }
-    
-    func activityInvoke(shouldStart : Bool) {
-        
-        if shouldStart {
-            UIView.animate(withDuration: 0.35) {
-                self.profileImageview.alpha = 0.25
-            } completion: { complete in
-                self.activityIndicator.startAnimating()
-            }
-        } else {
-            UIView.animate(withDuration: 0.35) {
-                self.profileImageview.alpha = 1.0
-            } completion: { complete in
-                self.activityIndicator.stopAnimating()
-            }
-        }
-    }
-}
-
-
-

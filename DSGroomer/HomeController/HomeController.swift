@@ -317,7 +317,7 @@ class HomeController : UITabBarController {
         guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
         
         let randomString = NSUUID().uuidString
-        let imageRef = self.storageRef.child("imageSubmissions").child(userUid).child(randomString)
+        let imageRef = self.storageRef.child("groomer_profile_photos").child(userUid).child(randomString)
         
         imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
             

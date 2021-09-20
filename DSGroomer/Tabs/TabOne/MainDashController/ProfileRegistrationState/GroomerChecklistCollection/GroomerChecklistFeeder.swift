@@ -48,11 +48,11 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .left
-        thl.text = "text goes here"
+        thl.text = ""
         thl.font = UIFont(name: dsHeaderFont, size: 18)
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = true
-        thl.textColor = dsFlatBlack
+        thl.textColor = coreWhiteColor
         thl.isUserInteractionEnabled = false
 
         return thl

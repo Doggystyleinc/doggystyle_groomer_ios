@@ -16,7 +16,7 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
     
     var dashboardController : DashboardController?
     
-    let titleArray : [String] = ["Profile picture", "Drivers license", "Background check", "Payment preferences"]
+    let titleArray : [String] = ["Profile picture", "Drivers license", "Background check", "Payment preferences", "Employee agreement"]
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -108,6 +108,21 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
             } else {
                 cell.checkListCheckMark.isHidden = true
             }
+            
+        case "Employee agreement" :
+            
+            cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
+            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .signature), for: .normal)
+            cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
+            cell.checkListIcon.backgroundColor = .clear
+            cell.mainContainer.backgroundColor = backgroundColorForSwitch
+            
+            if isComplete == true {
+                cell.checkListCheckMark.isHidden = false
+            } else {
+                cell.checkListCheckMark.isHidden = true
+            }
+            
 
         default: print("nothing here")
             
@@ -133,7 +148,8 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         case "Drivers license" : self.handleDriversLicenseTaps()
         case "Background check" : self.handleBackgroundTaps()
         case "Payment preferences" : self.handlepaymentPreferencesTaps()
-            
+        case "Employee agreement" : self.handleEmployeeAgreementTaps()
+
         default: print("nothing here")
             
         }
@@ -144,15 +160,19 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
     }
     
     func handleDriversLicenseTaps() {
-        print("handleDriversLicenseTaps")
+        self.dashboardController?.handleDriversLicenseController()
     }
     
     func handleBackgroundTaps() {
-        print("handleBackgroundTaps")
+        self.dashboardController?.handleBackgroundCheckController()
     }
     
     func handlepaymentPreferencesTaps() {
-        print("handleBackgroundTaps")
+        self.dashboardController?.handleLinkBankAccountController()
+    }
+    
+    func handleEmployeeAgreementTaps() {
+        self.dashboardController?.handleEmployeeAgreementController()
     }
     
     required init?(coder: NSCoder) {

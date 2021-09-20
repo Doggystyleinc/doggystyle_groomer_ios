@@ -13,11 +13,13 @@ import Photos
 
 class CustomPhotoController : UIViewController {
     
-    var captureSession : AVCaptureSession!
-    var frontCamera : AVCaptureDevice!
-    var stillImageOutput: AVCapturePhotoOutput!
-    var videoPreviewLayer: AVCaptureVideoPreviewLayer!
+    var groomerProfileController : GroomerProfileController?
     
+    var captureSession : AVCaptureSession!,
+        frontCamera : AVCaptureDevice!,
+        stillImageOutput: AVCapturePhotoOutput!,
+        videoPreviewLayer: AVCaptureVideoPreviewLayer!,
+        isInLockedMode : Bool = true
     
     lazy var backButton : UIButton = {
         
@@ -59,6 +61,7 @@ class CustomPhotoController : UIViewController {
         cbf.clipsToBounds = true
         cbf.imageView?.contentMode = .scaleAspectFill
         cbf.contentMode = .scaleAspectFill
+        cbf.addTarget(self, action: #selector(self.handlePermissions), for: .touchUpInside)
         
         return cbf
         
@@ -76,6 +79,27 @@ class CustomPhotoController : UIViewController {
         thl.textColor = coreOrangeColor
         thl.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
         thl.layer.masksToBounds = true
+        thl.isHidden = true
+        return thl
+        
+    }()
+    
+    lazy var errorLookingGoodLabel : UILabel = {
+        
+        let thl = UILabel()
+        thl.translatesAutoresizingMaskIntoConstraints = false
+        thl.textAlignment = .center
+        thl.text = "Enable camera access to take\nyour profile picture and continue\nonboarding. You’ll have to take\npictures of the doggies too!"
+        thl.font = UIFont(name: dsHeaderFont, size: 14)
+        thl.numberOfLines = -1
+        thl.adjustsFontSizeToFitWidth = false
+        thl.textColor = coreOrangeColor
+        thl.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
+        thl.layer.masksToBounds = true
+        thl.isHidden = true
+        thl.isUserInteractionEnabled = true
+        thl.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePermissions)))
+        
         return thl
         
     }()
@@ -126,7 +150,10 @@ class CustomPhotoController : UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.captureSession.stopRunning()
+        
+        if self.captureSession.isRunning {
+            self.captureSession.stopRunning()
+        }
     }
     
     func addViews() {
@@ -135,9 +162,10 @@ class CustomPhotoController : UIViewController {
         self.view.addSubview(self.cameraSwapButtonButton)
         self.view.addSubview(self.profileImageview)
         self.view.addSubview(self.lookingGoodLabel)
+        self.view.addSubview(self.errorLookingGoodLabel)
         self.view.addSubview(self.takePhotoButton)
         self.view.addSubview(self.retakePhotoButton)
-
+        
         self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 18).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
@@ -162,6 +190,13 @@ class CustomPhotoController : UIViewController {
         self.lookingGoodLabel.widthAnchor.constraint(equalToConstant: 257).isActive = true
         self.lookingGoodLabel.layer.cornerRadius = 59/2
         
+        self.errorLookingGoodLabel.topAnchor.constraint(equalTo: self.profileImageview.bottomAnchor, constant: 43).isActive = true
+        self.errorLookingGoodLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
+        self.errorLookingGoodLabel.heightAnchor.constraint(equalToConstant: 113).isActive = true
+        self.errorLookingGoodLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        self.errorLookingGoodLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.errorLookingGoodLabel.layer.cornerRadius = 113/2
+        
         self.takePhotoButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
         self.takePhotoButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         self.takePhotoButton.heightAnchor.constraint(equalToConstant: 78).isActive = true
@@ -173,21 +208,53 @@ class CustomPhotoController : UIViewController {
         self.retakePhotoButton.heightAnchor.constraint(equalToConstant: 49).isActive = true
         self.retakePhotoButton.widthAnchor.constraint(equalToConstant: 49).isActive = true
         self.retakePhotoButton.layer.cornerRadius = 49/2
-
+        
+    }
+    
+    @objc func handlePermissions() {
+        if self.isInLockedMode == true {
+            
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permission", message: "Please head over to the Settings application and enable Camera permissions.") { complete in
+                print("Alert for permissions")
+            }
+        }
     }
     
     @objc func handleTakePhotoButton() {
-        self.takeLiveViewPhoto()
+        
+        if self.takePhotoButton.titleLabel?.text == nil {
+            self.takeLiveViewPhoto()
+        } else {
+            print("we have a photo selected already")
+            self.handleBackButton()
+        }
     }
     
     @objc func handleBackButton() {
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }
     }
     
     @objc func handleRetakePhotoButton() {
         
+        self.takePhotoButton.setTitle("", for: .normal)
         self.profileImageview.setImage(UIImage(), for: .normal)
         self.videoPreviewLayer.isHidden = false
+        self.takePhotoButton.titleLabel?.text = nil
+        self.groomerProfileController?.undoPhoto()
+        
+    }
+    
+    func setPhoto(passedPhoto : UIImage) {
+        
+        
+        self.groomerProfileController?.profileImageview.setTitle("", for: .normal)
+        self.groomerProfileController?.lookingGoodButton.alpha = 1
+        self.groomerProfileController?.lookingGoodButton.isEnabled = true
+        self.groomerProfileController?.lookingGoodButton.setTitle("Looking good!", for: .normal)
+        self.groomerProfileController?.profileImageview.setBackgroundImage(passedPhoto, for: .normal)
+        self.groomerProfileController?.selectedImage = passedPhoto
         
     }
 }
@@ -202,27 +269,24 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
         switch photoAuthorizationStatus {
         
         case .authorized:
+            self.cameraLock(isLocked: false)
             self.openGallery()
-        case .notDetermined:
+        case .notDetermined: 
+            
             PHPhotoLibrary.requestAuthorization({
                 (newStatus) in
                 if newStatus ==  PHAuthorizationStatus.authorized {
                     self.openGallery()
+                    self.cameraLock(isLocked: false)
                 }
             })
             
-        case .restricted:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Camera Permissions in the Settings application.") { (complete) in
-                print("Permissions Alert presented")
-            }
-        case .denied:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Camera Permissions in the Settings application.") { (complete) in
-                print("Permissions Alert presented")
-            }
-        default :
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Camera Permissions in the Settings application.") { (complete) in
-                print("Permissions Alert presented")
-            }
+        case .restricted: self.cameraLock(isLocked: true)
+            
+        case .denied: self.cameraLock(isLocked: true)
+            
+        default : self.cameraLock(isLocked: true)
+            
         }
     }
     
@@ -235,11 +299,11 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
     func setupAndStartCaptureSession(){
         
         DispatchQueue.global(qos: .userInitiated).async {
-
+            
             self.captureSession = AVCaptureSession()
             self.captureSession.sessionPreset = .medium
             self.captureSession.beginConfiguration()
-
+            
             if self.captureSession.canSetSessionPreset(.photo) {
                 self.captureSession.sessionPreset = .photo
             }
@@ -254,7 +318,8 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
     func setupInputs() {
         
         guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
-                print("Unable to access back camera!")
+            self.cameraLock(isLocked: true)
+            self.handleBackButton()
             return
         }
         
@@ -262,7 +327,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             
             let input = try AVCaptureDeviceInput(device: frontCamera)
             self.stillImageOutput = AVCapturePhotoOutput()
-
+            
             if self.captureSession.canAddInput(input) && self.captureSession.canAddOutput(stillImageOutput) {
                 self.captureSession.addInput(input)
                 self.captureSession.addOutput(self.stillImageOutput)
@@ -272,6 +337,33 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
         
         catch let error  {
             print("Error Unable to initialize back camera:  \(error.localizedDescription)")
+            self.cameraLock(isLocked: true)
+        }
+    }
+    
+    func cameraLock(isLocked : Bool) {
+        
+        DispatchQueue.main.async {
+            
+            if isLocked {
+                
+                //PERMISSIONS ARE DISABLED
+                self.profileImageview.titleLabel?.font = UIFont.fontAwesome(ofSize: 70, style: .solid)
+                self.profileImageview.setTitle(String.fontAwesomeIcon(name: .lock), for: .normal)
+                self.lookingGoodLabel.isHidden = true
+                self.errorLookingGoodLabel.isHidden = false
+                self.isInLockedMode = true
+                self.handleCustomPermissions()
+                
+            } else {
+                
+                //PERMISSIONS ARE ENABLED
+                self.profileImageview.setTitle("", for: .normal)
+                self.lookingGoodLabel.isHidden = false
+                self.errorLookingGoodLabel.isHidden = true
+                self.isInLockedMode = false
+                
+            }
         }
     }
     
@@ -297,8 +389,11 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             self.videoPreviewLayer.frame = self.profileImageview.bounds
         }
     }
-   
+    
     func takeLiveViewPhoto() {
+        
+        UIDevice.vibrateLight()
+        
         let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         self.stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
@@ -314,7 +409,31 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             self.profileImageview.setImage(safeImage, for: .normal)
             self.videoPreviewLayer.isHidden = true
             self.retakePhotoButton.isHidden = false
-
+            self.cameraLock(isLocked: false)
+            
+            self.takePhotoButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 60, style: .solid)
+            self.takePhotoButton.setTitle(String.fontAwesomeIcon(name: .checkCircle), for: .normal)
+            self.takePhotoButton.setTitleColor(coreOrangeColor, for: .normal)
+            
+            self.setPhoto(passedPhoto: safeImage)
+            
+        }
+    }
+    
+    @objc func handleCustomPermissions() {
+        
+        if PHPhotoLibrary.authorizationStatus() != .authorized {
+            
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {return}
+            
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    debugPrint("User has moved to the Applications Settings Menu")
+                })
+            }
+        } else {
+            print("hittin here")
         }
     }
 }

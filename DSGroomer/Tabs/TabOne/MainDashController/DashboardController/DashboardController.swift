@@ -112,6 +112,7 @@ class DashboardController : UIViewController {
         layout.scrollDirection = .vertical
         let dh = GroomerChecklistCollection(frame: .zero, collectionViewLayout: layout)
         dh.dashboardController = self
+        
        return dh
     }()
     
@@ -120,7 +121,7 @@ class DashboardController : UIViewController {
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-      
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -201,6 +202,7 @@ class DashboardController : UIViewController {
     @objc func handleGroomerProfileController() {
         
         let groomerProfileController = GroomerProfileController()
+        groomerProfileController.dashboardController = self
         let nav = UINavigationController(rootViewController: groomerProfileController)
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
@@ -208,6 +210,56 @@ class DashboardController : UIViewController {
             print("presented the groomers profile controller")
         })
     }
+    
+    @objc func handleDriversLicenseController() {
+        
+        let driversLicenseController = DriverLicenseController()
+        let nav = UINavigationController(rootViewController: driversLicenseController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("presented the groomers profile controller")
+        })
+    }
+    
+    @objc func handleBackgroundCheckController() {
+        
+        let backgroundCheckController = BackgroundCheckController()
+        let nav = UINavigationController(rootViewController: backgroundCheckController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("presented the groomers profile controller")
+        })
+    }
+    
+    @objc func handleLinkBankAccountController() {
+        
+        let linkBankAccountController = LinkBankAccountController()
+        let nav = UINavigationController(rootViewController: linkBankAccountController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("presented the groomers profile controller")
+        })
+    }
+    
+    @objc func handleEmployeeAgreementController() {
+        
+        let employeeAgreementController = EmployeeAgreementController()
+        let nav = UINavigationController(rootViewController: employeeAgreementController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("presented the groomers profile controller")
+        })
+    }
+    
+    
+    
+    
+    
+    
 }
 
 

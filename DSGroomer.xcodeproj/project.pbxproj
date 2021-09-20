@@ -91,6 +91,14 @@
 		E341C3A426826CB300334A59 /* orange_check_mark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C3A126826CB300334A59 /* orange_check_mark@3x.png */; };
 		E341C3A526826CB300334A59 /* orange_check_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C3A226826CB300334A59 /* orange_check_mark.png */; };
 		E3502130268B99B100E5186E /* ServiceSingleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E350212F268B99B100E5186E /* ServiceSingleton.swift */; };
+		E38DA92D26F8DDC500DFD365 /* DriversLicenseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA92C26F8DDC500DFD365 /* DriversLicenseController.swift */; };
+		E38DA93026F8E05900DFD365 /* BackgroundCheckController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA92F26F8E05900DFD365 /* BackgroundCheckController.swift */; };
+		E38DA93226F8E32600DFD365 /* CriminalRecordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93126F8E32600DFD365 /* CriminalRecordController.swift */; };
+		E38DA93426F8E59600DFD365 /* SocialSecurityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93326F8E59600DFD365 /* SocialSecurityController.swift */; };
+		E38DA93626F8E8F100DFD365 /* SocialSecurityConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93526F8E8F100DFD365 /* SocialSecurityConfirmation.swift */; };
+		E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93826F8ED9400DFD365 /* LinkBankAccountController.swift */; };
+		E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93A26F8F0AE00DFD365 /* LinkBankSuccessController.swift */; };
+		E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -251,6 +259,14 @@
 		E341C3A126826CB300334A59 /* orange_check_mark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange_check_mark@3x.png"; sourceTree = "<group>"; };
 		E341C3A226826CB300334A59 /* orange_check_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = orange_check_mark.png; sourceTree = "<group>"; };
 		E350212F268B99B100E5186E /* ServiceSingleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceSingleton.swift; sourceTree = "<group>"; };
+		E38DA92C26F8DDC500DFD365 /* DriversLicenseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriversLicenseController.swift; sourceTree = "<group>"; };
+		E38DA92F26F8E05900DFD365 /* BackgroundCheckController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundCheckController.swift; sourceTree = "<group>"; };
+		E38DA93126F8E32600DFD365 /* CriminalRecordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CriminalRecordController.swift; sourceTree = "<group>"; };
+		E38DA93326F8E59600DFD365 /* SocialSecurityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialSecurityController.swift; sourceTree = "<group>"; };
+		E38DA93526F8E8F100DFD365 /* SocialSecurityConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialSecurityConfirmation.swift; sourceTree = "<group>"; };
+		E38DA93826F8ED9400DFD365 /* LinkBankAccountController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankAccountController.swift; sourceTree = "<group>"; };
+		E38DA93A26F8F0AE00DFD365 /* LinkBankSuccessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankSuccessController.swift; sourceTree = "<group>"; };
+		E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeAgreementController.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -555,6 +571,42 @@
 			path = GroomerLocationIcons;
 			sourceTree = "<group>";
 		};
+		E38DA92B26F8DD7700DFD365 /* DriversLicenseController */ = {
+			isa = PBXGroup;
+			children = (
+				E38DA92C26F8DDC500DFD365 /* DriversLicenseController.swift */,
+			);
+			path = DriversLicenseController;
+			sourceTree = "<group>";
+		};
+		E38DA92E26F8E04100DFD365 /* BackgroundCheckController */ = {
+			isa = PBXGroup;
+			children = (
+				E38DA92F26F8E05900DFD365 /* BackgroundCheckController.swift */,
+				E38DA93126F8E32600DFD365 /* CriminalRecordController.swift */,
+				E38DA93326F8E59600DFD365 /* SocialSecurityController.swift */,
+				E38DA93526F8E8F100DFD365 /* SocialSecurityConfirmation.swift */,
+			);
+			path = BackgroundCheckController;
+			sourceTree = "<group>";
+		};
+		E38DA93726F8ED7900DFD365 /* LinkBankAccountController */ = {
+			isa = PBXGroup;
+			children = (
+				E38DA93826F8ED9400DFD365 /* LinkBankAccountController.swift */,
+				E38DA93A26F8F0AE00DFD365 /* LinkBankSuccessController.swift */,
+			);
+			path = LinkBankAccountController;
+			sourceTree = "<group>";
+		};
+		E38DA93C26F8F19200DFD365 /* EmployeeAgreementController */ = {
+			isa = PBXGroup;
+			children = (
+				E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */,
+			);
+			path = EmployeeAgreementController;
+			sourceTree = "<group>";
+		};
 		E3BEE4342665560700D765A7 /* FontAwesome */ = {
 			isa = PBXGroup;
 			children = (
@@ -690,8 +742,12 @@
 		E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */ = {
 			isa = PBXGroup;
 			children = (
-				E3D2816F26F3DA0D00ACE7C8 /* ProfilePhotoController */,
 				E3FB6B032676B12400DE17D2 /* GroomerChecklistCollection */,
+				E3D2816F26F3DA0D00ACE7C8 /* ProfilePhotoController */,
+				E38DA92B26F8DD7700DFD365 /* DriversLicenseController */,
+				E38DA92E26F8E04100DFD365 /* BackgroundCheckController */,
+				E38DA93726F8ED7900DFD365 /* LinkBankAccountController */,
+				E38DA93C26F8F19200DFD365 /* EmployeeAgreementController */,
 			);
 			path = ProfileRegistrationState;
 			sourceTree = "<group>";
@@ -1068,8 +1124,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */,
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
+				E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */,
 				E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */,
 				E3FB6B072676B16400DE17D2 /* GroomerChecklistFeeder.swift in Sources */,
 				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,
@@ -1085,16 +1143,22 @@
 				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,
 				E3C2EB69266170C000AB0EF6 /* GroomerOnboardingStruct.swift in Sources */,
 				E3F1205126EE87B9008F2421 /* ContactSupportController.swift in Sources */,
+				E38DA92D26F8DDC500DFD365 /* DriversLicenseController.swift in Sources */,
 				E3176B6926EBC666003D6CEF /* LocationController.swift in Sources */,
 				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,
+				E38DA93026F8E05900DFD365 /* BackgroundCheckController.swift in Sources */,
 				E3176B6126EAA8A9003D6CEF /* PhoneNumberVerification.swift in Sources */,
 				E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */,
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E3D2817326F3EB8500ACE7C8 /* CustomCameraController.swift in Sources */,
+				E38DA93426F8E59600DFD365 /* SocialSecurityController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
+				E38DA93226F8E32600DFD365 /* CriminalRecordController.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
+				E38DA93626F8E8F100DFD365 /* SocialSecurityConfirmation.swift in Sources */,
 				E3176B6726EBBD4A003D6CEF /* TermsOfService.swift in Sources */,
+				E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,
 				E3FB6B052676B13800DE17D2 /* GroomerChecklistCollection.swift in Sources */,
 				E333A921265D915400897572 /* ViewController.swift in Sources */,
