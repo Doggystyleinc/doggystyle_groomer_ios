@@ -7,8 +7,10 @@
 
 import Foundation
 import UIKit
+import MessageUI
+import Firebase
 
-class ContactSupportController : UIViewController {
+class ContactSupportController : UIViewController, MFMailComposeViewControllerDelegate {
     
     lazy var backButton : UIButton = {
         
@@ -89,6 +91,7 @@ class ContactSupportController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 15
+        cbf.addTarget(self, action: #selector(self.handleChatController), for: .touchUpInside)
         
         return cbf
         
@@ -129,6 +132,7 @@ class ContactSupportController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 15
+        cbf.addTarget(self, action: #selector(self.handlePhoneCall), for: .touchUpInside)
         
         return cbf
         
@@ -169,12 +173,11 @@ class ContactSupportController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 15
+        cbf.addTarget(self, action: #selector(self.handleEmailController), for: .touchUpInside)
         
         return cbf
         
     }()
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -222,7 +225,56 @@ class ContactSupportController : UIViewController {
         self.safetyButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.safetyButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+    }
+    
+    @objc func handlePhoneCall() {
         
+        UIDevice.vibrateLight()
+        
+        if let url = URL(string: "tel://\(Statics.SUPPORT_PHONE_NUMBER)"),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Restriction", message: "This device is unable to make phone calls.") { isComplete in
+                print("done")
+            }
+        }
+    }
+    
+    @objc func handleEmailController() {
+        
+        if MFMailComposeViewController.canSendMail() {
+            
+            let usersEmail = groomerUserStruct.groomers_email ?? "No user email found"
+            let user_uid = Auth.auth().currentUser?.uid ?? "nil"
+            
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setSubject("Support - Stylist/Groomer iOS Application: \(usersEmail):\(user_uid)")
+            mail.setMessageBody("<p> To: Team Doggystyle,</p>", isHTML: true)
+            mail.setToRecipients([Statics.SUPPORT_EMAIL_ADDRESS])
+            
+            self.present(mail, animated: true, completion: nil)
+            
+        } else {
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Restriction", message: "This device is unable to Report Safety Issues.") { isComplete in
+                print("done")
+            }
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    @objc func handleChatController() {
+        
+        let supportChatController = SupportChatController()
+        supportChatController.navigationController?.navigationBar.isHidden = true
+        supportChatController.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(supportChatController, animated: true)
         
     }
     
@@ -231,5 +283,4 @@ class ContactSupportController : UIViewController {
         self.navigationController?.dismiss(animated: true, completion: nil)
         
     }
-    
 }

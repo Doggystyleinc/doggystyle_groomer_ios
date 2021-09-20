@@ -31,6 +31,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    var orientationLock = UIInterfaceOrientationMask.portrait
+    var myOrientation: UIInterfaceOrientationMask = .portrait
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return myOrientation
+    }
+  
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
         return GIDSignIn.sharedInstance().handle(url)
     }

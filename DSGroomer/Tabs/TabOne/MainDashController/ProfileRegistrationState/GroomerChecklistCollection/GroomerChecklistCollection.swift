@@ -27,6 +27,8 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         self.delegate = self
         self.dataSource = self
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.alwaysBounceVertical = true
+        self.alwaysBounceHorizontal = false
         self.register(GroomerChecklistFeeder.self, forCellWithReuseIdentifier: self.groomerChecklistID)
         
     }

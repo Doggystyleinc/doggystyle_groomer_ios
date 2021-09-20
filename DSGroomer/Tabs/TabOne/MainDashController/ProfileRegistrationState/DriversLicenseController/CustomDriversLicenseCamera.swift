@@ -1,9 +1,10 @@
 //
-//  CustomCameraController.swift
+//  CustomDriversLicenseCamera.swift
 //  DSGroomer
 //
-//  Created by Charlie Arcodia on 9/16/21.
+//  Created by Charlie Arcodia on 9/20/21.
 //
+
 
 import Foundation
 import UIKit
@@ -11,9 +12,10 @@ import AVFoundation
 import MobileCoreServices
 import Photos
 
-class CustomPhotoController : UIViewController {
+class CustomDriversLicenseCamera : UIViewController {
     
-    var groomerProfileController : GroomerProfileController?
+    var driverLicenseController : DriverLicenseController?
+    let appDel = UIApplication.shared.delegate as! AppDelegate
     
     var captureSession : AVCaptureSession!,
         frontCamera : AVCaptureDevice!,
@@ -29,22 +31,8 @@ class CustomPhotoController : UIViewController {
         cbf.contentMode = .scaleAspectFill
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 22, style: .solid)
         cbf.setTitle(String.fontAwesomeIcon(name: .times), for: .normal)
-        cbf.titleLabel?.tintColor = dsRedColor
-        cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
-        return cbf
-        
-    }()
-    
-    lazy var cameraSwapButtonButton : UIButton = {
-        
-        let cbf = UIButton(type: .system)
-        cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.backgroundColor = .clear
-        cbf.contentMode = .scaleAspectFill
-        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 22, style: .solid)
-        cbf.setTitle(String.fontAwesomeIcon(name: .undoAlt), for: .normal)
-        cbf.titleLabel?.tintColor = dsFlatBlack
-        cbf.isHidden = true
+        cbf.titleLabel?.tintColor = coreWhiteColor
+        cbf.setTitleColor(coreWhiteColor, for: .normal)
         cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
         return cbf
         
@@ -140,13 +128,46 @@ class CustomPhotoController : UIViewController {
         
     }()
     
+    var triggerContainer : UIView = {
+        
+        let tc = UIView()
+        tc.translatesAutoresizingMaskIntoConstraints = false
+        tc.backgroundColor = coreWhiteColor
+        
+       return tc
+    }()
+    
+    var photoContainer : UIView = {
+        
+        let tc = UIView()
+        tc.translatesAutoresizingMaskIntoConstraints = false
+        tc.backgroundColor = .clear
+        tc.layer.masksToBounds = true
+        tc.layer.borderColor = coreWhiteColor.cgColor
+        tc.layer.borderWidth = 13
+        tc.layer.cornerRadius = 0
+        
+       return tc
+    }()
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        
+        return [.landscapeLeft, .landscapeRight]
+        
+    }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = coreBackgroundWhite
-        self.addViews()
-        self.checkForGalleryAuth()
+        self.view.backgroundColor = coreBlackColor
+        self.perform(#selector(self.addViews), with: nil, afterDelay: 1.0)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        appDel.myOrientation = .landscape
+        UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -157,34 +178,23 @@ class CustomPhotoController : UIViewController {
         }
     }
     
-    func addViews() {
+    @objc func addViews() {
         
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.cameraSwapButtonButton)
         self.view.addSubview(self.profileImageview)
         self.view.addSubview(self.lookingGoodLabel)
         self.view.addSubview(self.errorLookingGoodLabel)
-        self.view.addSubview(self.takePhotoButton)
+        self.view.addSubview(self.triggerContainer)
+        self.view.addSubview(self.backButton)
+        self.view.addSubview(self.photoContainer)
         self.view.addSubview(self.retakePhotoButton)
-        
-        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
-        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 18).isActive = true
+
+        self.triggerContainer.addSubview(self.takePhotoButton)
+
+        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 38).isActive = true
+        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 43).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
         self.backButton.widthAnchor.constraint(equalToConstant: 54).isActive = true
-        
-        self.cameraSwapButtonButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
-        self.cameraSwapButtonButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -18).isActive = true
-        self.cameraSwapButtonButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
-        self.cameraSwapButtonButton.widthAnchor.constraint(equalToConstant: 54).isActive = true
-        
-        self.profileImageview.topAnchor.constraint(equalTo: self.cameraSwapButtonButton.bottomAnchor, constant: 74).isActive = true
-        self.profileImageview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        self.profileImageview.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.3).isActive = true
-        self.profileImageview.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.3).isActive = true
-        
-        let width = (UIScreen.main.bounds.width / 1.3)
-        self.profileImageview.layer.cornerRadius = width / 2
-        
+       
         self.lookingGoodLabel.topAnchor.constraint(equalTo: self.profileImageview.bottomAnchor, constant: 43).isActive = true
         self.lookingGoodLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         self.lookingGoodLabel.heightAnchor.constraint(equalToConstant: 59).isActive = true
@@ -197,19 +207,37 @@ class CustomPhotoController : UIViewController {
         self.errorLookingGoodLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.errorLookingGoodLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.errorLookingGoodLabel.layer.cornerRadius = 113/2
-        
-        self.takePhotoButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
-        self.takePhotoButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        self.takePhotoButton.heightAnchor.constraint(equalToConstant: 78).isActive = true
-        self.takePhotoButton.widthAnchor.constraint(equalToConstant: 78).isActive = true
-        self.takePhotoButton.layer.cornerRadius = 78/2
-        
-        self.retakePhotoButton.centerXAnchor.constraint(equalTo: self.profileImageview.rightAnchor, constant: 0).isActive = true
-        self.retakePhotoButton.centerYAnchor.constraint(equalTo: self.profileImageview.centerYAnchor, constant: 0).isActive = true
+       
+        self.retakePhotoButton.centerXAnchor.constraint(equalTo: self.photoContainer.rightAnchor, constant: 0).isActive = true
+        self.retakePhotoButton.centerYAnchor.constraint(equalTo: self.photoContainer.centerYAnchor, constant: 0).isActive = true
         self.retakePhotoButton.heightAnchor.constraint(equalToConstant: 49).isActive = true
         self.retakePhotoButton.widthAnchor.constraint(equalToConstant: 49).isActive = true
         self.retakePhotoButton.layer.cornerRadius = 49/2
         
+        self.triggerContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        self.triggerContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        self.triggerContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        self.triggerContainer.widthAnchor.constraint(equalToConstant: self.view.frame.width / 3.5).isActive = true
+        
+        self.takePhotoButton.centerYAnchor.constraint(equalTo: self.triggerContainer.centerYAnchor, constant: 0).isActive = true
+        self.takePhotoButton.centerXAnchor.constraint(equalTo: self.triggerContainer.centerXAnchor, constant: 0).isActive = true
+        self.takePhotoButton.heightAnchor.constraint(equalToConstant: 78).isActive = true
+        self.takePhotoButton.widthAnchor.constraint(equalToConstant: 78).isActive = true
+        self.takePhotoButton.layer.cornerRadius = 78/2
+        
+        self.profileImageview.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        self.profileImageview.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        self.profileImageview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        self.profileImageview.rightAnchor.constraint(equalTo: self.triggerContainer.leftAnchor, constant: 0).isActive = true
+        
+        self.photoContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60).isActive = true
+        self.photoContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 100).isActive = true
+        self.photoContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60).isActive = true
+        self.photoContainer.rightAnchor.constraint(equalTo: self.triggerContainer.leftAnchor, constant: -60).isActive = true
+
+        self.view.backgroundColor = coreBackgroundWhite
+        self.checkForGalleryAuth()
+
     }
     
     @objc func handlePermissions() {
@@ -226,12 +254,15 @@ class CustomPhotoController : UIViewController {
         if self.takePhotoButton.titleLabel?.text == nil {
             self.takeLiveViewPhoto()
         } else {
-            print("we have a photo selected already")
             self.handleBackButton()
         }
     }
     
     @objc func handleBackButton() {
+        
+        self.appDel.myOrientation = .portrait
+        UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
+        
         DispatchQueue.main.async {
             self.navigationController?.dismiss(animated: true, completion: nil)
         }
@@ -243,23 +274,22 @@ class CustomPhotoController : UIViewController {
         self.profileImageview.setImage(UIImage(), for: .normal)
         self.videoPreviewLayer.isHidden = false
         self.takePhotoButton.titleLabel?.text = nil
-        self.groomerProfileController?.undoPhoto()
+        self.driverLicenseController?.undoPhoto()
         
     }
     
     func setPhoto(passedPhoto : UIImage) {
         
-        self.groomerProfileController?.profileImageview.setTitle("", for: .normal)
-        self.groomerProfileController?.lookingGoodButton.alpha = 1
-        self.groomerProfileController?.lookingGoodButton.isEnabled = true
-        self.groomerProfileController?.lookingGoodButton.setTitle("Looking good!", for: .normal)
-        self.groomerProfileController?.profileImageview.setImage(passedPhoto, for: .normal)
-        self.groomerProfileController?.selectedImage = passedPhoto
+        self.driverLicenseController?.driversLicenseImageButton.setTitle("", for: .normal)
+        self.driverLicenseController?.driversLicenseImageButton.setImage(passedPhoto, for: .normal)
+        self.driverLicenseController?.selectedImage = passedPhoto
+        self.driverLicenseController?.submitButton.alpha = 1.0
+        self.driverLicenseController?.submitButton.isEnabled = true
         
     }
 }
 
-extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate {
+extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate {
     
     @objc func checkForGalleryAuth() {
         
@@ -271,7 +301,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
         case .authorized:
             self.cameraLock(isLocked: false)
             self.openGallery()
-        case .notDetermined: 
+        case .notDetermined:
             
             PHPhotoLibrary.requestAuthorization({
                 (newStatus) in
@@ -296,7 +326,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
         
     }
     
-    func setupAndStartCaptureSession(){
+    func setupAndStartCaptureSession() {
         
         DispatchQueue.global(qos: .userInitiated).async {
             
@@ -309,7 +339,6 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             }
             
             self.captureSession.automaticallyConfiguresCaptureDeviceForWideColor = true
-            
             self.setupInputs()
             
         }
@@ -317,7 +346,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
     
     func setupInputs() {
         
-        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front) else {
+        guard let frontCamera = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back) else {
             self.cameraLock(isLocked: true)
             self.handleBackButton()
             return
@@ -340,6 +369,30 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             self.cameraLock(isLocked: true)
         }
     }
+    
+    func setupLivePreview() {
+        
+        self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
+        self.videoPreviewLayer.videoGravity = .resizeAspectFill
+        self.videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
+        self.videoPreviewLayer.connection?.automaticallyAdjustsVideoMirroring = false
+        self.videoPreviewLayer.connection?.isVideoMirrored = false
+        
+        DispatchQueue.main.async {
+            self.profileImageview.layer.addSublayer(self.videoPreviewLayer)
+        }
+        
+        self.captureSession.commitConfiguration()
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.captureSession.startRunning()
+        }
+        
+        DispatchQueue.main.async {
+            self.videoPreviewLayer.frame = self.profileImageview.bounds
+        }
+    }
+    
     
     func cameraLock(isLocked : Bool) {
         
@@ -366,30 +419,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             }
         }
     }
-    
-    func setupLivePreview() {
-        
-        self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
-        self.videoPreviewLayer.videoGravity = .resizeAspectFill
-        self.videoPreviewLayer.connection?.videoOrientation = .portrait
-        self.videoPreviewLayer.connection?.automaticallyAdjustsVideoMirroring = false
-        self.videoPreviewLayer.connection?.isVideoMirrored = false
-        
-        DispatchQueue.main.async {
-            self.profileImageview.layer.addSublayer(self.videoPreviewLayer)
-        }
-        
-        self.captureSession.commitConfiguration()
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            self.captureSession.startRunning()
-        }
-        
-        DispatchQueue.main.async {
-            self.videoPreviewLayer.frame = self.profileImageview.bounds
-        }
-    }
-    
+   
     func takeLiveViewPhoto() {
         
         UIDevice.vibrateLight()

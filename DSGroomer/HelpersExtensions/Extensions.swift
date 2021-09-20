@@ -48,6 +48,7 @@ var friends_array_phone_number = [String](),
     bellgrey = UIColor(hex: 0xD7D7D7),
     dsRedColor = UIColor(hex: 0x90241E),
     signatureGrey = UIColor(hex: 0xE7F3F5),
+    imagePermissionsGrey = UIColor(hex: 0xC4C4C4),
     globalStatusBarHeight : CGFloat = 0.0,
     globalFooterHeight : CGFloat = 0.0,
     
@@ -83,6 +84,35 @@ var friends_array_phone_number = [String](),
     rubikExtraBoldItalic : String = "Rubik-ExtraBoldItalic",
     rubikBlack : String = "Rubik-Black",
     rubikBlackitalic : String = "Rubik-BlackItalic"
+
+//extension UINavigationController {
+//
+//override open var shouldAutorotate: Bool {
+//    get {
+//        if let visibleVC = visibleViewController {
+//            return visibleVC.shouldAutorotate
+//        }
+//        return super.shouldAutorotate
+//    }
+//}
+//
+//override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
+//    get {
+//        if let visibleVC = visibleViewController {
+//            return visibleVC.preferredInterfaceOrientationForPresentation
+//        }
+//        return super.preferredInterfaceOrientationForPresentation
+//    }
+//}
+//
+//override open var supportedInterfaceOrientations: UIInterfaceOrientationMask{
+//    get {
+//        if let visibleVC = visibleViewController {
+//            return visibleVC.supportedInterfaceOrientations
+//        }
+//        return super.supportedInterfaceOrientations
+//    }
+//}}
 
 extension String {
     func capitalizingFirstLetter() -> String {
@@ -327,8 +357,6 @@ class PhoneTextFieldWithPadding: PhoneNumberTextField {
 //    }
 //}
 
-
-
 //MARK: - URLS/KEYS/TONES
 struct Statics {
     
@@ -337,6 +365,8 @@ struct Statics {
     static let  PRIVACY_POLICY : String = "https://www..com"
     
     static let  SUPPORT_EMAIL_ADDRESS : String = "support@doggystyle.ca"
+    static let  SUPPORT_PHONE_NUMBER : String = "8455581855"
+
     static let  FAQS : String = "https://www..com"
     static let  APP_STORE_URL : String = "https://"
     
@@ -393,13 +423,10 @@ extension UIImageView {
     
     func takeScreenshot() -> UIImage {
         
-        // Begin context
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
         
-        // Draw view in that context
         drawHierarchy(in: self.bounds, afterScreenUpdates: true)
         
-        // And finally, get image
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

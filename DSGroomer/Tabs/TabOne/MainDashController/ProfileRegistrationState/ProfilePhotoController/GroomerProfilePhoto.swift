@@ -80,14 +80,16 @@ class GroomerProfileController : UIViewController {
         let cbf = UIButton()
         cbf.translatesAutoresizingMaskIntoConstraints = false
         cbf.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
-        cbf.contentMode = .scaleAspectFill
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 65, style: .solid)
         cbf.setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
         cbf.setTitleColor(coreOrangeColor, for: .normal)
         cbf.layer.borderColor = coreOrangeColor.cgColor
         cbf.layer.borderWidth = 1
-        cbf.clipsToBounds = true
         cbf.isUserInteractionEnabled = false
+        cbf.clipsToBounds = true
+        cbf.imageView?.contentMode = .scaleAspectFill
+        cbf.contentMode = .scaleAspectFill
+        
         return cbf
         
     }()
@@ -457,7 +459,7 @@ extension GroomerProfileController : UIImagePickerControllerDelegate, UINavigati
                     self.lookingGoodButton.isEnabled = true
                     self.lookingGoodButton.setTitle("Looking good!", for: .normal)
                     self.activityInvoke(shouldStart: true)
-                    self.profileImageview.setBackgroundImage(editedImage, for: .normal)
+                    self.profileImageview.setImage(editedImage, for: .normal)
                     self.activityInvoke(shouldStart: false)
                     self.selectedImage = editedImage
                     
@@ -468,7 +470,7 @@ extension GroomerProfileController : UIImagePickerControllerDelegate, UINavigati
                     self.lookingGoodButton.isEnabled = true
                     self.lookingGoodButton.setTitle("Looking good!", for: .normal)
                     self.activityInvoke(shouldStart: true)
-                    self.profileImageview.setBackgroundImage(originalImage, for: .normal)
+                    self.profileImageview.setImage(originalImage, for: .normal)
                     self.activityInvoke(shouldStart: false)
                     self.selectedImage = originalImage
 

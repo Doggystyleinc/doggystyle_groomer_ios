@@ -99,6 +99,8 @@
 		E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93826F8ED9400DFD365 /* LinkBankAccountController.swift */; };
 		E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93A26F8F0AE00DFD365 /* LinkBankSuccessController.swift */; };
 		E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */; };
+		E38DA94126F9006400DFD365 /* SupportChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA94026F9006400DFD365 /* SupportChatController.swift */; };
+		E38DA94326F924AF00DFD365 /* CustomDriversLicenseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -267,6 +269,8 @@
 		E38DA93826F8ED9400DFD365 /* LinkBankAccountController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankAccountController.swift; sourceTree = "<group>"; };
 		E38DA93A26F8F0AE00DFD365 /* LinkBankSuccessController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkBankSuccessController.swift; sourceTree = "<group>"; };
 		E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeAgreementController.swift; sourceTree = "<group>"; };
+		E38DA94026F9006400DFD365 /* SupportChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportChatController.swift; sourceTree = "<group>"; };
+		E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDriversLicenseCamera.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -575,6 +579,7 @@
 			isa = PBXGroup;
 			children = (
 				E38DA92C26F8DDC500DFD365 /* DriversLicenseController.swift */,
+				E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */,
 			);
 			path = DriversLicenseController;
 			sourceTree = "<group>";
@@ -605,6 +610,15 @@
 				E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */,
 			);
 			path = EmployeeAgreementController;
+			sourceTree = "<group>";
+		};
+		E38DA93F26F9003900DFD365 /* ContactSupportController */ = {
+			isa = PBXGroup;
+			children = (
+				E3F1205026EE87B9008F2421 /* ContactSupportController.swift */,
+				E38DA94026F9006400DFD365 /* SupportChatController.swift */,
+			);
+			path = ContactSupportController;
 			sourceTree = "<group>";
 		};
 		E3BEE4342665560700D765A7 /* FontAwesome */ = {
@@ -756,7 +770,6 @@
 			isa = PBXGroup;
 			children = (
 				E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */,
-				E3F1205026EE87B9008F2421 /* ContactSupportController.swift */,
 			);
 			path = DashboardController;
 			sourceTree = "<group>";
@@ -841,6 +854,7 @@
 		E3FB6B082676B47B00DE17D2 /* MainDashController */ = {
 			isa = PBXGroup;
 			children = (
+				E38DA93F26F9003900DFD365 /* ContactSupportController */,
 				E3D2816E26F3D90E00ACE7C8 /* DashboardController */,
 				E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */,
 			);
@@ -1139,6 +1153,7 @@
 				E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */,
 				E3502130268B99B100E5186E /* ServiceSingleton.swift in Sources */,
 				E3176B6526EABBFB003D6CEF /* NotificationsController.swift in Sources */,
+				E38DA94126F9006400DFD365 /* SupportChatController.swift in Sources */,
 				E3176B5F26EAA450003D6CEF /* LoginController.swift in Sources */,
 				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,
 				E3C2EB69266170C000AB0EF6 /* GroomerOnboardingStruct.swift in Sources */,
@@ -1148,6 +1163,7 @@
 				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,
 				E38DA93026F8E05900DFD365 /* BackgroundCheckController.swift in Sources */,
 				E3176B6126EAA8A9003D6CEF /* PhoneNumberVerification.swift in Sources */,
+				E38DA94326F924AF00DFD365 /* CustomDriversLicenseCamera.swift in Sources */,
 				E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */,
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,

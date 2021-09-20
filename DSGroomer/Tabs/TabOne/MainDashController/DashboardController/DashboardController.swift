@@ -207,7 +207,6 @@ class DashboardController : UIViewController {
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         self.navigationController?.present(nav, animated: true, completion: {
-            print("presented the groomers profile controller")
         })
     }
     
@@ -218,7 +217,6 @@ class DashboardController : UIViewController {
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         self.navigationController?.present(nav, animated: true, completion: {
-            print("presented the groomers profile controller")
         })
     }
     
@@ -229,7 +227,6 @@ class DashboardController : UIViewController {
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         self.navigationController?.present(nav, animated: true, completion: {
-            print("presented the groomers profile controller")
         })
     }
     
@@ -240,7 +237,6 @@ class DashboardController : UIViewController {
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         self.navigationController?.present(nav, animated: true, completion: {
-            print("presented the groomers profile controller")
         })
     }
     
@@ -251,15 +247,8 @@ class DashboardController : UIViewController {
         nav.modalPresentationStyle = .fullScreen
         nav.navigationBar.isHidden = true
         self.navigationController?.present(nav, animated: true, completion: {
-            print("presented the groomers profile controller")
         })
     }
-    
-    
-    
-    
-    
-    
 }
 
 

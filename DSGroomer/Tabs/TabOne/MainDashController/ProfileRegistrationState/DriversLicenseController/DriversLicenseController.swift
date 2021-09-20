@@ -7,9 +7,24 @@
 
 import Foundation
 import UIKit
+import AVFoundation
+import MobileCoreServices
+import Photos
 
 
 class DriverLicenseController : UIViewController {
+    
+    var selectedImage : UIImage?
+    var driversLicensePath : String?
+    
+    enum IdVariation {
+        
+     case image
+     case document
+       
+    }
+    
+    var idVariation = IdVariation.image
     
     lazy var backButton : UIButton = {
         
@@ -73,12 +88,15 @@ class DriverLicenseController : UIViewController {
         let cbf = UIButton()
         cbf.translatesAutoresizingMaskIntoConstraints = false
         cbf.backgroundColor = .clear
-        cbf.contentMode = .scaleAspectFill
+        cbf.contentMode = .scaleAspectFit
+        cbf.imageView?.contentMode = .scaleAspectFit
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 85, style: .solid)
-        cbf.setTitle(String.fontAwesomeIcon(name: .creditCard), for: .normal)
+        cbf.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
         cbf.setTitleColor(coreOrangeColor, for: .normal)
         cbf.clipsToBounds = true
         cbf.isUserInteractionEnabled = false
+        cbf.layer.masksToBounds = true
+        cbf.layer.cornerRadius = 10
         return cbf
         
     }()
@@ -99,7 +117,7 @@ class DriverLicenseController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
-//        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleCustomPhotoController)))
+        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleCustomPhotoController)))
         
         return cbf
         
@@ -150,7 +168,7 @@ class DriverLicenseController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
-//        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePhotoLibrarySelection)))
+        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.checkForGalleryAuth)))
 
         return cbf
         
@@ -201,7 +219,7 @@ class DriverLicenseController : UIViewController {
         cbf.layer.shadowRadius = 9
         cbf.layer.shouldRasterize = false
         cbf.layer.cornerRadius = 10
-//        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handlePhotoLibrarySelection)))
+        cbf.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.checkForFiles)))
 
         return cbf
         
@@ -215,7 +233,7 @@ class DriverLicenseController : UIViewController {
         ci.contentMode = .scaleAspectFill
         ci.isUserInteractionEnabled = false
         ci.titleLabel?.font = UIFont.fontAwesome(ofSize: 24, style: .solid)
-        ci.setTitle(String.fontAwesomeIcon(name: .image), for: .normal)
+        ci.setTitle(String.fontAwesomeIcon(name: .file), for: .normal)
         ci.setTitleColor(dsFlatBlack, for: .normal)
        
         return ci
@@ -236,7 +254,7 @@ class DriverLicenseController : UIViewController {
         
     }()
     
-    lazy var lookingGoodButton : UIButton = {
+    lazy var submitButton : UIButton = {
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
@@ -298,7 +316,7 @@ class DriverLicenseController : UIViewController {
         self.documentsButton.addSubview(self.documentsIcon)
         self.documentsButton.addSubview(self.documentsLabel)
         
-        self.view.addSubview(self.lookingGoodButton)
+        self.view.addSubview(self.submitButton)
 
         self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 17).isActive = true
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 11).isActive = true
@@ -321,9 +339,12 @@ class DriverLicenseController : UIViewController {
         
         self.driversLicenseImageButton.topAnchor.constraint(equalTo: self.subHeaderLabel.bottomAnchor, constant: 31).isActive = true
         self.driversLicenseImageButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
-        self.driversLicenseImageButton.heightAnchor.constraint(equalToConstant: 142).isActive = true
-        self.driversLicenseImageButton.widthAnchor.constraint(equalToConstant: 142).isActive = true
-        self.driversLicenseImageButton.layer.cornerRadius = 71
+        self.driversLicenseImageButton.heightAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width / 1.5) * 0.75).isActive = true
+        self.driversLicenseImageButton.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.5).isActive = true
+        
+        self.activityIndicator.centerYAnchor.constraint(equalTo: self.driversLicenseImageButton.centerYAnchor).isActive = true
+        self.activityIndicator.centerXAnchor.constraint(equalTo: self.driversLicenseImageButton.centerXAnchor).isActive = true
+        self.activityIndicator.sizeToFit()
         
         self.cameraButton.topAnchor.constraint(equalTo: self.driversLicenseImageButton.bottomAnchor, constant: 26).isActive = true
         self.cameraButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
@@ -370,10 +391,20 @@ class DriverLicenseController : UIViewController {
         self.documentsLabel.centerYAnchor.constraint(equalTo: self.documentsButton.centerYAnchor, constant: 0).isActive = true
         self.documentsLabel.sizeToFit()
         
-        self.lookingGoodButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.lookingGoodButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.lookingGoodButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -53).isActive = true
-        self.lookingGoodButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        self.submitButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
+        self.submitButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.submitButton.topAnchor.constraint(equalTo: self.documentsButton.bottomAnchor, constant: 20).isActive = true
+        self.submitButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+
+    }
+    
+    func undoPhoto() {
+        
+        self.driversLicenseImageButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 65, style: .solid)
+        self.driversLicenseImageButton.setTitle(String.fontAwesomeIcon(name: .user), for: .normal)
+        self.activityInvoke(shouldStart: false)
+        self.driversLicenseImageButton.setBackgroundImage(UIImage(), for: .normal)
+        self.selectedImage = nil
         
     }
     
@@ -381,4 +412,196 @@ class DriverLicenseController : UIViewController {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    @objc func handleCustomPhotoController() {
+        self.idVariation = .image
+        
+        let customDriversLicenseCamera = CustomDriversLicenseCamera()
+        customDriversLicenseCamera.driverLicenseController = self
+        let nav = UINavigationController(rootViewController: customDriversLicenseCamera)
+        nav.navigationBar.isHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(nav, animated: true, completion: nil)
+        
+    }
+    
+    @objc func checkForFiles() {
+        self.idVariation = .document
+
+        let supportedTypes: [UTType] = [.plainText, .pdf, .folder]
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes, asCopy: true)
+        
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        self.navigationController?.present(documentPicker, animated: true, completion: nil)
+        
+    }
 }
+
+extension DriverLicenseController : UIDocumentPickerDelegate {
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
+        guard let selectedFile = urls.first else {
+            return
+        }
+        
+        let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let sandboxFileURL = directory.appendingPathComponent(selectedFile.lastPathComponent)
+        
+        if FileManager.default.fileExists(atPath: sandboxFileURL.path) {
+            
+            self.driversLicensePath = sandboxFileURL.path
+            
+            self.driversLicenseImageButton.setImage(UIImage(), for: .normal)
+            self.driversLicenseImageButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 85, style: .solid)
+            self.driversLicenseImageButton.setTitle(String.fontAwesomeIcon(name: .fileContract), for: .normal)
+            self.driversLicenseImageButton.setTitleColor(coreOrangeColor, for: .normal)
+            self.submitButton.alpha = 1.0
+            self.submitButton.isEnabled = true
+            
+        } else {
+            
+            do {
+                try FileManager.default.copyItem(at: selectedFile, to: sandboxFileURL)
+                
+                self.driversLicenseImageButton.setImage(UIImage(), for: .normal)
+                self.driversLicensePath = sandboxFileURL.path
+                self.driversLicenseImageButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 85, style: .solid)
+                self.driversLicenseImageButton.setTitle(String.fontAwesomeIcon(name: .fileContract), for: .normal)
+                self.driversLicenseImageButton.setTitleColor(coreOrangeColor, for: .normal)
+                self.submitButton.alpha = 1.0
+                self.submitButton.isEnabled = true
+                
+            } catch  {
+                print("Error:")
+            }
+        }
+    }
+}
+
+extension DriverLicenseController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    @objc func checkForGalleryAuth() {
+        
+        UIDevice.vibrateLight()
+        
+        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
+        switch photoAuthorizationStatus {
+        
+        case .authorized:
+            self.openGallery()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization({
+                (newStatus) in
+                
+                if newStatus ==  PHAuthorizationStatus.authorized {
+                    self.openGallery()
+                }
+            })
+            
+        case .restricted:
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
+                print("Alert presented")
+            }
+        case .denied:
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
+                print("Alert presented")
+            }
+        default :
+            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
+                print("Alert presented")
+            }
+        }
+    }
+    
+    func openGallery() {
+        
+        self.idVariation = .image
+
+        DispatchQueue.main.async {
+            
+            let imagePicker = UIImagePickerController()
+            imagePicker.allowsEditing = true
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            
+            if let topViewController = UIApplication.getTopMostViewController() {
+                topViewController.present(imagePicker, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        picker.dismiss(animated: true) {
+            print("Dismissed the image picker or camera")
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true) {
+            
+            let mediaType = info[.mediaType] as! CFString
+            
+            switch mediaType {
+            
+            case kUTTypeImage :
+                
+                if let editedImage = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+                    
+                    self.driversLicenseImageButton.setTitle("", for: .normal)
+                    self.submitButton.alpha = 1
+                    self.submitButton.isEnabled = true
+                    self.submitButton.setTitle("Looking good!", for: .normal)
+                    self.activityInvoke(shouldStart: true)
+                    self.driversLicenseImageButton.setImage(editedImage, for: .normal)
+                    self.activityInvoke(shouldStart: false)
+                    self.selectedImage = editedImage
+                    self.submitButton.alpha = 1.0
+                    self.submitButton.isEnabled = true
+                    
+                } else if let originalImage = info[.originalImage] as? UIImage  {
+                    
+                    self.driversLicenseImageButton.setTitle("", for: .normal)
+                    self.submitButton.alpha = 1
+                    self.submitButton.isEnabled = true
+                    self.submitButton.setTitle("Looking good!", for: .normal)
+                    self.activityInvoke(shouldStart: true)
+                    self.driversLicenseImageButton.setImage(originalImage, for: .normal)
+                    self.activityInvoke(shouldStart: false)
+                    self.selectedImage = originalImage
+                    self.submitButton.alpha = 1.0
+                    self.submitButton.isEnabled = true
+                    
+                } else {
+                    print("Failed grabbing the photo")
+                }
+                
+            default : print("SHOULD NOT HIT FOR THE CAMERA PICKER")
+                
+            }
+        }
+    }
+    
+    func activityInvoke(shouldStart : Bool) {
+        
+        if shouldStart {
+            UIView.animate(withDuration: 0.35) {
+                self.driversLicenseImageButton.alpha = 0.25
+            } completion: { complete in
+                self.activityIndicator.startAnimating()
+            }
+        } else {
+            UIView.animate(withDuration: 0.35) {
+                self.driversLicenseImageButton.alpha = 1.0
+            } completion: { complete in
+                self.activityIndicator.stopAnimating()
+            }
+        }
+    }
+}
+
+
+
+

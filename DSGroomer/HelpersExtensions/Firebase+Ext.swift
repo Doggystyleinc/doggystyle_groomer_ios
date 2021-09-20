@@ -14,7 +14,48 @@ import Firebase
 
 //MARK:- SERVICE SINGLETON FOR CRUD OPERATIONS
 class Service : NSObject {
+    
     static let shared = Service()
+    
+    func documentFileUpload(localFilePath : URL, completion : @escaping (_ isComplete : Bool, _ urlToStoreInDatabase : String)->()) {
+        
+        let storageRef = Storage.storage().reference()
+        
+        guard let user_uid = Auth.auth().currentUser?.uid else {return}
+        
+        let randomUUID = NSUUID().uuidString
+        
+        let storageReference = storageRef.child("groomer_driver_license").child(user_uid).child(randomUUID)
+        
+        let uploadTask = storageReference.putFile(from: localFilePath, metadata: nil)
+        
+        uploadTask.observe(.failure) { snapshot in
+            completion(false, "nil")
+            return
+        }
+        
+        uploadTask.observe(.progress) { snapshot in
+            let percentComplete = Double(snapshot.progress!.completedUnitCount)
+                / Double(snapshot.progress!.totalUnitCount)
+            print("PROGRESS: ", CGFloat(percentComplete))
+        }
+        
+        uploadTask.observe(.success) { snapshot in
+            
+            storageReference.downloadURL { (url, error) in
+                
+                if error != nil {
+                    completion(false, "nil")
+                    return
+                }
+                
+                guard let safeUrl = url else {return}
+                completion(true, "\(safeUrl)")
+                
+            }
+        }
+    }
+    
     
     //MARK:- DOUBLE CHECK FOR AUTH SO WE CAN MAKE SURE THERE ALL USERS NODE IS CURRENT
     func authCheck(completion : @escaping (_ hasAuth : Bool)->()) {
@@ -75,7 +116,7 @@ class Service : NSObject {
                             let groomers_last_name = JSON["groomers_last_name"] as? String ?? "Incognito"
                             let groomers_email = JSON["groomers_email"] as? String ?? "Incognito"
                             let groomer_child_key = JSON["groomer_child_key"] as? String ?? "nil"
-
+                            
                             if groomer_has_registered == false {
                                 
                                 observingRefOne.removeObserver(withHandle: handleOne)
@@ -87,12 +128,12 @@ class Service : NSObject {
                             }
                             
                         } else {
-                        
-                        if counter == childrenCount {
-
-                            observingRefOne.removeObserver(withHandle: handleOne)
-                            completion(false, "Seems we cannot find you in our system. Please check the phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
-                        }
+                            
+                            if counter == childrenCount {
+                                
+                                observingRefOne.removeObserver(withHandle: handleOne)
+                                completion(false, "Seems we cannot find you in our system. Please check the phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                            }
                             
                         }
                         
@@ -118,16 +159,16 @@ class Service : NSObject {
         guard let groomers_phone_number = groomerOnboardingStruct.groomers_phone_number else {return}
         guard let groomers_area_code = groomerOnboardingStruct.groomers_area_code else {return}
         guard let groomers_complete_phone_number = groomerOnboardingStruct.groomers_complete_phone_number else {return}
-
+        
         guard let groomers_location_latitude = groomerOnboardingStruct.groomers_location_latitude else {return}
         guard let groomers_location_longitude = groomerOnboardingStruct.groomers_location_longitude else {return}
-
+        
         guard let groomers_first_name = groomerOnboardingStruct.groomers_first_name else {return}
         guard let groomers_last_name = groomerOnboardingStruct.groomers_last_name else {return}
         guard let groomers_email = groomerOnboardingStruct.groomers_email else {return}
         guard let groomers_city = groomerOnboardingStruct.groomers_city else {return}
         guard let groomers_referral_code = groomerOnboardingStruct.groomers_referral_code else {return}
-
+        
         guard let groomer_accepted_terms_of_service = groomerOnboardingStruct.groomer_accepted_terms_of_service else {return}
         guard let groomer_enable_notifications = groomerOnboardingStruct.groomer_enable_notifications else {return}
         guard let groomer_child_key = groomerOnboardingStruct.groomer_child_key else {return}
@@ -171,9 +212,9 @@ class Service : NSObject {
                     }
                     
                     let databaseRef = Database.database().reference()
-
+                    
                     let ref = databaseRef.child("all_users").child(firebase_uid)
-
+                    
                     let timeStamp : Double = NSDate().timeIntervalSince1970,
                         ref_key = ref.key ?? "nil_key"
                     
@@ -196,7 +237,7 @@ class Service : NSObject {
                                                    "users_ref_key" : ref_key,
                                                    "users_sign_up_date" : timeStamp,
                                                    "groomer_child_key_from_playbook" : groomer_child_key
-                                                  ]
+                    ]
                     
                     ref.updateChildValues(values) { (error, ref) in
                         
@@ -205,7 +246,7 @@ class Service : NSObject {
                             return
                         }
                         
-                    let playbookRef = databaseRef.child("play_books").child(groomer_child_key)
+                        let playbookRef = databaseRef.child("play_books").child(groomer_child_key)
                         
                         let playbookValues : [String : Any] = ["groomer_has_registered" : true]
                         
@@ -249,7 +290,7 @@ class Service : NSObject {
                 let users_sign_up_date = JSON["users_sign_up_date"] as? Double ?? 0.0
                 let groomer_child_key_from_playbook = JSON["groomer_child_key_from_playbook"] as? String ?? "nil"
                 let users_ref_key = JSON["users_ref_key"] as? String ?? "nil"
-              
+                
                 groomerUserStruct.groomers_phone_number = groomers_phone_number
                 groomerUserStruct.groomers_area_code = groomers_area_code
                 groomerUserStruct.groomers_complete_phone_number = groomers_complete_phone_number
