@@ -12,11 +12,15 @@ import AVFoundation
 import MobileCoreServices
 import Photos
 
-class CompleteProfileController : UIViewController {
+class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextViewDelegate {
     
     var dashboardController : DashboardController?,
-        selectedImage : UIImage?
-    
+        selectedImage : UIImage?,
+        contentOffSet : CGFloat = 0.0,
+        contentHeight : CGFloat = 685,
+        lastKeyboardHeight : CGFloat = 0.0,
+        isKeyboardShowing : Bool = false
+
     let mainLoadingScreen = MainLoadingScreen()
     
     lazy var backButton : UIButton = {
@@ -46,7 +50,6 @@ class CompleteProfileController : UIViewController {
         
         return hl
     }()
-    
     
     lazy var profileContainer : UIButton = {
         
@@ -135,29 +138,304 @@ class CompleteProfileController : UIViewController {
         
     }()
     
+    lazy var dogBreedTextField: CustomTextField = {
+        
+        let etfc = CustomTextField()
+        etfc.translatesAutoresizingMaskIntoConstraints = false
+        etfc.textAlignment = .left
+        etfc.textColor = coreBlackColor
+        etfc.font = UIFont(name: rubikRegular, size: 18)
+        etfc.allowsEditingTextAttributes = false
+        etfc.autocorrectionType = .no
+        etfc.delegate = self
+        etfc.backgroundColor = coreWhiteColor
+        etfc.keyboardAppearance = UIKeyboardAppearance.light
+        etfc.returnKeyType = UIReturnKeyType.done
+        etfc.keyboardType = .alphabet
+        etfc.layer.masksToBounds = true
+        etfc.layer.cornerRadius = 8
+        etfc.leftViewMode = .always
+        etfc.layer.borderColor = UIColor.clear.cgColor
+        etfc.layer.borderWidth = 1
+        etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 30))
+        etfc.clipsToBounds = false
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
+        etfc.layer.shadowOpacity = 0.05
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 9
+        etfc.layer.shouldRasterize = false
+        etfc.isUserInteractionEnabled = true
+        etfc.addTarget(self, action: #selector(self.handleBreedFieldChange), for: .editingChanged)
+        etfc.addTarget(self, action: #selector(self.handleBreedTextFieldBegin), for: .touchDown)
+        
+        return etfc
+        
+    }()
+    
+    let typingBreedLabel : UILabel = {
+        
+        let tel = UILabel()
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.backgroundColor = coreWhiteColor
+        tel.text = "Dog breed"
+        tel.font = UIFont(name: rubikBold, size: 13)
+        tel.textAlignment = .left
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.isHidden = true
+        tel.textColor = dsFlatBlack.withAlphaComponent(0.4)
+        
+        
+        return tel
+    }()
+    
+    let placeHolderBreedLabel : UILabel = {
+        
+        let tel = UILabel()
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.backgroundColor = .clear
+        tel.text = "Favorite dog breed"
+        tel.font = UIFont(name: rubikRegular, size: 18)
+        tel.textAlignment = .left
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.isHidden = false
+        tel.textColor = dsFlatBlack.withAlphaComponent(0.4)
+        
+        return tel
+    }()
+    
+    lazy var homeTownTextField: CustomTextField = {
+        
+        let etfc = CustomTextField()
+        etfc.translatesAutoresizingMaskIntoConstraints = false
+        etfc.textAlignment = .left
+        etfc.textColor = coreBlackColor
+        etfc.font = UIFont(name: rubikRegular, size: 18)
+        etfc.allowsEditingTextAttributes = false
+        etfc.autocorrectionType = .no
+        etfc.delegate = self
+        etfc.backgroundColor = coreWhiteColor
+        etfc.keyboardAppearance = UIKeyboardAppearance.light
+        etfc.returnKeyType = UIReturnKeyType.done
+        etfc.keyboardType = .alphabet
+        etfc.layer.masksToBounds = true
+        etfc.layer.cornerRadius = 8
+        etfc.leftViewMode = .always
+        etfc.layer.borderColor = UIColor.clear.cgColor
+        etfc.layer.borderWidth = 1
+        etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 30))
+        etfc.clipsToBounds = false
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
+        etfc.layer.shadowOpacity = 0.05
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 9
+        etfc.layer.shouldRasterize = false
+        etfc.isUserInteractionEnabled = true
+        etfc.addTarget(self, action: #selector(self.handleHometownFieldChange), for: .editingChanged)
+        etfc.addTarget(self, action: #selector(self.handleHometownTextFieldBegin), for: .touchDown)
+        
+        return etfc
+        
+    }()
+    
+    let typingHomeTownLabel : UILabel = {
+        
+        let tel = UILabel()
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.backgroundColor = coreWhiteColor
+        tel.text = "Hometown"
+        tel.font = UIFont(name: rubikBold, size: 13)
+        tel.textAlignment = .left
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.isHidden = true
+        tel.textColor = dsFlatBlack.withAlphaComponent(0.4)
+        
+        
+        return tel
+    }()
+    
+    let placeHolderHomeTownLabel : UILabel = {
+        
+        let tel = UILabel()
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.backgroundColor = .clear
+        tel.text = "Hometown"
+        tel.font = UIFont(name: rubikRegular, size: 18)
+        tel.textAlignment = .left
+        tel.translatesAutoresizingMaskIntoConstraints = false
+        tel.isHidden = false
+        tel.textColor = dsFlatBlack.withAlphaComponent(0.4)
+        
+        return tel
+    }()
+    
+    lazy var notesTextView: UITextView = {
+        
+        let etfc = UITextView()
+        etfc.translatesAutoresizingMaskIntoConstraints = false
+        etfc.textAlignment = .left
+        etfc.textColor = coreBlackColor
+        etfc.font = UIFont(name: rubikRegular, size: 18)
+        etfc.allowsEditingTextAttributes = false
+        etfc.autocorrectionType = .no
+        etfc.delegate = self
+        etfc.backgroundColor = coreWhiteColor
+        etfc.keyboardAppearance = UIKeyboardAppearance.light
+        etfc.returnKeyType = .default
+        etfc.layer.masksToBounds = true
+        etfc.layer.cornerRadius = 10
+        etfc.layer.borderColor = UIColor.clear.cgColor
+        etfc.layer.borderWidth = 1
+        etfc.clipsToBounds = false
+        etfc.layer.masksToBounds = false
+        etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
+        etfc.layer.shadowOpacity = 0.05
+        etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
+        etfc.layer.shadowRadius = 9
+        etfc.layer.shouldRasterize = false
+        etfc.isUserInteractionEnabled = true
+        etfc.contentInset = UIEdgeInsets(top: 18, left: 30, bottom: 18, right: 30)
+        etfc.clipsToBounds = true
+        etfc.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleNotesTouch)))
+        
+        return etfc
+        
+    }()
+    
+    let textviewPlaceholder : UILabel = {
+        
+        let nl = UILabel()
+        nl.translatesAutoresizingMaskIntoConstraints = false
+        nl.backgroundColor = .clear
+        nl.text = "Tell us a little about yourself"
+        nl.font = UIFont(name: rubikRegular, size: 18)
+        nl.textColor = dsFlatBlack.withAlphaComponent(0.4)
+        nl.textAlignment = .left
+        nl.adjustsFontSizeToFitWidth = true
+        nl.numberOfLines = -1
+        nl.isUserInteractionEnabled = false
+        
+       return nl
+    }()
+    
+    lazy var saveButton : UIButton = {
+        
+        let cbf = UIButton(type: .system)
+        cbf.translatesAutoresizingMaskIntoConstraints = false
+        cbf.setTitle("Save", for: UIControl.State.normal)
+        cbf.titleLabel?.font = UIFont(name: rubikMedium, size: 18)
+        cbf.titleLabel?.adjustsFontSizeToFitWidth = true
+        cbf.titleLabel?.numberOfLines = 1
+        cbf.titleLabel?.adjustsFontForContentSizeCategory = true
+        cbf.titleLabel?.textColor = coreBlackColor
+        cbf.backgroundColor = coreOrangeColor
+        cbf.layer.cornerRadius = 15
+        cbf.layer.masksToBounds = true
+        cbf.tintColor = coreWhiteColor
+        cbf.addTarget(self, action: #selector(self.handleSaveButton), for: .touchUpInside)
+        
+        return cbf
+        
+    }()
+    
+    lazy var scrollView : UIScrollView = {
+        
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.backgroundColor = coreBackgroundWhite
+        sv.isScrollEnabled = true
+        sv.minimumZoomScale = 1.0
+        sv.maximumZoomScale = 1.0
+        sv.bounces = true
+        sv.bouncesZoom = true
+        sv.isHidden = false
+        sv.delegate = self
+        sv.contentMode = .scaleAspectFit
+        sv.isUserInteractionEnabled = true
+        sv.delaysContentTouches = true
+        
+        return sv
+        
+    }()
+    
+    let contentView : UIView = {
+        let cv = UIView()
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.backgroundColor = .clear
+        cv.isUserInteractionEnabled = true
+        return cv
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
+        
         self.addViews()
         self.fillValues()
+        
+        self.scrollView.keyboardDismissMode = .interactive
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        NotificationCenter.default.removeObserver(self)
         
     }
     
     func addViews() {
         
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.headerLabel)
-        self.view.addSubview(self.profileContainer)
+        self.view.addSubview(self.scrollView)
+
+        self.scrollView.addSubview(self.contentView)
+        
+        self.contentView.addSubview(self.backButton)
+        self.contentView.addSubview(self.headerLabel)
+        self.contentView.addSubview(self.profileContainer)
         
         self.profileContainer.addSubview(self.profileImageView)
         self.profileContainer.addSubview(self.headerProfileLabel)
         self.profileContainer.addSubview(self.headerProfileSubLabel)
         self.profileContainer.addSubview(self.pencilIconButton)
         
-        self.view.addSubview(self.activityIndicator)
+        self.contentView.addSubview(self.activityIndicator)
+        
+        //MARK: - DOG BREED TEXTFIELD
+        self.contentView.addSubview(self.dogBreedTextField)
+        self.contentView.addSubview(self.placeHolderBreedLabel)
+        self.contentView.addSubview(self.typingBreedLabel)
+        
+        //MARK: - HOMETOWN TEXTFIELD
+        self.contentView.addSubview(self.homeTownTextField)
+        self.contentView.addSubview(self.placeHolderHomeTownLabel)
+        self.contentView.addSubview(self.typingHomeTownLabel)
+        
+        self.contentView.addSubview(self.notesTextView)
+        self.contentView.addSubview(self.textviewPlaceholder)
+        self.contentView.addSubview(self.saveButton)
+        
+        self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.contentHeight + self.lastKeyboardHeight)
+        
+        self.contentView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 0).isActive = true
+        self.contentView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: 0).isActive = true
+        self.contentView.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 0).isActive = true
+        self.contentView.rightAnchor.constraint(equalTo: self.scrollView.rightAnchor, constant: 0).isActive = true
+        self.contentView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        self.contentView.heightAnchor.constraint(equalToConstant: 675).isActive = true
 
-        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
+        self.backButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 17).isActive = true
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 11).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
         self.backButton.widthAnchor.constraint(equalToConstant: 54).isActive = true
@@ -196,7 +474,99 @@ class CompleteProfileController : UIViewController {
         self.activityIndicator.centerYAnchor.constraint(equalTo: self.profileImageView.centerYAnchor, constant: 0).isActive = true
         self.activityIndicator.centerXAnchor.constraint(equalTo: self.profileImageView.centerXAnchor, constant: 0).isActive = true
         self.activityIndicator.sizeToFit()
+        
+        //MARK: - DOG BREED TEXTFIELD
+        self.dogBreedTextField.topAnchor.constraint(equalTo: self.profileContainer.bottomAnchor, constant: 20).isActive = true
+        self.dogBreedTextField.leftAnchor.constraint(equalTo: self.profileContainer.leftAnchor, constant: 0).isActive = true
+        self.dogBreedTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.dogBreedTextField.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        self.placeHolderBreedLabel.leftAnchor.constraint(equalTo: self.dogBreedTextField.leftAnchor, constant: 30).isActive = true
+        self.placeHolderBreedLabel.centerYAnchor.constraint(equalTo: self.dogBreedTextField.centerYAnchor, constant: 0).isActive = true
+        self.placeHolderBreedLabel.sizeToFit()
+        
+        self.typingBreedLabel.leftAnchor.constraint(equalTo: self.dogBreedTextField.leftAnchor, constant: 25).isActive = true
+        self.typingBreedLabel.topAnchor.constraint(equalTo: self.dogBreedTextField.topAnchor, constant: 14).isActive = true
+        self.typingBreedLabel.sizeToFit()
+        
+        //MARK: - HOMETOWN TEXTFIELD
+        self.homeTownTextField.topAnchor.constraint(equalTo: self.dogBreedTextField.bottomAnchor, constant: 20).isActive = true
+        self.homeTownTextField.leftAnchor.constraint(equalTo: self.profileContainer.leftAnchor, constant: 0).isActive = true
+        self.homeTownTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.homeTownTextField.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        
+        self.placeHolderHomeTownLabel.leftAnchor.constraint(equalTo: self.homeTownTextField.leftAnchor, constant: 30).isActive = true
+        self.placeHolderHomeTownLabel.centerYAnchor.constraint(equalTo: self.homeTownTextField.centerYAnchor, constant: 0).isActive = true
+        self.placeHolderHomeTownLabel.sizeToFit()
+        
+        self.typingHomeTownLabel.leftAnchor.constraint(equalTo: self.homeTownTextField.leftAnchor, constant: 25).isActive = true
+        self.typingHomeTownLabel.topAnchor.constraint(equalTo: self.homeTownTextField.topAnchor, constant: 14).isActive = true
+        self.typingHomeTownLabel.sizeToFit()
+        
+        //MARK: - NOTES TEXTVIEW
+        self.notesTextView.topAnchor.constraint(equalTo: self.homeTownTextField.bottomAnchor, constant: 20).isActive = true
+        self.notesTextView.leftAnchor.constraint(equalTo: self.homeTownTextField.leftAnchor, constant: 0).isActive = true
+        self.notesTextView.rightAnchor.constraint(equalTo: self.homeTownTextField.rightAnchor, constant: 0).isActive = true
+        self.notesTextView.heightAnchor.constraint(equalToConstant: 110).isActive = true
+        
+        self.textviewPlaceholder.topAnchor.constraint(equalTo: self.notesTextView.topAnchor, constant: 18).isActive = true
+        self.textviewPlaceholder.leftAnchor.constraint(equalTo: self.notesTextView.leftAnchor, constant: 30).isActive = true
+        self.textviewPlaceholder.rightAnchor.constraint(equalTo: self.notesTextView.rightAnchor, constant: -10).isActive = true
+        self.textviewPlaceholder.sizeToFit()
+        
+        //MARK: - SAVE BUTTON
+        self.saveButton.leftAnchor.constraint(equalTo: self.homeTownTextField.leftAnchor, constant: 0).isActive = true
+        self.saveButton.rightAnchor.constraint(equalTo: self.homeTownTextField.rightAnchor, constant: 0).isActive = true
+        self.saveButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0).isActive = true
+        self.saveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
+    }
+    
+    @objc func adjustContentSize() {
+        
+        self.scrollView.layoutIfNeeded()
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.contentHeight + self.lastKeyboardHeight)
+        self.scrollView.scrollToBottom()
+        
+    }
+    
+    @objc func handleKeyboardShow(notification : Notification) {
+        
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        
+        if keyboardRectangle.height > 200 {
+            
+            if self.isKeyboardShowing == true {return}
+            self.isKeyboardShowing = true
+            
+            self.lastKeyboardHeight = keyboardRectangle.height
+            self.perform(#selector(self.handleKeyboardMove), with: nil, afterDelay: 0.1)
+            
+        }
+    }
+    
+    @objc func handleKeyboardHide(notification : Notification) {
+        
+        self.isKeyboardShowing = false
+        
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        
+        self.lastKeyboardHeight = keyboardRectangle.height
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.contentHeight)
+    }
+    
+    @objc func handleKeyboardMove() {
+        self.adjustContentSize()
+    }
+    
+    
+    @objc func handleNotesTouch() {
+        self.textviewPlaceholder.isHidden = true
+        self.notesTextView.becomeFirstResponder()
     }
     
     func fillValues() {
@@ -210,6 +580,38 @@ class CompleteProfileController : UIViewController {
         self.profileImageView.loadImageGeneralUse(usersProfileImageURL) { complete in
             print("done")
         }
+    }
+    
+    @objc func handleBreedFieldChange() {
+        
+        guard let dogBreedText = self.dogBreedTextField.text else {return}
+        self.dogBreedTextField.text = dogBreedText.lowercased()
+        
+        if self.dogBreedTextField.text != "" {
+            self.typingBreedLabel.isHidden = false
+            self.placeHolderBreedLabel.isHidden = true
+        }
+    }
+    
+    @objc func handleBreedTextFieldBegin() {
+        self.typingBreedLabel.isHidden = false
+        self.placeHolderBreedLabel.isHidden = true
+    }
+    
+    @objc func handleHometownFieldChange() {
+        
+        guard let hometownText = self.homeTownTextField.text else {return}
+        self.homeTownTextField.text = hometownText.lowercased()
+        
+        if self.homeTownTextField.text != "" {
+            self.typingHomeTownLabel.isHidden = false
+            self.placeHolderHomeTownLabel.isHidden = true
+        }
+    }
+    
+    @objc func handleHometownTextFieldBegin() {
+        self.typingHomeTownLabel.isHidden = false
+        self.placeHolderHomeTownLabel.isHidden = true
     }
     
     func uploadImage() {
@@ -239,6 +641,24 @@ class CompleteProfileController : UIViewController {
                 }
             })
         }
+    }
+    
+    func resignation() {
+        self.dogBreedTextField.resignFirstResponder()
+        self.homeTownTextField.resignFirstResponder()
+        self.notesTextView.resignFirstResponder()
+    }
+    
+    @objc func handleSaveButton() {
+        self.resignation()
+        self.scrollView.scrollToTop()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        self.handleSaveButton()
+        return false
+        
     }
     
     @objc func handleBackButton() {

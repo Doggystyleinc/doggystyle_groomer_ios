@@ -181,6 +181,15 @@ class WelcomeController : UIViewController, UITextViewDelegate {
         return dcl
     }()
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -249,7 +258,6 @@ class WelcomeController : UIViewController, UITextViewDelegate {
         self.vanImage.bottomAnchor.constraint(equalTo: self.topContainer.bottomAnchor, constant: -40).isActive = true
         
     }
-
     
     @objc func handleRegistrationButton() {
         

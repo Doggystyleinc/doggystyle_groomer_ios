@@ -135,7 +135,7 @@ class HomeController : UITabBarController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))//Give your left alignment number
+        self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 140, left: 45, bottom: 0, right: 0)
         
     }

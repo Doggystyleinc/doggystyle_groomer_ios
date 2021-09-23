@@ -578,8 +578,8 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     func addViews() {
         
-        self.view.addSubview(scrollView)
-        self.view.addSubview(timeCover)
+        self.view.addSubview(self.scrollView)
+        self.view.addSubview(self.timeCover)
         
         self.scrollView.addSubview(self.contentView)
         
