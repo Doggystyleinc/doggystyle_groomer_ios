@@ -14,14 +14,16 @@ import Photos
 
 class DriverLicenseController : UIViewController {
     
-    var selectedImage : UIImage?
-    var driversLicensePath : String?
+    var selectedImage : UIImage?,
+        driversLicensePath : String?,
+        dashboardController : DashboardController?
+    let mainLoadingScreen = MainLoadingScreen()
     
     enum IdVariation {
         
-     case image
-     case document
-       
+        case image
+        case document
+        
     }
     
     var idVariation = IdVariation.image
@@ -88,8 +90,8 @@ class DriverLicenseController : UIViewController {
         let cbf = UIButton()
         cbf.translatesAutoresizingMaskIntoConstraints = false
         cbf.backgroundColor = .clear
-        cbf.contentMode = .scaleAspectFit
-        cbf.imageView?.contentMode = .scaleAspectFit
+        cbf.contentMode = .scaleAspectFill
+        cbf.imageView?.contentMode = .scaleAspectFill
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 85, style: .solid)
         cbf.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
         cbf.setTitleColor(coreOrangeColor, for: .normal)
@@ -270,7 +272,7 @@ class DriverLicenseController : UIViewController {
         cbf.tintColor = coreWhiteColor
         cbf.alpha = 0.5
         cbf.isEnabled = false
-//        cbf.addTarget(self, action: #selector(self.handleLookingGoodButton), for: .touchUpInside)
+        cbf.addTarget(self, action: #selector(self.handleSubmitButton), for: .touchUpInside)
         
         return cbf
         
@@ -435,6 +437,64 @@ class DriverLicenseController : UIViewController {
         self.navigationController?.present(documentPicker, animated: true, completion: nil)
         
     }
+    
+    @objc func handleSubmitButton() {
+        
+        //MARK: - USER IS UPLOADING A PHOTO OF THEIR DRIVERS LICENSE
+        if self.idVariation == .image {
+            
+            if self.selectedImage != nil {
+                
+                self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+                
+                guard let safeImage = self.selectedImage else {return}
+                
+                UIDevice.vibrateLight()
+                
+                Service.shared.uploadDriversLicenseImage(imageToUpload: safeImage) { isComplete, driversLicenseImageURL  in
+                    
+                    groomerUserStruct.drivers_license_image_url = driversLicenseImageURL
+                    
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    
+                    self.dashboardController?.runDataEngine()
+
+                    self.handleBackButton()
+                    
+                }
+            }
+            
+        //MARK: - USER IS UPLOADING A DOCUMENT FILE OF THEIR DRIVERS LICENSE
+        } else if self.idVariation == .document {
+            
+            if self.driversLicensePath != nil {
+                
+                    self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+                    
+                    guard let safePath = self.driversLicensePath else {return}
+                    
+                    UIDevice.vibrateLight()
+                
+                guard let safeURL = URL(string: safePath) else {return}
+                    
+                Service.shared.uploadDriversLicenseDocumentFile(localFilePath: safeURL) { isComplete, driversLicenseImageURL in
+                    
+                        groomerUserStruct.drivers_license_image_url = driversLicenseImageURL
+                        
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        
+                        self.dashboardController?.runDataEngine()
+                        
+                        self.handleBackButton()
+                }
+            }
+            
+        } else {
+            
+            print("Unknown state when uploading from the drivers license controller")
+            
+        }
+    }
 }
 
 extension DriverLicenseController : UIDocumentPickerDelegate {
@@ -553,11 +613,11 @@ extension DriverLicenseController : UIImagePickerControllerDelegate, UINavigatio
                     self.driversLicenseImageButton.setTitle("", for: .normal)
                     self.submitButton.alpha = 1
                     self.submitButton.isEnabled = true
-                    self.submitButton.setTitle("Looking good!", for: .normal)
                     self.activityInvoke(shouldStart: true)
                     self.driversLicenseImageButton.setImage(editedImage, for: .normal)
                     self.activityInvoke(shouldStart: false)
                     self.selectedImage = editedImage
+                    self.driversLicensePath = nil
                     self.submitButton.alpha = 1.0
                     self.submitButton.isEnabled = true
                     
@@ -566,11 +626,11 @@ extension DriverLicenseController : UIImagePickerControllerDelegate, UINavigatio
                     self.driversLicenseImageButton.setTitle("", for: .normal)
                     self.submitButton.alpha = 1
                     self.submitButton.isEnabled = true
-                    self.submitButton.setTitle("Looking good!", for: .normal)
                     self.activityInvoke(shouldStart: true)
                     self.driversLicenseImageButton.setImage(originalImage, for: .normal)
                     self.activityInvoke(shouldStart: false)
                     self.selectedImage = originalImage
+                    self.driversLicensePath = nil
                     self.submitButton.alpha = 1.0
                     self.submitButton.isEnabled = true
                     

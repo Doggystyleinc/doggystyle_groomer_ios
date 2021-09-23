@@ -85,34 +85,17 @@ var friends_array_phone_number = [String](),
     rubikBlack : String = "Rubik-Black",
     rubikBlackitalic : String = "Rubik-BlackItalic"
 
-//extension UINavigationController {
-//
-//override open var shouldAutorotate: Bool {
-//    get {
-//        if let visibleVC = visibleViewController {
-//            return visibleVC.shouldAutorotate
-//        }
-//        return super.shouldAutorotate
-//    }
-//}
-//
-//override open var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation{
-//    get {
-//        if let visibleVC = visibleViewController {
-//            return visibleVC.preferredInterfaceOrientationForPresentation
-//        }
-//        return super.preferredInterfaceOrientationForPresentation
-//    }
-//}
-//
-//override open var supportedInterfaceOrientations: UIInterfaceOrientationMask{
-//    get {
-//        if let visibleVC = visibleViewController {
-//            return visibleVC.supportedInterfaceOrientations
-//        }
-//        return super.supportedInterfaceOrientations
-//    }
-//}}
+extension Double {
+    
+    func returnYearFromTimeStamp() -> String {
+        
+        let date = Date(timeIntervalSince1970: self)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        let yearString = dateFormatter.string(from: date)
+        return yearString
+    }
+}
 
 extension String {
     func capitalizingFirstLetter() -> String {
@@ -139,7 +122,7 @@ extension UIScrollView {
 
 
 extension UITextField {
-    //Toggle Password Image
+
     func setPasswordToggleImage(_ button: UIButton) {
         if isSecureTextEntry {
             button.setImage(UIImage(systemName: "eye.slash"), for: .normal)
@@ -160,7 +143,6 @@ extension UITextField {
         self.rightViewMode = .always
     }
     
-    //Enable Left Padding
     func setLeftPaddingPoints(_ amount:CGFloat){
             let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
             self.leftView = paddingView
@@ -173,7 +155,6 @@ extension UITextField {
             self.rightViewMode = .always
         }
    
-    //Show/Hide Password
     @objc func togglePasswordView(_ sender: Any) {
         self.isSecureTextEntry = !self.isSecureTextEntry
         setPasswordToggleImage(sender as! UIButton)

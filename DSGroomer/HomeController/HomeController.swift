@@ -310,56 +310,7 @@ class HomeController : UITabBarController {
         completion()
         
     }
-    
-    func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool) -> ()) {
-        
-        guard let userUid = Auth.auth().currentUser?.uid else {return}
-        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
-        
-        let randomString = NSUUID().uuidString
-        let imageRef = self.storageRef.child("groomer_profile_photos").child(userUid).child(randomString)
-        
-        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
-            
-            if error != nil {
-                completion(false);
-                return
-            }
-            
-            imageRef.downloadURL(completion: { (urlGRab, error) in
-                
-                if error != nil {
-                    completion(false);
-                    return
-                }
-                
-                if let uploadUrl = urlGRab?.absoluteString {
-                    
-                    let values : [String : Any] = ["profile_image_url" : uploadUrl]
-                    let refUploadPath = self.databaseRef.child("all_users").child(userUid)
-                    
-                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
-                        if error != nil {
-                            completion(false);
-                            return
-                        } else {
-                            
-                        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
-                        let playbookRef = self.databaseRef.child("play_books").child(groomerKey)
-                            
-                        let playbookValues : [String : Any] = ["groomer_has_completed_profile_photo_management" : true]
-                            playbookRef.updateChildValues(playbookValues) { error, ref in
-                                
-                                completion(true)
-
-                            }
-                        }
-                    })
-                }
-            })
-        }
-    }
-    
+  
     @objc func handleLogout() {
         
         do {

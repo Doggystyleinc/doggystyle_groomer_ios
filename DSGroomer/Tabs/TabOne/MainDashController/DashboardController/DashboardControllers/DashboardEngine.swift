@@ -25,6 +25,7 @@ extension DashboardController {
                     
                     if hasCompletedProfileManagement {
                         self.mainLoadingScreen.cancelMainLoadingScreen()
+                        self.handleProfileManagementCompletionSetup()
                     } else {
 
                         var counter : Int = 0
@@ -53,9 +54,7 @@ extension DashboardController {
                                         
                                         }
                                         
-                                        DispatchQueue.main.async {
-                                            self.groomerChecklistCollection.reloadData()
-                                        }
+                                        self.handleGroomerCollectionReload()
                                         
                                     } else {
 
@@ -71,9 +70,8 @@ extension DashboardController {
                                         
                                         }
                                         
-                                        DispatchQueue.main.async {
-                                            self.groomerChecklistCollection.reloadData()
-                                        }
+                                        self.handleGroomerCollectionReload()
+
                                     }
                                     
                                     self.mainLoadingScreen.cancelMainLoadingScreen()

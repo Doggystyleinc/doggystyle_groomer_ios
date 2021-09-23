@@ -334,13 +334,14 @@ class GroomerProfileController : UIViewController {
             
             self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
             
-            self.dashboardController?.homeController?.uploadProfileImage(imageToUpload: safeSelectedImage, completion: { isComplete in
+            Service.shared.uploadProfileImage(imageToUpload: safeSelectedImage, completion: { isComplete, imageURL  in
                 
                 if isComplete {
                     
                     self.dashboardController?.runDataEngine()
                     self.mainLoadingScreen.cancelMainLoadingScreen()
                     self.handleBackButton()
+                    groomerUserStruct.profile_image_url = imageURL
                     
                 } else {
                     

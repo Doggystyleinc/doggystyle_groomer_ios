@@ -17,15 +17,118 @@ class Service : NSObject {
     
     static let shared = Service()
     
-    func documentFileUpload(localFilePath : URL, completion : @escaping (_ isComplete : Bool, _ urlToStoreInDatabase : String)->()) {
+    func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool, _ imageURL : String) -> ()) {
+        
+        guard let userUid = Auth.auth().currentUser?.uid else {return}
+        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
         
         let storageRef = Storage.storage().reference()
+        let databaseRef = Database.database().reference()
         
+        let randomString = NSUUID().uuidString
+        let imageRef = storageRef.child("groomer_profile_photos").child(userUid).child(randomString)
+        
+        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
+            
+            if error != nil {
+                completion(false, "nil")
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (urlGRab, error) in
+                
+                if error != nil {
+                    completion(false, "nil")
+                    return
+                }
+                
+                if let uploadUrl = urlGRab?.absoluteString {
+                    
+                    let values : [String : Any] = ["profile_image_url" : uploadUrl]
+                    let refUploadPath = databaseRef.child("all_users").child(userUid)
+                    
+                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                        if error != nil {
+                            completion(false, "nil")
+                            return
+                        } else {
+                            
+                        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+                        let playbookRef = databaseRef.child("play_books").child(groomerKey)
+                            
+                        let playbookValues : [String : Any] = ["groomer_has_completed_profile_photo_management" : true]
+                            playbookRef.updateChildValues(playbookValues) { error, ref in
+                                
+                                completion(true, uploadUrl)
+
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    func uploadDriversLicenseImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool, _ driversImageURL : String) -> ()) {
+        
+        guard let userUid = Auth.auth().currentUser?.uid else {return}
+        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
+        let storageRef = Storage.storage().reference()
+        let databaseRef = Database.database().reference()
+        
+        let randomString = NSUUID().uuidString
+        let imageRef = storageRef.child("groomers_driver_license").child(userUid).child(randomString)
+        
+        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
+            
+            if error != nil {
+                completion(false, "nil")
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (urlGRab, error) in
+                
+                if error != nil {
+                    completion(false, "nil")
+                    return
+                }
+                
+                if let uploadUrl = urlGRab?.absoluteString {
+                    
+                    let values : [String : Any] = ["drivers_license_image_url" : uploadUrl]
+                    let refUploadPath = databaseRef.child("all_users").child(userUid)
+                    
+                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                        if error != nil {
+                            completion(false, "nil")
+                            return
+                        } else {
+                            
+                        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+                        let playbookRef = databaseRef.child("play_books").child(groomerKey)
+                            
+                        let playbookValues : [String : Any] = ["groomer_has_completed_driver_license_management" : true]
+                            playbookRef.updateChildValues(playbookValues) { error, ref in
+                                
+                                completion(true, uploadUrl)
+
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    func uploadDriversLicenseDocumentFile(localFilePath : URL, completion : @escaping (_ isComplete : Bool, _ driversLicenseImageURL : String)->()) {
+        
+        let storageRef = Storage.storage().reference()
+        let databaseRef = Database.database().reference()
         guard let user_uid = Auth.auth().currentUser?.uid else {return}
         
         let randomUUID = NSUUID().uuidString
         
-        let storageReference = storageRef.child("groomer_driver_license").child(user_uid).child(randomUUID)
+        let storageReference = storageRef.child("groomers_driver_license").child(user_uid).child(randomUUID)
         
         let uploadTask = storageReference.putFile(from: localFilePath, metadata: nil)
         
@@ -49,14 +152,35 @@ class Service : NSObject {
                     return
                 }
                 
-                guard let safeUrl = url else {return}
-                completion(true, "\(safeUrl)")
-                
+                if let uploadUrl = url?.absoluteString {
+                    
+                    let values : [String : Any] = ["drivers_license_image_url" : uploadUrl]
+                    let refUploadPath = databaseRef.child("all_users").child(user_uid)
+                    
+                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                        
+                        if error != nil {
+                            completion(false, "nil")
+                            return
+                            
+                        } else {
+                            
+                        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+                        let playbookRef = databaseRef.child("play_books").child(groomerKey)
+                            
+                        let playbookValues : [String : Any] = ["groomer_has_completed_driver_license_management" : true]
+                            playbookRef.updateChildValues(playbookValues) { error, ref in
+                                
+                                completion(true, uploadUrl)
+
+                            }
+                        }
+                    })
+                }
             }
         }
     }
-    
-    
+   
     //MARK:- DOUBLE CHECK FOR AUTH SO WE CAN MAKE SURE THERE ALL USERS NODE IS CURRENT
     func authCheck(completion : @escaping (_ hasAuth : Bool)->()) {
         
@@ -291,8 +415,8 @@ class Service : NSObject {
                 let groomer_child_key_from_playbook = JSON["groomer_child_key_from_playbook"] as? String ?? "nil"
                 let users_ref_key = JSON["users_ref_key"] as? String ?? "nil"
                 let profile_image_url = JSON["profile_image_url"] as? String ?? "nil"
+                let drivers_license_image_url = JSON["drivers_license_image_url"] as? String ?? "nil"
 
-                
                 groomerUserStruct.groomers_phone_number = groomers_phone_number
                 groomerUserStruct.groomers_area_code = groomers_area_code
                 groomerUserStruct.groomers_complete_phone_number = groomers_complete_phone_number
@@ -311,6 +435,8 @@ class Service : NSObject {
                 groomerUserStruct.groomer_child_key_from_playbook = groomer_child_key_from_playbook
                 groomerUserStruct.users_ref_key = users_ref_key
                 groomerUserStruct.profile_image_url = profile_image_url
+                groomerUserStruct.drivers_license_image_url = drivers_license_image_url
+
                 completion(true)
                 
             } else {

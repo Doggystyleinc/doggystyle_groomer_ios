@@ -26,6 +26,7 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         dc.layer.shadowRadius = 9
         dc.layer.shouldRasterize = false
         dc.isUserInteractionEnabled = true
+        dc.isHidden = true
         dc.addTarget(self, action: #selector(self.handleSelection(sender:)), for: .touchUpInside)
         
        return dc
@@ -87,9 +88,9 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         
         self.addSubview(self.mainContainer)
         
-        self.addSubview(self.checkListIcon)
-        self.addSubview(self.checkListLabel)
-        self.addSubview(self.checkListCheckMark)
+        self.mainContainer.addSubview(self.checkListIcon)
+        self.mainContainer.addSubview(self.checkListLabel)
+        self.mainContainer.addSubview(self.checkListCheckMark)
        
         self.mainContainer.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 0).isActive = true
         self.mainContainer.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true

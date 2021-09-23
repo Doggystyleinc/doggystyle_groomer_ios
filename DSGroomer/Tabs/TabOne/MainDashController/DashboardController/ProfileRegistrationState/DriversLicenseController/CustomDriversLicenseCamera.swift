@@ -281,7 +281,9 @@ class CustomDriversLicenseCamera : UIViewController {
         self.videoPreviewLayer.isHidden = false
         self.takePhotoButton.titleLabel?.text = nil
         self.driverLicenseController?.undoPhoto()
-        
+        self.driverLicenseController?.selectedImage = nil
+        self.driverLicenseController?.driversLicensePath = nil
+
     }
     
     func setPhoto(passedPhoto : UIImage) {
@@ -289,6 +291,7 @@ class CustomDriversLicenseCamera : UIViewController {
         self.driverLicenseController?.driversLicenseImageButton.setTitle("", for: .normal)
         self.driverLicenseController?.driversLicenseImageButton.setImage(passedPhoto, for: .normal)
         self.driverLicenseController?.selectedImage = passedPhoto
+        self.driverLicenseController?.driversLicensePath = nil
         self.driverLicenseController?.submitButton.alpha = 1.0
         self.driverLicenseController?.submitButton.isEnabled = true
         

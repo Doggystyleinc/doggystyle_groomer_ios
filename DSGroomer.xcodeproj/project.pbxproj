@@ -98,6 +98,8 @@
 		E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */; };
 		E38DA94126F9006400DFD365 /* SupportChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA94026F9006400DFD365 /* SupportChatController.swift */; };
 		E38DA94326F924AF00DFD365 /* CustomDriversLicenseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */; };
+		E396B91826FD1DED0087F106 /* music_anim_icon_2.json in Resources */ = {isa = PBXBuildFile; fileRef = E396B91726FD1DED0087F106 /* music_anim_icon_2.json */; };
+		E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396B91A26FD21F50087F106 /* CompleteProfileController.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -141,6 +143,13 @@
 		E3F0F0CB26FBC22300AE13E6 /* Splash_final_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0C826FBC22300AE13E6 /* Splash_final_2@2x.png */; };
 		E3F0F0CC26FBC22300AE13E6 /* Splash_final_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0C926FBC22300AE13E6 /* Splash_final_2.png */; };
 		E3F0F0CE26FCEC5600AE13E6 /* DashboardEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */; };
+		E3F0F0D126FD0F8300AE13E6 /* FinishProfileSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0F0D026FD0F8300AE13E6 /* FinishProfileSubview.swift */; };
+		E3F0F0D426FD13AA00AE13E6 /* puppy_filler_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0D326FD139900AE13E6 /* puppy_filler_video.mp4 */; };
+		E3F0F0D626FD13F100AE13E6 /* VideoSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0F0D526FD13F100AE13E6 /* VideoSubview.swift */; };
+		E3F0F0DB26FD18AB00AE13E6 /* purpleOrangeTintCover@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0D826FD18AA00AE13E6 /* purpleOrangeTintCover@1x.png */; };
+		E3F0F0DC26FD18AB00AE13E6 /* purpleOrangeTintCover@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0D926FD18AA00AE13E6 /* purpleOrangeTintCover@2x.png */; };
+		E3F0F0DD26FD18AB00AE13E6 /* purpleOrangeTintCover@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0DA26FD18AB00AE13E6 /* purpleOrangeTintCover@3x.png */; };
+		E3F0F0DF26FD19A300AE13E6 /* music_anim_icon.json in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0DE26FD19A300AE13E6 /* music_anim_icon.json */; };
 		E3F1205126EE87B9008F2421 /* ContactSupportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F1205026EE87B9008F2421 /* ContactSupportController.swift */; };
 		E3FB6AB5267586B400DE17D2 /* ds_logo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AB2267586B400DE17D2 /* ds_logo_icon.png */; };
 		E3FB6AB6267586B400DE17D2 /* ds_logo_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AB3267586B400DE17D2 /* ds_logo_icon@3x.png */; };
@@ -269,6 +278,8 @@
 		E38DA93D26F8F1AA00DFD365 /* EmployeeAgreementController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeAgreementController.swift; sourceTree = "<group>"; };
 		E38DA94026F9006400DFD365 /* SupportChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportChatController.swift; sourceTree = "<group>"; };
 		E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDriversLicenseCamera.swift; sourceTree = "<group>"; };
+		E396B91726FD1DED0087F106 /* music_anim_icon_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = music_anim_icon_2.json; sourceTree = "<group>"; };
+		E396B91A26FD21F50087F106 /* CompleteProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileController.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -315,6 +326,13 @@
 		E3F0F0C826FBC22300AE13E6 /* Splash_final_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_final_2@2x.png"; sourceTree = "<group>"; };
 		E3F0F0C926FBC22300AE13E6 /* Splash_final_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Splash_final_2.png; sourceTree = "<group>"; };
 		E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardEngine.swift; sourceTree = "<group>"; };
+		E3F0F0D026FD0F8300AE13E6 /* FinishProfileSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishProfileSubview.swift; sourceTree = "<group>"; };
+		E3F0F0D326FD139900AE13E6 /* puppy_filler_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = puppy_filler_video.mp4; sourceTree = "<group>"; };
+		E3F0F0D526FD13F100AE13E6 /* VideoSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoSubview.swift; sourceTree = "<group>"; };
+		E3F0F0D826FD18AA00AE13E6 /* purpleOrangeTintCover@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purpleOrangeTintCover@1x.png"; sourceTree = "<group>"; };
+		E3F0F0D926FD18AA00AE13E6 /* purpleOrangeTintCover@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purpleOrangeTintCover@2x.png"; sourceTree = "<group>"; };
+		E3F0F0DA26FD18AB00AE13E6 /* purpleOrangeTintCover@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "purpleOrangeTintCover@3x.png"; sourceTree = "<group>"; };
+		E3F0F0DE26FD19A300AE13E6 /* music_anim_icon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = music_anim_icon.json; sourceTree = "<group>"; };
 		E3F1205026EE87B9008F2421 /* ContactSupportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSupportController.swift; sourceTree = "<group>"; };
 		E3FB6AB2267586B400DE17D2 /* ds_logo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ds_logo_icon.png; sourceTree = "<group>"; };
 		E3FB6AB3267586B400DE17D2 /* ds_logo_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds_logo_icon@3x.png"; sourceTree = "<group>"; };
@@ -623,6 +641,15 @@
 			path = ContactSupportController;
 			sourceTree = "<group>";
 		};
+		E396B91926FD1F2B0087F106 /* DashboardControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */,
+				E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */,
+			);
+			path = DashboardControllers;
+			sourceTree = "<group>";
+		};
 		E3BEE4342665560700D765A7 /* FontAwesome */ = {
 			isa = PBXGroup;
 			children = (
@@ -695,6 +722,8 @@
 		E3CFCB5D26632772003C1B73 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E3F0F0D726FD189F00AE13E6 /* TintCovers */,
+				E3F0F0D226FD136E00AE13E6 /* Videos */,
 				E3D2816526F393CC00ACE7C8 /* Animations */,
 				E3D53F2726A9EA51003B4317 /* AppIcons */,
 				E341C39326826C9200334A59 /* GroomerLocationIcons */,
@@ -742,6 +771,8 @@
 		E3D2816526F393CC00ACE7C8 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				E396B91726FD1DED0087F106 /* music_anim_icon_2.json */,
+				E3F0F0DE26FD19A300AE13E6 /* music_anim_icon.json */,
 				E3D2816626F393D600ACE7C8 /* groomer_loading.json */,
 			);
 			path = Animations;
@@ -771,8 +802,9 @@
 		E3D2816E26F3D90E00ACE7C8 /* DashboardController */ = {
 			isa = PBXGroup;
 			children = (
-				E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */,
-				E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */,
+				E396B91926FD1F2B0087F106 /* DashboardControllers */,
+				E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */,
+				E3F0F0CF26FD0F6700AE13E6 /* FinishProfileStateControllers */,
 			);
 			path = DashboardController;
 			sourceTree = "<group>";
@@ -799,6 +831,34 @@
 				E3D53F2926A9EA5B003B4317 /* ios_doggystyle_icon87.png */,
 			);
 			path = AppIcons;
+			sourceTree = "<group>";
+		};
+		E3F0F0CF26FD0F6700AE13E6 /* FinishProfileStateControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E3F0F0D026FD0F8300AE13E6 /* FinishProfileSubview.swift */,
+				E3F0F0D526FD13F100AE13E6 /* VideoSubview.swift */,
+				E396B91A26FD21F50087F106 /* CompleteProfileController.swift */,
+			);
+			path = FinishProfileStateControllers;
+			sourceTree = "<group>";
+		};
+		E3F0F0D226FD136E00AE13E6 /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				E3F0F0D326FD139900AE13E6 /* puppy_filler_video.mp4 */,
+			);
+			path = Videos;
+			sourceTree = "<group>";
+		};
+		E3F0F0D726FD189F00AE13E6 /* TintCovers */ = {
+			isa = PBXGroup;
+			children = (
+				E3F0F0D826FD18AA00AE13E6 /* purpleOrangeTintCover@1x.png */,
+				E3F0F0D926FD18AA00AE13E6 /* purpleOrangeTintCover@2x.png */,
+				E3F0F0DA26FD18AB00AE13E6 /* purpleOrangeTintCover@3x.png */,
+			);
+			path = TintCovers;
 			sourceTree = "<group>";
 		};
 		E3FB6AB8267682F400DE17D2 /* TabBarIcons */ = {
@@ -859,7 +919,6 @@
 			children = (
 				E38DA93F26F9003900DFD365 /* ContactSupportController */,
 				E3D2816E26F3D90E00ACE7C8 /* DashboardController */,
-				E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */,
 			);
 			path = MainDashController;
 			sourceTree = "<group>";
@@ -935,6 +994,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3F0F0D426FD13AA00AE13E6 /* puppy_filler_video.mp4 in Resources */,
 				E3176B3A26EA9485003D6CEF /* Rubik-Black.ttf in Resources */,
 				E304ED8726EBF075002D625A /* tab_calendar_icon@3x.png in Resources */,
 				E3176B3B26EA9485003D6CEF /* Rubik-BlackItalic.ttf in Resources */,
@@ -955,6 +1015,7 @@
 				E3176B4A26EA9485003D6CEF /* Poppins-BoldItalic.ttf in Resources */,
 				E3176B4B26EA9485003D6CEF /* Poppins-ExtraBold.ttf in Resources */,
 				E3176B4C26EA9485003D6CEF /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				E396B91826FD1DED0087F106 /* music_anim_icon_2.json in Resources */,
 				E3D2816726F393D600ACE7C8 /* groomer_loading.json in Resources */,
 				E3176B4D26EA9485003D6CEF /* Poppins-ExtraLight.ttf in Resources */,
 				E3176B4E26EA9485003D6CEF /* Poppins-ExtraLightItalic.ttf in Resources */,
@@ -964,12 +1025,14 @@
 				E3176B5126EA9485003D6CEF /* Poppins-LightItalic.ttf in Resources */,
 				E3176B5226EA9485003D6CEF /* Poppins-Medium.ttf in Resources */,
 				E3176B5326EA9485003D6CEF /* Poppins-MediumItalic.ttf in Resources */,
+				E3F0F0DB26FD18AB00AE13E6 /* purpleOrangeTintCover@1x.png in Resources */,
 				E3176B5426EA9485003D6CEF /* Poppins-Regular.ttf in Resources */,
 				E3176B5526EA9485003D6CEF /* Poppins-SemiBoldItalic.ttf in Resources */,
 				E3176B5626EA9485003D6CEF /* Poppins-Thin.ttf in Resources */,
 				E3176B5726EA9485003D6CEF /* Poppins-ThinItalic.ttf in Resources */,
 				E341C39926826CA400334A59 /* search_glass@3x.png in Resources */,
 				E304ED8F26EBF075002D625A /* tab_person_icon@2x.png in Resources */,
+				E3F0F0DF26FD19A300AE13E6 /* music_anim_icon.json in Resources */,
 				E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */,
 				E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */,
 				E3D53F2F26A9EA5B003B4317 /* ios_doggystyle_icon58.png in Resources */,
@@ -1004,6 +1067,7 @@
 				E3FB6AED2676895400DE17D2 /* person_deselected.png in Resources */,
 				E341C3A426826CB300334A59 /* orange_check_mark@3x.png in Resources */,
 				E3FB6ADB2676870E00DE17D2 /* home_deselected_3@2x.png in Resources */,
+				E3F0F0DC26FD18AB00AE13E6 /* purpleOrangeTintCover@2x.png in Resources */,
 				E3D53F3426A9EA61003B4317 /* ios_doggystyle_icon.png in Resources */,
 				E3FB6ADA2676870E00DE17D2 /* home_deselected_3@3x.png in Resources */,
 				E3FB6AF926768BB800DE17D2 /* notification_bell.png in Resources */,
@@ -1044,6 +1108,7 @@
 				E341C39E26826CAB00334A59 /* orange_pin.png in Resources */,
 				E3176B7226EBDC3B003D6CEF /* notifications_groomer.png in Resources */,
 				E341C3A526826CB300334A59 /* orange_check_mark.png in Resources */,
+				E3F0F0DD26FD18AB00AE13E6 /* purpleOrangeTintCover@3x.png in Resources */,
 				E3FB6ADC2676870E00DE17D2 /* home_deselected_3.png in Resources */,
 				E3FB6AEE2676895400DE17D2 /* person_deselected@3x.png in Resources */,
 				E333A926265D915400897572 /* Assets.xcassets in Resources */,
@@ -1144,6 +1209,7 @@
 				E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */,
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
+				E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */,
 				E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */,
 				E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */,
 				E3FB6B072676B16400DE17D2 /* GroomerChecklistFeeder.swift in Sources */,
@@ -1159,8 +1225,10 @@
 				E38DA94126F9006400DFD365 /* SupportChatController.swift in Sources */,
 				E3176B5F26EAA450003D6CEF /* LoginController.swift in Sources */,
 				E333A93D265D94BB00897572 /* DecisionController.swift in Sources */,
+				E3F0F0D126FD0F8300AE13E6 /* FinishProfileSubview.swift in Sources */,
 				E3C2EB69266170C000AB0EF6 /* GroomerOnboardingStruct.swift in Sources */,
 				E3F1205126EE87B9008F2421 /* ContactSupportController.swift in Sources */,
+				E3F0F0D626FD13F100AE13E6 /* VideoSubview.swift in Sources */,
 				E38DA92D26F8DDC500DFD365 /* DriversLicenseController.swift in Sources */,
 				E3176B6926EBC666003D6CEF /* LocationController.swift in Sources */,
 				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,

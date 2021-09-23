@@ -51,6 +51,7 @@ struct GroomerUserStruct {
     var users_sign_up_date : Double?
     var groomer_child_key_from_playbook : String?
     var profile_image_url: String?
+    var drivers_license_image_url : String?
 
     //LOCATION DATA
     var groomers_location_latitude : Double?
