@@ -42,6 +42,8 @@ def shared_pods
     #Google Maps
     pod 'GoogleMaps'
     
+    #Shimmer
+    pod 'ShimmerSwift'
    
 end
 

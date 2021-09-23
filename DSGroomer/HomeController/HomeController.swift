@@ -350,4 +350,23 @@ class HomeController : UITabBarController {
             })
         }
     }
+    
+    @objc func handleLogout() {
+        
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+            return
+        }
+        
+        Database.database().reference().removeAllObservers()
+        
+        let decisionController = DecisionController()
+        let nav = UINavigationController(rootViewController: decisionController)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        self.navigationController?.present(nav, animated: true, completion: nil)
+        
+    }
 }

@@ -12,6 +12,8 @@ import FontAwesome_swift
 class DashboardController : UIViewController {
     
     var homeController : HomeController?
+    let databaseRef = Database.database().reference()
+    let mainLoadingScreen = MainLoadingScreen()
     
     lazy var notificationIcon : UIButton = {
         
@@ -102,6 +104,7 @@ class DashboardController : UIViewController {
         hl.adjustsFontSizeToFitWidth = true
         hl.textAlignment = .left
         hl.textColor = dsLightBlack
+        hl.isHidden = true
         
         return hl
     }()
@@ -112,6 +115,7 @@ class DashboardController : UIViewController {
         layout.scrollDirection = .vertical
         let dh = GroomerChecklistCollection(frame: .zero, collectionViewLayout: layout)
         dh.dashboardController = self
+        dh.isHidden = true
         
        return dh
     }()
@@ -121,6 +125,7 @@ class DashboardController : UIViewController {
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
+        self.runDataEngine()
         
     }
     
@@ -174,6 +179,83 @@ class DashboardController : UIViewController {
         self.groomerChecklistCollection.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.groomerChecklistCollection.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
 
+    }
+    
+    @objc func runDataEngine() {
+        
+        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+        
+        //MARK: - GRAB THE PLAYBOOK KEY FROM THE ALL USERS NODE FOR PLAYBOOKS REFERENCE
+        self.grabPlayBookKey { doesKeyExist, returnedKey, user_uid in
+            
+            if doesKeyExist {
+                
+                //MARK: - CHECK TO SEE IF THE GROOMER HAS COMPLETED THEIR PROFILE MANAGEMENT
+                self.checkProfileManagentCompletion(groomerKey: returnedKey) { hasCompletedProfileManagement in
+                    
+                    if hasCompletedProfileManagement {
+                        print("User has completed profile management")
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+
+                    } else {
+                        print("User has NOT completed profile management")
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        self.unhideGroomerProfileSetup()
+                    }
+                }
+                
+            } else {
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                AlertControllerCompletion.handleAlertWithCompletion(title: "FATAL ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) and let them know your account needs attention. Please append this unique ID to the email as well: \(user_uid) - thank you.") { isComplete in
+                    self.homeController?.handleLogout()
+                }
+            }
+        }
+    }
+
+    func unhideGroomerProfileSetup() {
+        
+        self.groomerChecklistCollection.isHidden = false
+        self.subHeaderLabel.isHidden = false
+        
+    }
+    
+    @objc func grabPlayBookKey(completion : @escaping (_ keyExists : Bool, _ returnedKey : String, _ userUID : String) -> () ) {
+      
+        guard let user_uid = Auth.auth().currentUser?.uid else {
+            self.homeController?.handleLogout()
+            completion(false, "nil", "nil")
+            return
+        }
+    
+        let ref = self.databaseRef.child("all_users").child(user_uid).child("groomer_child_key_from_playbook")
+        
+        ref.observeSingleEvent(of: .value) { snap in
+            
+            let value = snap.value as? String ?? "nil"
+            
+            if value == "nil" {
+                completion(false, value, user_uid)
+            } else {
+                completion(true, value, user_uid)
+            }
+        }
+    }
+    
+    func checkProfileManagentCompletion(groomerKey : String, completion : @escaping (_ hasCompletedProfileManagement : Bool)->()) {
+        
+        let ref = self.databaseRef.child("play_books").child(groomerKey).child("groomer_has_completed_groomer_profile_management")
+        
+        ref.observeSingleEvent(of: .value) { snap in
+            
+            let groomer_has_completed_groomer_profile_management = snap.value as? Bool ?? false
+            
+            if groomer_has_completed_groomer_profile_management == false {
+                completion(false)
+            } else {
+                completion(true)
+            }
+        }
     }
     
     func fillValues() {

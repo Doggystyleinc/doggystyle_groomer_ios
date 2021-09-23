@@ -145,7 +145,6 @@ class CustomDriversLicenseCamera : UIViewController {
         tc.layer.masksToBounds = true
         tc.layer.borderColor = coreWhiteColor.cgColor
         tc.layer.borderWidth = 13
-        tc.layer.cornerRadius = 0
         
        return tc
     }()
@@ -190,11 +189,6 @@ class CustomDriversLicenseCamera : UIViewController {
 
         self.triggerContainer.addSubview(self.takePhotoButton)
 
-        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 38).isActive = true
-        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 43).isActive = true
-        self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
-        self.backButton.widthAnchor.constraint(equalToConstant: 54).isActive = true
-       
         self.lookingGoodLabel.topAnchor.constraint(equalTo: self.profileImageview.bottomAnchor, constant: 43).isActive = true
         self.lookingGoodLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor, constant: 0).isActive = true
         self.lookingGoodLabel.heightAnchor.constraint(equalToConstant: 59).isActive = true
@@ -229,13 +223,25 @@ class CustomDriversLicenseCamera : UIViewController {
         self.profileImageview.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.profileImageview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         self.profileImageview.rightAnchor.constraint(equalTo: self.triggerContainer.leftAnchor, constant: 0).isActive = true
+        self.profileImageview.backgroundColor = .blue
         
-        self.photoContainer.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 60).isActive = true
-        self.photoContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 100).isActive = true
-        self.photoContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -60).isActive = true
-        self.photoContainer.rightAnchor.constraint(equalTo: self.triggerContainer.leftAnchor, constant: -60).isActive = true
-
+        let safeCardFrameArea = ((UIScreen.main.bounds.width) - (UIScreen.main.bounds.width / 3.5))
+        let width = safeCardFrameArea / 1.5
+        let ratioDifference = width * 1.586
+        let height = width - ratioDifference
+        
+        self.photoContainer.centerYAnchor.constraint(equalTo: self.profileImageview.centerYAnchor, constant: 0).isActive = true
+        self.photoContainer.centerXAnchor.constraint(equalTo: self.profileImageview.centerXAnchor, constant: 0).isActive = true
+        self.photoContainer.heightAnchor.constraint(equalToConstant: abs(height)).isActive = true
+        self.photoContainer.widthAnchor.constraint(equalToConstant: abs(width)).isActive = true
+        
+        self.backButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 38).isActive = true
+        self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 43).isActive = true
+        self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
+        self.backButton.widthAnchor.constraint(equalToConstant: 54).isActive = true
+        
         self.view.backgroundColor = coreBackgroundWhite
+        
         self.checkForGalleryAuth()
 
     }

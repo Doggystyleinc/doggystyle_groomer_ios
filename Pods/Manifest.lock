@@ -155,6 +155,7 @@ PODS:
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
   - SDWebImage/Core (5.11.1)
+  - ShimmerSwift (2.1.1)
 
 DEPENDENCIES:
   - Alamofire
@@ -173,6 +174,7 @@ DEPENDENCIES:
   - PhoneNumberKit (~> 3.3)
   - PINRemoteImage
   - SDWebImage
+  - ShimmerSwift
 
 SPEC REPOS:
   trunk:
@@ -206,6 +208,7 @@ SPEC REPOS:
     - PINRemoteImage
     - PromisesObjC
     - SDWebImage
+    - ShimmerSwift
 
 SPEC CHECKSUMS:
   Alamofire: e447a2774a40c996748296fa2c55112fdbbc42f9
@@ -238,7 +241,8 @@ SPEC CHECKSUMS:
   PINRemoteImage: f1295b29f8c5e640e25335a1b2bd9d805171bd01
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  ShimmerSwift: f7ed2daf9c246de8299dfd9e12c6ab465cba9842
 
-PODFILE CHECKSUM: a1cac264a408780ad19da94d83b971a37b1de00a
+PODFILE CHECKSUM: fd8fd946bb4fb039ac5cfbd34070ecf65b4d1894
 
 COCOAPODS: 1.10.1

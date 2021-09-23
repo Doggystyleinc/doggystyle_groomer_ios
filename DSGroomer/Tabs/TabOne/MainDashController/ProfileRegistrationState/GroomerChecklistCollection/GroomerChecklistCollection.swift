@@ -48,7 +48,7 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         let titleFeeder = self.titleArray[indexPath.item]
         cell.checkListLabel.text = titleFeeder
         
-        let backgroundColorForSwitch = coreOrangeColor
+        let backgroundColorForSwitch = dividerGrey
         let iconTintColor = coreWhiteColor.withAlphaComponent(0.6)
         
         var isComplete : Bool = false

@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_screen" translatesAutoresizingMaskIntoConstraints="NO" id="fzM-Af-MYq">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash_final_2.png" translatesAutoresizingMaskIntoConstraints="NO" id="fzM-Af-MYq">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                         </subviews>
@@ -35,6 +35,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="splash_screen" width="414" height="896"/>
+        <image name="Splash_final_2.png" width="414" height="896"/>
     </resources>
 </document>
