@@ -140,6 +140,7 @@
 		E3F0F0CA26FBC22300AE13E6 /* Splash_final_2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0C726FBC22300AE13E6 /* Splash_final_2@3x.png */; };
 		E3F0F0CB26FBC22300AE13E6 /* Splash_final_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0C826FBC22300AE13E6 /* Splash_final_2@2x.png */; };
 		E3F0F0CC26FBC22300AE13E6 /* Splash_final_2.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F0F0C926FBC22300AE13E6 /* Splash_final_2.png */; };
+		E3F0F0CE26FCEC5600AE13E6 /* DashboardEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */; };
 		E3F1205126EE87B9008F2421 /* ContactSupportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3F1205026EE87B9008F2421 /* ContactSupportController.swift */; };
 		E3FB6AB5267586B400DE17D2 /* ds_logo_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AB2267586B400DE17D2 /* ds_logo_icon.png */; };
 		E3FB6AB6267586B400DE17D2 /* ds_logo_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E3FB6AB3267586B400DE17D2 /* ds_logo_icon@3x.png */; };
@@ -313,6 +314,7 @@
 		E3F0F0C726FBC22300AE13E6 /* Splash_final_2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_final_2@3x.png"; sourceTree = "<group>"; };
 		E3F0F0C826FBC22300AE13E6 /* Splash_final_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Splash_final_2@2x.png"; sourceTree = "<group>"; };
 		E3F0F0C926FBC22300AE13E6 /* Splash_final_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Splash_final_2.png; sourceTree = "<group>"; };
+		E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardEngine.swift; sourceTree = "<group>"; };
 		E3F1205026EE87B9008F2421 /* ContactSupportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSupportController.swift; sourceTree = "<group>"; };
 		E3FB6AB2267586B400DE17D2 /* ds_logo_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ds_logo_icon.png; sourceTree = "<group>"; };
 		E3FB6AB3267586B400DE17D2 /* ds_logo_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ds_logo_icon@3x.png"; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C2EB6A2661721D00AB0EF6 /* DashboardController.swift */,
+				E3F0F0CD26FCEC5600AE13E6 /* DashboardEngine.swift */,
 			);
 			path = DashboardController;
 			sourceTree = "<group>";
@@ -1168,6 +1171,7 @@
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E3D2817326F3EB8500ACE7C8 /* CustomCameraController.swift in Sources */,
+				E3F0F0CE26FCEC5600AE13E6 /* DashboardEngine.swift in Sources */,
 				E38DA93426F8E59600DFD365 /* SocialSecurityController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
 				E38DA93226F8E32600DFD365 /* CriminalRecordController.swift in Sources */,

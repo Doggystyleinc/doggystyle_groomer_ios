@@ -18,6 +18,8 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
     
     let titleArray : [String] = ["Profile picture", "Drivers license", "Background check", "Payment preferences", "Employee agreement"]
     
+    var checkListBooleanArray : [Bool] = [false, false, false, false, false]
+    
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
         
@@ -45,92 +47,90 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         
         let cell = self.dequeueReusableCell(withReuseIdentifier: self.groomerChecklistID, for: indexPath) as! GroomerChecklistFeeder
         cell.groomerChecklistCollection = self
+        
         let titleFeeder = self.titleArray[indexPath.item]
+        let completionArray = self.checkListBooleanArray[indexPath.item]
+        
+        var managementBackgroundColor : UIColor = coreWhiteColor
+        var iconTintColor : UIColor = coreWhiteColor
+        var shouldShowCheckMark : Bool = false
+        
+        if completionArray == true {
+            
+            managementBackgroundColor = dsDeepBlue.withAlphaComponent(0.12)
+            shouldShowCheckMark = false
+            iconTintColor = coreWhiteColor.withAlphaComponent(0.6)
+
+        } else {
+            
+            managementBackgroundColor = coreOrangeColor
+            shouldShowCheckMark = true
+            iconTintColor = coreWhiteColor.withAlphaComponent(0.6)
+
+        }
+        
         cell.checkListLabel.text = titleFeeder
-        
-        let backgroundColorForSwitch = dividerGrey
-        let iconTintColor = coreWhiteColor.withAlphaComponent(0.6)
-        
-        var isComplete : Bool = false
         
         switch titleFeeder {
         
         case "Profile picture" :
             
-            cell.checkListIcon.backgroundColor = coreWhiteColor
-            cell.checkListIcon.setTitle("", for: .normal)
-            cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
-            cell.checkListIcon.backgroundColor = iconTintColor
-            cell.mainContainer.backgroundColor = backgroundColorForSwitch
+            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item)
             
-            if isComplete == true {
-                cell.checkListCheckMark.isHidden = false
-            } else {
-                cell.checkListCheckMark.isHidden = true
+            let imageView = UIImageView()
+            let imageURL = groomerUserStruct.profile_image_url ?? "nil"
+            print(imageURL, "image url")
+            if imageURL != "nil" {
+                imageView.loadImageGeneralUse(imageURL) { image in
+                    print("loaded the profile image")
+                    cell.checkListIcon.setImage(imageView.image, for: .normal)
+                }
             }
             
         case "Drivers license" :
             
-            cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
-            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
-            cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
-            cell.checkListIcon.backgroundColor = .clear
-            cell.mainContainer.backgroundColor = backgroundColorForSwitch
-            
-            if isComplete == true {
-                cell.checkListCheckMark.isHidden = false
-            } else {
-                cell.checkListCheckMark.isHidden = true
-            }
+            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item)
 
         case "Background check" :
             
-            cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
-            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .userCheck), for: .normal)
-            cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
-            cell.checkListIcon.backgroundColor = .clear
-            cell.mainContainer.backgroundColor = backgroundColorForSwitch
+            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item)
             
-            if isComplete == true {
-                cell.checkListCheckMark.isHidden = false
-            } else {
-                cell.checkListCheckMark.isHidden = true
-            }
-
         case "Payment preferences" :
             
-            cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
-            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .passport), for: .normal)
-            cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
-            cell.checkListIcon.backgroundColor = .clear
-            cell.mainContainer.backgroundColor = backgroundColorForSwitch
-            
-            if isComplete == true {
-                cell.checkListCheckMark.isHidden = false
-            } else {
-                cell.checkListCheckMark.isHidden = true
-            }
-            
+            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item)
+
         case "Employee agreement" :
             
-            cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
-            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .signature), for: .normal)
-            cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
-            cell.checkListIcon.backgroundColor = .clear
-            cell.mainContainer.backgroundColor = backgroundColorForSwitch
-            
-            if isComplete == true {
-                cell.checkListCheckMark.isHidden = false
-            } else {
-                cell.checkListCheckMark.isHidden = true
-            }
-            
+            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item)
 
         default: print("nothing here")
             
         }
         
         return cell
+    }
+    
+    func orientatoinState(cell : GroomerChecklistFeeder, passedBackgroundColor : UIColor, passedCheckmarkState : Bool, icontTintColor : UIColor, indexPathItem : Int) {
+        
+        cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
+        cell.checkListIcon.setTitleColor(icontTintColor, for: .normal)
+        cell.checkListIcon.backgroundColor = .clear
+        cell.mainContainer.backgroundColor = passedBackgroundColor
+        cell.checkListCheckMark.isHidden = passedCheckmarkState
+        cell.checkListIcon.setImage(UIImage(), for: .normal)
+        
+        switch indexPathItem {
+        
+        case 0:
+            cell.checkListIcon.backgroundColor = coreWhiteColor.withAlphaComponent(0.6)
+            cell.checkListIcon.setTitle("", for: .normal)
+        case 1: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
+        case 2: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .userCheck), for: .normal)
+        case 3: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .creditCard), for: .normal)
+        case 4: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .signature), for: .normal)
+        default:print("default for item in groomer collection")
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{
@@ -143,14 +143,39 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         guard let indexPath = self.indexPath(for: selectedButtonCell) else {return}
         
         let titleFeeder = self.titleArray[indexPath.item]
+        let isCompleted = self.checkListBooleanArray[indexPath.item]
         
         switch titleFeeder {
         
-        case "Profile picture" : self.handleProfileSelectionTaps()
-        case "Drivers license" : self.handleDriversLicenseTaps()
-        case "Background check" : self.handleBackgroundTaps()
-        case "Payment preferences" : self.handlepaymentPreferencesTaps()
-        case "Employee agreement" : self.handleEmployeeAgreementTaps()
+        case "Profile picture" :
+            
+            if isCompleted == false {
+                self.handleProfileSelectionTaps()
+            }
+            
+        case "Drivers license" :
+            
+            if isCompleted == false {
+            self.handleDriversLicenseTaps()
+            }
+            
+        case "Background check" :
+            
+            if isCompleted == false {
+            self.handleBackgroundTaps()
+            }
+            
+        case "Payment preferences" :
+            
+            if isCompleted == false {
+            self.handlepaymentPreferencesTaps()
+            }
+            
+        case "Employee agreement" :
+            
+            if isCompleted == false {
+            self.handleEmployeeAgreementTaps()
+            }
 
         default: print("nothing here")
             
@@ -158,22 +183,27 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
     }
     
     func handleProfileSelectionTaps() {
+        UIDevice.vibrateLight()
         self.dashboardController?.handleGroomerProfileController()
     }
     
     func handleDriversLicenseTaps() {
+        UIDevice.vibrateLight()
         self.dashboardController?.handleDriversLicenseController()
     }
     
     func handleBackgroundTaps() {
+        UIDevice.vibrateLight()
         self.dashboardController?.handleBackgroundCheckController()
     }
     
     func handlepaymentPreferencesTaps() {
+        UIDevice.vibrateLight()
         self.dashboardController?.handleLinkBankAccountController()
     }
     
     func handleEmployeeAgreementTaps() {
+        UIDevice.vibrateLight()
         self.dashboardController?.handleEmployeeAgreementController()
     }
     

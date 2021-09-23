@@ -343,7 +343,16 @@ class HomeController : UITabBarController {
                             completion(false);
                             return
                         } else {
-                            completion(true);
+                            
+                        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+                        let playbookRef = self.databaseRef.child("play_books").child(groomerKey)
+                            
+                        let playbookValues : [String : Any] = ["groomer_has_completed_profile_photo_management" : true]
+                            playbookRef.updateChildValues(playbookValues) { error, ref in
+                                
+                                completion(true)
+
+                            }
                         }
                     })
                 }

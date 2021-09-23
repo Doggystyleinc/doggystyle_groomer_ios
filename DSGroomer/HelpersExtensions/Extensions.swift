@@ -365,7 +365,7 @@ struct Statics {
     static let  PRIVACY_POLICY : String = "https://www..com"
     
     static let  SUPPORT_EMAIL_ADDRESS : String = "support@doggystyle.ca"
-    static let  SUPPORT_PHONE_NUMBER : String = "8455581855"
+    static let  SUPPORT_PHONE_NUMBER : String = "6475988823"
 
     static let  FAQS : String = "https://www..com"
     static let  APP_STORE_URL : String = "https://"

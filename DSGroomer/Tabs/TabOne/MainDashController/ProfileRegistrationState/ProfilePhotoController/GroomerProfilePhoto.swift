@@ -338,6 +338,7 @@ class GroomerProfileController : UIViewController {
                 
                 if isComplete {
                     
+                    self.dashboardController?.runDataEngine()
                     self.mainLoadingScreen.cancelMainLoadingScreen()
                     self.handleBackButton()
                     

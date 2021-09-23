@@ -290,6 +290,8 @@ class Service : NSObject {
                 let users_sign_up_date = JSON["users_sign_up_date"] as? Double ?? 0.0
                 let groomer_child_key_from_playbook = JSON["groomer_child_key_from_playbook"] as? String ?? "nil"
                 let users_ref_key = JSON["users_ref_key"] as? String ?? "nil"
+                let profile_image_url = JSON["profile_image_url"] as? String ?? "nil"
+
                 
                 groomerUserStruct.groomers_phone_number = groomers_phone_number
                 groomerUserStruct.groomers_area_code = groomers_area_code
@@ -308,6 +310,7 @@ class Service : NSObject {
                 groomerUserStruct.users_sign_up_date = users_sign_up_date
                 groomerUserStruct.groomer_child_key_from_playbook = groomer_child_key_from_playbook
                 groomerUserStruct.users_ref_key = users_ref_key
+                groomerUserStruct.profile_image_url = profile_image_url
                 completion(true)
                 
             } else {
