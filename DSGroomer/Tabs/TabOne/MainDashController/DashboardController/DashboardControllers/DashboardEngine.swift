@@ -24,6 +24,9 @@ extension DashboardController {
                 self.checkProfileManagentCompletion(groomerKey: returnedKey) { hasCompletedProfileManagement in
                     
                     if hasCompletedProfileManagement {
+                        
+                        //HERE WE CHECK FOR groomer_has_completed_biography_management TO SEE IF IT'S TRUE, IF IT IS THEN THEY ARE 100% DONE, IF NOT, SEND THEM TO THE VIDEO SCREEN
+                        
                         self.mainLoadingScreen.cancelMainLoadingScreen()
                         self.handleProfileManagementCompletionSetup()
                     } else {

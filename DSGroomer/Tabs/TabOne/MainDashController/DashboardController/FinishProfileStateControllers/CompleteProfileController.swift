@@ -19,7 +19,8 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
         contentOffSet : CGFloat = 0.0,
         contentHeight : CGFloat = 685,
         lastKeyboardHeight : CGFloat = 0.0,
-        isKeyboardShowing : Bool = false
+        isKeyboardShowing : Bool = false,
+        databaseRef = Database.database().reference()
 
     let mainLoadingScreen = MainLoadingScreen()
     
@@ -584,9 +585,6 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
     
     @objc func handleBreedFieldChange() {
         
-        guard let dogBreedText = self.dogBreedTextField.text else {return}
-        self.dogBreedTextField.text = dogBreedText.lowercased()
-        
         if self.dogBreedTextField.text != "" {
             self.typingBreedLabel.isHidden = false
             self.placeHolderBreedLabel.isHidden = true
@@ -599,9 +597,6 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
     }
     
     @objc func handleHometownFieldChange() {
-        
-        guard let hometownText = self.homeTownTextField.text else {return}
-        self.homeTownTextField.text = hometownText.lowercased()
         
         if self.homeTownTextField.text != "" {
             self.typingHomeTownLabel.isHidden = false
@@ -644,14 +639,92 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
     }
     
     func resignation() {
+        
         self.dogBreedTextField.resignFirstResponder()
         self.homeTownTextField.resignFirstResponder()
         self.notesTextView.resignFirstResponder()
+        
     }
     
     @objc func handleSaveButton() {
+        
         self.resignation()
         self.scrollView.scrollToTop()
+        guard let user_uid = Auth.auth().currentUser?.uid else {return}
+        
+        guard let breedTextField = self.dogBreedTextField.text else {return}
+        guard let hometownTextField = self.homeTownTextField.text else {return}
+        guard let notesTextView = self.notesTextView.text else {return}
+        
+        let cleanBreed = breedTextField.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanHometown = hometownTextField.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanAboutYourSelf = notesTextView.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if cleanBreed.count > 2 {
+            self.dogBreedTextField.layer.borderColor = UIColor .clear.cgColor
+            if cleanHometown.count > 2 {
+                self.homeTownTextField.layer.borderColor = UIColor .clear.cgColor
+                if cleanAboutYourSelf.count > 20 {
+                    
+                    self.notesTextView.layer.borderColor = UIColor.clear.cgColor
+                    self.dogBreedTextField.layer.borderColor = UIColor .clear.cgColor
+                    self.homeTownTextField.layer.borderColor = UIColor .clear.cgColor
+                    
+                    self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+                    
+                    let values : [String : Any] = ["groomers_favorite_dog_breed" : cleanBreed, "groomers_hometown" : cleanHometown, "groomers_bio" : cleanAboutYourSelf]
+                    
+                    let ref = self.databaseRef.child("all_users").child(user_uid)
+                    
+                    ref.updateChildValues(values) { error, ref in
+                        
+                        if error != nil {
+                            AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "We are not able to save your bio at this time. Please try again.") { isComplete in
+                                print("BIO ALERT")
+                            }
+                            return
+                        }
+                        
+                        let groomerID = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+                       
+                        
+                        if groomerID == "nil" {
+                            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) to resolve this matter.") { complete in
+                                self.mainLoadingScreen.cancelMainLoadingScreen()
+                                self.handleBackButton()
+                            }
+                        } else {
+                            
+                            let playbookRef = self.databaseRef.child("play_books").child(groomerID)
+                            let playbookValues : [String : Any] = ["groomer_has_completed_biography_management" : true]
+                            
+                            playbookRef.updateChildValues(playbookValues) { error, ref in
+                                
+                                if error != nil {
+                                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) to resolve this matter.") { complete in
+                                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                                        self.handleBackButton()
+                                    }
+                                    return
+                                }
+                                
+                                self.mainLoadingScreen.cancelMainLoadingScreen()
+                                self.dashboardController?.runDataEngine()
+                                self.handleBackButton()
+                                
+                            }
+                        }
+                    }
+                    
+                } else {
+                    self.notesTextView.layer.borderColor = coreRedColor.cgColor
+                }
+            } else {
+                self.homeTownTextField.layer.borderColor = coreRedColor.cgColor
+            }
+        } else {
+            self.dogBreedTextField.layer.borderColor = coreRedColor.cgColor
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
