@@ -282,21 +282,22 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
         etfc.autocorrectionType = .no
         etfc.delegate = self
         etfc.backgroundColor = coreWhiteColor
+        
         etfc.keyboardAppearance = UIKeyboardAppearance.light
         etfc.returnKeyType = .default
-        etfc.layer.masksToBounds = true
+        
         etfc.layer.cornerRadius = 10
         etfc.layer.borderColor = UIColor.clear.cgColor
         etfc.layer.borderWidth = 1
-        etfc.clipsToBounds = false
         etfc.layer.masksToBounds = false
+        
         etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
         etfc.layer.shadowOpacity = 0.05
         etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
         etfc.layer.shadowRadius = 9
         etfc.layer.shouldRasterize = false
+        
         etfc.isUserInteractionEnabled = true
-        etfc.contentInset = UIEdgeInsets(top: 18, left: 30, bottom: 18, right: 30)
         etfc.clipsToBounds = true
         etfc.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleNotesTouch)))
         
@@ -377,6 +378,8 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
         self.fillValues()
         
         self.scrollView.keyboardDismissMode = .interactive
+        self.notesTextView.contentInset = UIEdgeInsets(top: 18, left: 10, bottom: 18, right: 10)
+
 
     }
     

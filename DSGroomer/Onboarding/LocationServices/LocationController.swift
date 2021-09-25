@@ -25,6 +25,7 @@ class LocationController : UIViewController {
         cbf.contentMode = .scaleAspectFill
         cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 22, style: .solid)
         cbf.setTitle(String.fontAwesomeIcon(name: .chevronLeft), for: .normal)
+        cbf.isHidden = true
         cbf.addTarget(self, action: #selector(self.handleBackButton), for: UIControl.Event.touchUpInside)
         return cbf
         

@@ -14,6 +14,8 @@ import GoogleMaps
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    var devicesOrientation: UIInterfaceOrientationMask = .portrait
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //FIREBASE CONFIGURATION
@@ -31,11 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    var orientationLock = UIInterfaceOrientationMask.portrait
-    var myOrientation: UIInterfaceOrientationMask = .portrait
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        return myOrientation
+        return self.devicesOrientation
     }
   
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {

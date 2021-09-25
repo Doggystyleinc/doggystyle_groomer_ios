@@ -21,14 +21,20 @@ extension DashboardController {
             if doesKeyExist {
                 
                 //MARK: - CHECK TO SEE IF THE GROOMER HAS COMPLETED THEIR PROFILE MANAGEMENT
-                self.checkProfileManagentCompletion(groomerKey: returnedKey) { hasCompletedProfileManagement in
+                self.checkProfileManagentCompletion(groomerKey: returnedKey) { hasCompletedProfileManagement, hasCompletedBiographyManagement, hasCompletedBackgroundCheckManagement, hasCompletedPaymentPreferencesManagement, groomer_has_completed_employee_agreement   in
                     
-                    if hasCompletedProfileManagement {
-                        
-                        //HERE WE CHECK FOR groomer_has_completed_biography_management TO SEE IF IT'S TRUE, IF IT IS THEN THEY ARE 100% DONE, IF NOT, SEND THEM TO THE VIDEO SCREEN
+                    //MARK: - GROOMER HAS COMPLETED EVERY PROFILE SETUP, TAKE THEM TO THE DASHBOARD
+                    if hasCompletedBiographyManagement {
+                       
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        self.setupTheUsersDashboard()
+                       
+                    //MARK: - GROOMER HAS TO COMPLETE HIS BIOGRAPHY
+                    } else if hasCompletedProfileManagement {
                         
                         self.mainLoadingScreen.cancelMainLoadingScreen()
                         self.handleProfileManagementCompletionSetup()
+                        
                     } else {
 
                         var counter : Int = 0
@@ -127,18 +133,42 @@ extension DashboardController {
         }
     }
     
-    func checkProfileManagentCompletion(groomerKey : String, completion : @escaping (_ hasCompletedProfileManagement : Bool)->()) {
+    func checkProfileManagentCompletion(groomerKey : String, completion : @escaping (_ hasCompletedProfileManagement : Bool, _ hasCompletedBiographyManagement : Bool, _ hasCompletedBackgroundCheckManagement : Bool, _ hasCompletedPaymentPreferencesManagement : Bool, _ hasCompletedEmployeeAgreementManagement : Bool)->()) {
         
-        let ref = self.databaseRef.child("play_books").child(groomerKey).child("groomer_has_completed_groomer_profile_management")
+        let ref = self.databaseRef.child("play_books").child(groomerKey)
         
         ref.observeSingleEvent(of: .value) { snap in
             
-            let groomer_has_completed_groomer_profile_management = snap.value as? Bool ?? false
+            guard let JSON = snap.value as? [String : Any] else {
+                completion(false, false, false, false, false)
+                return
+            }
             
-            if groomer_has_completed_groomer_profile_management == false {
-                completion(false)
+            let groomer_has_completed_groomer_profile_management = JSON["groomer_has_completed_groomer_profile_management"] as? Bool ?? false
+            let groomer_has_completed_biography_management = JSON["groomer_has_completed_biography_management"] as? Bool ?? false
+
+            let groomer_has_completed_profile_photo_management = JSON["groomer_has_completed_profile_photo_management"] as? Bool ?? false
+            let groomer_has_completed_driver_license_management = JSON["groomer_has_completed_driver_license_management"] as? Bool ?? false
+            let groomer_has_completed_background_check_management = JSON["groomer_has_completed_background_check_management"] as? Bool ?? false
+            let groomer_has_completed_payment_preferences = JSON["groomer_has_completed_payment_preferences"] as? Bool ?? false
+            let groomer_has_completed_employee_agreement = JSON["groomer_has_completed_employee_agreement"] as? Bool ?? false
+            
+                 if groomer_has_completed_profile_photo_management == true &&
+                    groomer_has_completed_driver_license_management == true &&
+                    groomer_has_completed_background_check_management == true &&
+                    groomer_has_completed_payment_preferences == true &&
+                    groomer_has_completed_employee_agreement == true {
+                
+                let ref = self.databaseRef.child("play_books").child(groomerKey)
+                let values : [String : Any] = ["groomer_has_completed_groomer_profile_management" : true]
+                
+                ref.updateChildValues(values) { error, ref in
+                    completion(true, groomer_has_completed_biography_management, groomer_has_completed_background_check_management, groomer_has_completed_payment_preferences, groomer_has_completed_employee_agreement)
+                }
+                
             } else {
-                completion(true)
+                
+                completion(groomer_has_completed_groomer_profile_management, groomer_has_completed_biography_management, groomer_has_completed_background_check_management, groomer_has_completed_payment_preferences, groomer_has_completed_employee_agreement)
             }
         }
     }

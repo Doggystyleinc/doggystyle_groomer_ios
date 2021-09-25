@@ -77,65 +77,56 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         
         case "Profile picture" :
             
-            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item, textColor: textColor)
+//            cell.checkListIcon.backgroundColor = coreWhiteColor.withAlphaComponent(0.6)
+//            cell.checkListIcon.setTitle("", for: .normal)
+            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .userPlus), for: .normal)
+            cell.checkListIcon.backgroundColor = .clear
+            cell.checkListIcon.setImage(nil, for: .normal)
+            cell.checkListIcon.setBackgroundImage(nil, for: .normal)
             
-            let imageView = UIImageView()
-            let imageURL = groomerUserStruct.profile_image_url ?? "nil"
-            print(imageURL, "image url")
-            if imageURL != "nil" {
-                imageView.loadImageGeneralUse(imageURL) { image in
-                    print("loaded the profile image")
-                    cell.checkListIcon.setImage(imageView.image, for: .normal)
-                }
-            }
+            
+//            cell.loadImage()
             
         case "Drivers license" :
             
-            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item, textColor: textColor)
-
+            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
+            cell.checkListIcon.backgroundColor = .clear
+            cell.checkListIcon.setImage(nil, for: .normal)
+            cell.checkListIcon.setBackgroundImage(nil, for: .normal)
+            
         case "Background check" :
             
-            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item, textColor: textColor)
+            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .userCheck), for: .normal)
+            cell.checkListIcon.backgroundColor = .clear
+            cell.checkListIcon.setImage(nil, for: .normal)
+            cell.checkListIcon.setBackgroundImage(nil, for: .normal)
             
         case "Payment preferences" :
             
-            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item, textColor: textColor)
-
+            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .creditCard), for: .normal)
+            cell.checkListIcon.backgroundColor = .clear
+            cell.checkListIcon.setImage(nil, for: .normal)
+            cell.checkListIcon.setBackgroundImage(nil, for: .normal)
+            
         case "Employee agreement" :
             
-            self.orientatoinState(cell: cell, passedBackgroundColor: managementBackgroundColor, passedCheckmarkState: shouldShowCheckMark, icontTintColor: iconTintColor, indexPathItem: indexPath.item, textColor: textColor)
-
+            cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .signature), for: .normal)
+            cell.checkListIcon.backgroundColor = .clear
+            cell.checkListIcon.setImage(nil, for: .normal)
+            cell.checkListIcon.setBackgroundImage(nil, for: .normal)
+            
         default: print("nothing here")
             
         }
         
-        return cell
-    }
-    
-    func orientatoinState(cell : GroomerChecklistFeeder, passedBackgroundColor : UIColor, passedCheckmarkState : Bool, icontTintColor : UIColor, indexPathItem : Int, textColor : UIColor) {
-        
-        switch indexPathItem {
-        
-        case 0:
-            cell.checkListIcon.backgroundColor = coreWhiteColor.withAlphaComponent(0.6)
-            cell.checkListIcon.setTitle("", for: .normal)
-        case 1: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .idCard), for: .normal)
-        case 2: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .userCheck), for: .normal)
-        case 3: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .creditCard), for: .normal)
-        case 4: cell.checkListIcon.setTitle(String.fontAwesomeIcon(name: .signature), for: .normal)
-        default:print("default for item in groomer collection")
-        }
-        
         cell.checkListIcon.titleLabel?.font = UIFont.fontAwesome(ofSize: 29, style: .solid)
-        cell.checkListIcon.setTitleColor(icontTintColor, for: .normal)
-        cell.checkListIcon.backgroundColor = .clear
-        cell.mainContainer.backgroundColor = passedBackgroundColor
-        cell.checkListCheckMark.isHidden = passedCheckmarkState
-        cell.checkListIcon.setImage(UIImage(), for: .normal)
+        cell.checkListIcon.setTitleColor(iconTintColor, for: .normal)
+        cell.mainContainer.backgroundColor = managementBackgroundColor
+        cell.checkListCheckMark.isHidden = shouldShowCheckMark
         cell.checkListLabel.textColor = textColor
-        
         cell.mainContainer.isHidden = false
         
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat{

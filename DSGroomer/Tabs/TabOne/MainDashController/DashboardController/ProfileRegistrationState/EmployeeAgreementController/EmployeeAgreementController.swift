@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 import FontAwesome_swift
+import Firebase
 
 class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
+    
+    let mainLoadingScreen = MainLoadingScreen(),
+        databaseRef = Database.database().reference()
     
     lazy var backButton : UIButton = {
         
@@ -55,7 +59,7 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
         cbf.layer.cornerRadius = 15
         cbf.layer.masksToBounds = true
         cbf.tintColor = coreWhiteColor
-        cbf.addTarget(self, action: #selector(self.handleNextButton), for: .touchUpInside)
+        cbf.addTarget(self, action: #selector(self.handleAgreeButton), for: .touchUpInside)
         
         return cbf
         
@@ -126,6 +130,7 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
         etfc.isSecureTextEntry = false
         etfc.leftViewMode = .always
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        etfc.isUserInteractionEnabled = false
 
         return etfc
         
@@ -185,6 +190,43 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
         self.signatureTextField.rightAnchor.constraint(equalTo: self.signatureLine.rightAnchor, constant: 0).isActive = true
         self.signatureTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
 
+    }
+    
+    @objc func handleAgreeButton() {
+        
+        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+
+        if groomerKey == "nil" {
+            self.mainLoadingScreen.cancelMainLoadingScreen()
+            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                print("ERROR - HANDLER")
+                self.handleBackButton()
+            }
+            
+        } else {
+            
+            let ref = self.databaseRef.child("play_books").child(groomerKey)
+            let values : [String : Any] = ["groomer_has_completed_employee_agreement" : true]
+            
+            ref.updateChildValues(values) { error, ref in
+                
+                if error != nil {
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                        print("ERROR - HANDLER")
+                        self.handleBackButton()
+                    }
+                    return
+                }
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Statics.RUN_DATA_ENGINE), object: self)
+
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                self.handleBackButton()
+                
+            }
+        }
     }
     
     @objc func handleBackButton() {

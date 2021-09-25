@@ -93,6 +93,21 @@ class DashboardController : UIViewController {
         return hl
     }()
     
+    lazy var showTruckContainerButton : UIButton = {
+        
+        let cbf = UIButton()
+        cbf.translatesAutoresizingMaskIntoConstraints = false
+        cbf.backgroundColor = .clear
+        cbf.contentMode = .scaleAspectFill
+        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 20, style: .solid)
+        cbf.setTitle(String.fontAwesomeIcon(name: .chevronDown), for: .normal)
+        cbf.setTitleColor(coreOrangeColor, for: .normal)
+        cbf.isHidden = true
+        cbf.addTarget(self, action: #selector(self.showTruckContainer), for: UIControl.Event.touchUpInside)
+        return cbf
+        
+    }()
+    
     let subHeaderLabel : UILabel = {
         
         let hl = UILabel()
@@ -129,13 +144,23 @@ class DashboardController : UIViewController {
        return dh
     }()
     
+    lazy var groomerWorkingDashboard : GroomerWorkingDashboard = {
+
+        let dh = GroomerWorkingDashboard()
+        dh.dashboardController = self
+        dh.alpha = 0
+        
+       return dh
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
         self.runDataEngine()
-        
+        self.postObservers()
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,7 +178,9 @@ class DashboardController : UIViewController {
         self.view.addSubview(self.subHeaderLabel)
         self.view.addSubview(self.groomerChecklistCollection)
         self.view.addSubview(self.finishProfileSubview)
-       
+        self.view.addSubview(self.groomerWorkingDashboard)
+        self.view.addSubview(self.showTruckContainerButton)
+
         self.informationIcon.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
         self.informationIcon.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.informationIcon.heightAnchor.constraint(equalToConstant: 25).isActive = true
@@ -174,26 +201,40 @@ class DashboardController : UIViewController {
         self.notificationBubble.widthAnchor.constraint(equalToConstant: 23).isActive = true
         self.notificationBubble.layer.cornerRadius = 23/2
         
+        self.showTruckContainerButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.showTruckContainerButton.topAnchor.constraint(equalTo: self.notificationBubble.bottomAnchor, constant: 48).isActive = true
+        self.showTruckContainerButton.heightAnchor.constraint(equalToConstant: 34).isActive = true
+        self.showTruckContainerButton.widthAnchor.constraint(equalToConstant: 34).isActive = true
+        
         self.headerLabel.topAnchor.constraint(equalTo: self.notificationBubble.bottomAnchor, constant: 53).isActive = true
         self.headerLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.headerLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
+        self.headerLabel.rightAnchor.constraint(equalTo: self.showTruckContainerButton.leftAnchor, constant: -5).isActive = true
         self.headerLabel.sizeToFit()
-        
+
         self.subHeaderLabel.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 14).isActive = true
         self.subHeaderLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.subHeaderLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.subHeaderLabel.sizeToFit()
         
-        self.groomerChecklistCollection.topAnchor.constraint(equalTo: self.subHeaderLabel.bottomAnchor, constant: 20).isActive = true
+        self.groomerChecklistCollection.topAnchor.constraint(equalTo: self.subHeaderLabel.bottomAnchor, constant: 15).isActive = true
         self.groomerChecklistCollection.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.groomerChecklistCollection.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.groomerChecklistCollection.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         
-        self.finishProfileSubview.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 20).isActive = true
+        self.finishProfileSubview.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 15).isActive = true
         self.finishProfileSubview.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.finishProfileSubview.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.finishProfileSubview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        
+        self.groomerWorkingDashboard.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 15).isActive = true
+        self.groomerWorkingDashboard.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        self.groomerWorkingDashboard.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        self.groomerWorkingDashboard.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
 
+    }
+    
+    func postObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.runDataEngine), name: NSNotification.Name(Statics.RUN_DATA_ENGINE), object: nil)
     }
     
     func handleProfileManagementCompletionSetup() {
@@ -203,13 +244,38 @@ class DashboardController : UIViewController {
         
         self.groomerChecklistCollection.alpha = 0
         self.groomerChecklistCollection.isHidden = true
+        
+        self.groomerWorkingDashboard.alpha = 0.0
+        self.groomerWorkingDashboard.isHidden = true
+        
+        self.finishProfileSubview.alpha = 1.0
         self.finishProfileSubview.isHidden = false
-
+        
         UIView.animate(withDuration: 0.25) {
             self.finishProfileSubview.alpha = 1.0
         } completion: { complete in
             print("Finish Profile Managent is now loaded")
         }
+    }
+    
+    func setupTheUsersDashboard() {
+        
+        //MARK: - INITIAL CHECKLIST FOR THE GROOMER PROFILE MANAGEMENT
+        self.groomerChecklistCollection.alpha = 0
+        self.groomerChecklistCollection.isHidden = true
+        
+        //MARK: - GROOMER BIO WITH VIDEO VIEW
+        self.finishProfileSubview.alpha = 0
+        self.finishProfileSubview.isHidden = true
+        
+        //MARK: - GROOMER WORKING DASHBOARD WITH TRUCK ASSIGNMENT
+        self.groomerWorkingDashboard.alpha = 1.0
+        self.groomerWorkingDashboard.isHidden = false
+        
+    }
+    
+    @objc func showTruckContainer() {
+        self.groomerWorkingDashboard.handleTruckContainerShow()
     }
     
     func unhideGroomerProfileSetup() {

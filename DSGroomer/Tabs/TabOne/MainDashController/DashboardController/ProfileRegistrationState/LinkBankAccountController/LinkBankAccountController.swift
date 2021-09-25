@@ -7,9 +7,16 @@
 
 import Foundation
 import UIKit
+import Firebase
 
-
-class LinkBankAccountController : UIViewController, UITextFieldDelegate {
+class LinkBankAccountController : UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+    
+var lastKeyboardHeight : CGFloat = 0.0,
+    contentHeight : CGFloat = 560,
+    isKeyboardShowing : Bool = false
+    
+    let databaseRef = Database.database().reference(),
+        mainLoadingScreen = MainLoadingScreen()
     
     lazy var backButton : UIButton = {
         
@@ -167,32 +174,89 @@ class LinkBankAccountController : UIViewController, UITextFieldDelegate {
         cbf.layer.cornerRadius = 20
         cbf.layer.masksToBounds = true
         cbf.tintColor = coreWhiteColor
-        cbf.addTarget(self, action: #selector(self.handleSaveAndContinueButton), for: .touchUpInside)
+        cbf.addTarget(self, action: #selector(self.runSaveLogic), for: .touchUpInside)
         
         return cbf
         
+    }()
+    
+    lazy var scrollView : UIScrollView = {
+        
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.backgroundColor = coreBackgroundWhite
+        sv.isScrollEnabled = true
+        sv.minimumZoomScale = 1.0
+        sv.maximumZoomScale = 1.0
+        sv.bounces = true
+        sv.bouncesZoom = true
+        sv.isHidden = false
+        sv.delegate = self
+        sv.contentMode = .scaleAspectFit
+        sv.isUserInteractionEnabled = true
+        sv.delaysContentTouches = true
+        
+        return sv
+        
+    }()
+    
+    let contentView : UIView = {
+        let cv = UIView()
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        cv.backgroundColor = .clear
+        cv.isUserInteractionEnabled = true
+        return cv
     }()
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         self.view.backgroundColor = coreBackgroundWhite
+        self.scrollView.keyboardDismissMode = .interactive
         self.addViews()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        NotificationCenter.default.removeObserver(self)
         
     }
     
     func addViews() {
         
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.dsCompanyLogoImage)
-        self.view.addSubview(self.headerLabel)
-        self.view.addSubview(self.subHeaderLabel)
-        self.view.addSubview(self.routingNumberTextField)
-        self.view.addSubview(self.accountNumberTextField)
-        self.view.addSubview(self.confirmAccountNumberTextField)
-        self.view.addSubview(self.saveAndContinueButton)
+        self.view.addSubview(self.scrollView)
+        self.scrollView.addSubview(self.contentView)
 
-        self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 17).isActive = true
+        self.contentView.addSubview(self.backButton)
+        self.contentView.addSubview(self.dsCompanyLogoImage)
+        self.contentView.addSubview(self.headerLabel)
+        self.contentView.addSubview(self.subHeaderLabel)
+        self.contentView.addSubview(self.routingNumberTextField)
+        self.contentView.addSubview(self.accountNumberTextField)
+        self.contentView.addSubview(self.confirmAccountNumberTextField)
+        self.contentView.addSubview(self.saveAndContinueButton)
+        
+        self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.contentHeight + self.lastKeyboardHeight)
+        
+        self.contentView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 0).isActive = true
+        self.contentView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor, constant: 0).isActive = true
+        self.contentView.leftAnchor.constraint(equalTo: self.scrollView.leftAnchor, constant: 0).isActive = true
+        self.contentView.rightAnchor.constraint(equalTo: self.scrollView.rightAnchor, constant: 0).isActive = true
+        self.contentView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        self.contentView.heightAnchor.constraint(equalToConstant: 550).isActive = true
+
+        self.backButton.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 17).isActive = true
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 11).isActive = true
         self.backButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
         self.backButton.widthAnchor.constraint(equalToConstant: 54).isActive = true
@@ -228,10 +292,128 @@ class LinkBankAccountController : UIViewController, UITextFieldDelegate {
         
         self.saveAndContinueButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.saveAndContinueButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.saveAndContinueButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -53).isActive = true
+        self.saveAndContinueButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0).isActive = true
         self.saveAndContinueButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
     }
+    
+    func resignation() {
+        
+        self.routingNumberTextField.resignFirstResponder()
+        self.accountNumberTextField.resignFirstResponder()
+        self.confirmAccountNumberTextField.resignFirstResponder()
+        
+    }
+    
+    @objc func adjustContentSize() {
+        
+        self.scrollView.layoutIfNeeded()
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.contentHeight + self.lastKeyboardHeight)
+        self.scrollView.scrollToBottom()
+        
+    }
+    
+    @objc func handleKeyboardShow(notification : Notification) {
+        
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        
+        if keyboardRectangle.height > 200 {
+            
+            if self.isKeyboardShowing == true {return}
+            self.isKeyboardShowing = true
+            
+            self.lastKeyboardHeight = keyboardRectangle.height
+            self.perform(#selector(self.handleKeyboardMove), with: nil, afterDelay: 0.1)
+            
+        }
+    }
+    
+    @objc func handleKeyboardHide(notification : Notification) {
+        
+        self.isKeyboardShowing = false
+        
+        let userInfo:NSDictionary = notification.userInfo! as NSDictionary
+        let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        
+        self.lastKeyboardHeight = keyboardRectangle.height
+        self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.contentHeight)
+    }
+    
+    @objc func handleKeyboardMove() {
+        self.adjustContentSize()
+    }
+    
+    @objc func runSaveLogic() {
+         
+        guard let routingNumber = self.routingNumberTextField.text else {return}
+        guard let accountNumber = self.accountNumberTextField.text else {return}
+        guard let confirmAccountNumber = self.confirmAccountNumberTextField.text else {return}
+        
+        let cleanRoutingNumber = routingNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanAccountNumber = accountNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanConfirmAccountNumber = confirmAccountNumber.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        self.resignation()
+        
+        if cleanRoutingNumber.count >= 5 {
+            self.routingNumberTextField.layer.borderColor = UIColor .clear.cgColor
+            if cleanAccountNumber.count >= 5 {
+                self.accountNumberTextField.layer.borderColor = UIColor .clear.cgColor
+                if cleanConfirmAccountNumber.count >= 5 {
+                    
+                    self.routingNumberTextField.layer.borderColor = UIColor .clear.cgColor
+                    self.accountNumberTextField.layer.borderColor = UIColor .clear.cgColor
+                    self.confirmAccountNumberTextField.layer.borderColor = UIColor .clear.cgColor
+
+                    self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+                    let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+                    
+                    if groomerKey == "nil" {
+                        
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                            print("ERROR - HANDLER")
+                            self.handleBackButton()
+                        }
+                        
+                    } else {
+
+                        let ref = self.databaseRef.child("play_books").child(groomerKey)
+                        let values : [String : Any] = ["groomer_has_completed_payment_preferences" : true]
+
+                        ref.updateChildValues(values) { error, ref in
+
+                            if error != nil {
+
+                                self.mainLoadingScreen.cancelMainLoadingScreen()
+                                AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                                    print("ERROR - HANDLER")
+                                    self.handleBackButton()
+                                }
+                                return
+                            }
+
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Statics.RUN_DATA_ENGINE), object: self)
+
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            self.handleSaveAndContinueButton()
+                        }
+                    }
+                    
+                } else {
+                    self.confirmAccountNumberTextField.layer.borderColor = coreRedColor.cgColor
+                }
+            } else {
+                self.accountNumberTextField.layer.borderColor = coreRedColor.cgColor
+            }
+        } else {
+            self.routingNumberTextField.layer.borderColor = coreRedColor.cgColor
+        }
+     }
+     
     
     @objc func handleSaveAndContinueButton() {
         

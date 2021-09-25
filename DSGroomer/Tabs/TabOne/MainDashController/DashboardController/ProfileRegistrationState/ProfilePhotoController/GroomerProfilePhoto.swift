@@ -338,10 +338,13 @@ class GroomerProfileController : UIViewController {
                 
                 if isComplete {
                     
+                    groomerUserStruct.profile_image_url = imageURL
+                    self.dashboardController?.finishProfileSubview.profileImageView.loadImageGeneralUse(imageURL, completion: { isComplete in
+                        print("sent the photo over")
+                    })
                     self.dashboardController?.runDataEngine()
                     self.mainLoadingScreen.cancelMainLoadingScreen()
                     self.handleBackButton()
-                    groomerUserStruct.profile_image_url = imageURL
                     
                 } else {
                     

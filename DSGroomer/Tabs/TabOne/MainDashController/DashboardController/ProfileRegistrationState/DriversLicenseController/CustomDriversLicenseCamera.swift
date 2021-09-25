@@ -145,30 +145,31 @@ class CustomDriversLicenseCamera : UIViewController {
         tc.layer.masksToBounds = true
         tc.layer.borderColor = coreWhiteColor.cgColor
         tc.layer.borderWidth = 13
+        tc.layer.cornerRadius = 5
         
        return tc
     }()
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        
-        return [.landscapeLeft, .landscapeRight]
-        
+
+        return [.landscapeRight]
+
     }
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = coreBlackColor
-        self.perform(#selector(self.addViews), with: nil, afterDelay: 1.0)
+        self.appDel.devicesOrientation = .landscapeRight
         
+        UIDevice.current.setValue(UIInterfaceOrientation.landscapeRight.rawValue, forKey: "orientation")
+        
+        self.view.backgroundColor = coreBlackColor
+        
+        self.perform(#selector(self.addViews), with: nil, afterDelay: 0.75)
+        
+        print("1")
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        appDel.myOrientation = .landscape
-        UIDevice.current.setValue(UIInterfaceOrientation.landscapeLeft.rawValue, forKey: "orientation")
-    }
-    
+  
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
@@ -223,7 +224,6 @@ class CustomDriversLicenseCamera : UIViewController {
         self.profileImageview.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.profileImageview.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
         self.profileImageview.rightAnchor.constraint(equalTo: self.triggerContainer.leftAnchor, constant: 0).isActive = true
-        self.profileImageview.backgroundColor = .blue
         
         let safeCardFrameArea = ((UIScreen.main.bounds.width) - (UIScreen.main.bounds.width / 3.5))
         let width = safeCardFrameArea / 1.5
@@ -266,7 +266,7 @@ class CustomDriversLicenseCamera : UIViewController {
     
     @objc func handleBackButton() {
         
-        self.appDel.myOrientation = .portrait
+        self.appDel.devicesOrientation = .portrait
         UIDevice.current.setValue(UIInterfaceOrientation.portrait.rawValue, forKey: "orientation")
         
         DispatchQueue.main.async {
@@ -343,6 +343,7 @@ extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigat
             self.captureSession.sessionPreset = .medium
             self.captureSession.beginConfiguration()
             
+            
             if self.captureSession.canSetSessionPreset(.photo) {
                 self.captureSession.sessionPreset = .photo
             }
@@ -368,6 +369,7 @@ extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigat
             
             if self.captureSession.canAddInput(input) && self.captureSession.canAddOutput(stillImageOutput) {
                 self.captureSession.addInput(input)
+            
                 self.captureSession.addOutput(self.stillImageOutput)
                 self.setupLivePreview()
             }
@@ -383,7 +385,7 @@ extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigat
         
         self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
         self.videoPreviewLayer.videoGravity = .resizeAspectFill
-        self.videoPreviewLayer.connection?.videoOrientation = .landscapeLeft
+        self.videoPreviewLayer.connection?.videoOrientation = .landscapeRight
         self.videoPreviewLayer.connection?.automaticallyAdjustsVideoMirroring = false
         self.videoPreviewLayer.connection?.isVideoMirrored = false
         
@@ -439,12 +441,14 @@ extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigat
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         
-        guard let imageData = photo.fileDataRepresentation()else { return }
+        guard let imageData = photo.fileDataRepresentation() else { return }
         
         let image = UIImage(data: imageData)
         
         if let safeImage = image {
             
+//            var imageRotation = UIImage(cgImage: safeImage.cgImage!, scale: CGFloat(1.0), orientation: .leftMirrored)
+
             self.profileImageview.setImage(safeImage, for: .normal)
             self.videoPreviewLayer.isHidden = true
             self.retakePhotoButton.isHidden = false

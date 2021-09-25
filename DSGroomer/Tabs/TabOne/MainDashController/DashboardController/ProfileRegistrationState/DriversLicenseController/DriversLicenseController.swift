@@ -475,17 +475,28 @@ class DriverLicenseController : UIViewController {
                     
                     UIDevice.vibrateLight()
                 
-                guard let safeURL = URL(string: safePath) else {return}
+                    let safeURL = URL(fileURLWithPath: safePath)
                     
                 Service.shared.uploadDriversLicenseDocumentFile(localFilePath: safeURL) { isComplete, driversLicenseImageURL in
-                    
-                        groomerUserStruct.drivers_license_image_url = driversLicenseImageURL
+                 
+                    if isComplete == false {
                         
                         self.mainLoadingScreen.cancelMainLoadingScreen()
-                        
-                        self.dashboardController?.runDataEngine()
-                        
+                        AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                            print("ERROR - HANDLER")
                         self.handleBackButton()
+                        }
+                        
+                    } else {
+                        
+                            groomerUserStruct.drivers_license_image_url = driversLicenseImageURL
+                            
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            
+                            self.dashboardController?.runDataEngine()
+                            
+                            self.handleBackButton()
+                    }
                 }
             }
             

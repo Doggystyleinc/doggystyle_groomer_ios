@@ -116,6 +116,17 @@ class GroomerChecklistFeeder : UICollectionViewCell {
 
     }
     
+    func loadImage() {
+
+        let imageView = UIImageView()
+        let imageURL = groomerUserStruct.profile_image_url ?? "nil"
+        if imageURL != "nil" {
+            imageView.loadImageGeneralUse(imageURL) { image in
+                self.checkListIcon.setImage(imageView.image, for: .normal)
+            }
+        }
+    }
+    
     @objc func handleSelection(sender : UIButton) {
         
         self.groomerChecklistCollection?.handleSelection(sender:sender)

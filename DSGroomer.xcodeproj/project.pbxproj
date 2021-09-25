@@ -100,6 +100,12 @@
 		E38DA94326F924AF00DFD365 /* CustomDriversLicenseCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */; };
 		E396B91826FD1DED0087F106 /* music_anim_icon_2.json in Resources */ = {isa = PBXBuildFile; fileRef = E396B91726FD1DED0087F106 /* music_anim_icon_2.json */; };
 		E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396B91A26FD21F50087F106 /* CompleteProfileController.swift */; };
+		E396B92926FE3E330087F106 /* GroomerWorkingDashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396B92826FE3E330087F106 /* GroomerWorkingDashboard.swift */; };
+		E396B92B26FE46710087F106 /* GroomerWorkingSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396B92A26FE46710087F106 /* GroomerWorkingSelector.swift */; };
+		E396B93026FE49880087F106 /* van_image_1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E396B92D26FE49870087F106 /* van_image_1@3x.png */; };
+		E396B93126FE49880087F106 /* van_image_1.png in Resources */ = {isa = PBXBuildFile; fileRef = E396B92E26FE49880087F106 /* van_image_1.png */; };
+		E396B93226FE49880087F106 /* van_image_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E396B92F26FE49880087F106 /* van_image_1@2x.png */; };
+		E396B93526FE60DC0087F106 /* GroomerUpcomingAppointmentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E396B93426FE60DC0087F106 /* GroomerUpcomingAppointmentCollection.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -280,6 +286,12 @@
 		E38DA94226F924AF00DFD365 /* CustomDriversLicenseCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDriversLicenseCamera.swift; sourceTree = "<group>"; };
 		E396B91726FD1DED0087F106 /* music_anim_icon_2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = music_anim_icon_2.json; sourceTree = "<group>"; };
 		E396B91A26FD21F50087F106 /* CompleteProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteProfileController.swift; sourceTree = "<group>"; };
+		E396B92826FE3E330087F106 /* GroomerWorkingDashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerWorkingDashboard.swift; sourceTree = "<group>"; };
+		E396B92A26FE46710087F106 /* GroomerWorkingSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerWorkingSelector.swift; sourceTree = "<group>"; };
+		E396B92D26FE49870087F106 /* van_image_1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "van_image_1@3x.png"; sourceTree = "<group>"; };
+		E396B92E26FE49880087F106 /* van_image_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = van_image_1.png; sourceTree = "<group>"; };
+		E396B92F26FE49880087F106 /* van_image_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "van_image_1@2x.png"; sourceTree = "<group>"; };
+		E396B93426FE60DC0087F106 /* GroomerUpcomingAppointmentCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomerUpcomingAppointmentCollection.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -650,6 +662,26 @@
 			path = DashboardControllers;
 			sourceTree = "<group>";
 		};
+		E396B92C26FE497C0087F106 /* MainIcons */ = {
+			isa = PBXGroup;
+			children = (
+				E396B92E26FE49880087F106 /* van_image_1.png */,
+				E396B92F26FE49880087F106 /* van_image_1@2x.png */,
+				E396B92D26FE49870087F106 /* van_image_1@3x.png */,
+			);
+			path = MainIcons;
+			sourceTree = "<group>";
+		};
+		E396B93326FE60C60087F106 /* GroomerWorkingDashboard */ = {
+			isa = PBXGroup;
+			children = (
+				E396B92826FE3E330087F106 /* GroomerWorkingDashboard.swift */,
+				E396B92A26FE46710087F106 /* GroomerWorkingSelector.swift */,
+				E396B93426FE60DC0087F106 /* GroomerUpcomingAppointmentCollection.swift */,
+			);
+			path = GroomerWorkingDashboard;
+			sourceTree = "<group>";
+		};
 		E3BEE4342665560700D765A7 /* FontAwesome */ = {
 			isa = PBXGroup;
 			children = (
@@ -722,6 +754,7 @@
 		E3CFCB5D26632772003C1B73 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				E396B92C26FE497C0087F106 /* MainIcons */,
 				E3F0F0D726FD189F00AE13E6 /* TintCovers */,
 				E3F0F0D226FD136E00AE13E6 /* Videos */,
 				E3D2816526F393CC00ACE7C8 /* Animations */,
@@ -802,6 +835,7 @@
 		E3D2816E26F3D90E00ACE7C8 /* DashboardController */ = {
 			isa = PBXGroup;
 			children = (
+				E396B93326FE60C60087F106 /* GroomerWorkingDashboard */,
 				E396B91926FD1F2B0087F106 /* DashboardControllers */,
 				E3D2816D26F3D8F400ACE7C8 /* ProfileRegistrationState */,
 				E3F0F0CF26FD0F6700AE13E6 /* FinishProfileStateControllers */,
@@ -1011,8 +1045,10 @@
 				E3176B4626EA9485003D6CEF /* Rubik-SemiBold.ttf in Resources */,
 				E3176B4726EA9485003D6CEF /* Rubik-SemiBoldItalic.ttf in Resources */,
 				E3176B4826EA9485003D6CEF /* Poppins-Black.ttf in Resources */,
+				E396B93126FE49880087F106 /* van_image_1.png in Resources */,
 				E3176B4926EA9485003D6CEF /* Poppins-BlackItalic.ttf in Resources */,
 				E3176B4A26EA9485003D6CEF /* Poppins-BoldItalic.ttf in Resources */,
+				E396B93026FE49880087F106 /* van_image_1@3x.png in Resources */,
 				E3176B4B26EA9485003D6CEF /* Poppins-ExtraBold.ttf in Resources */,
 				E3176B4C26EA9485003D6CEF /* Poppins-ExtraBoldItalic.ttf in Resources */,
 				E396B91826FD1DED0087F106 /* music_anim_icon_2.json in Resources */,
@@ -1030,6 +1066,7 @@
 				E3176B5526EA9485003D6CEF /* Poppins-SemiBoldItalic.ttf in Resources */,
 				E3176B5626EA9485003D6CEF /* Poppins-Thin.ttf in Resources */,
 				E3176B5726EA9485003D6CEF /* Poppins-ThinItalic.ttf in Resources */,
+				E396B93226FE49880087F106 /* van_image_1@2x.png in Resources */,
 				E341C39926826CA400334A59 /* search_glass@3x.png in Resources */,
 				E304ED8F26EBF075002D625A /* tab_person_icon@2x.png in Resources */,
 				E3F0F0DF26FD19A300AE13E6 /* music_anim_icon.json in Resources */,
@@ -1215,9 +1252,11 @@
 				E3FB6B072676B16400DE17D2 /* GroomerChecklistFeeder.swift in Sources */,
 				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,
 				E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */,
+				E396B93526FE60DC0087F106 /* GroomerUpcomingAppointmentCollection.swift in Sources */,
 				E3C2EB6D2661722900AB0EF6 /* TabTwoController.swift in Sources */,
 				E3176B6B26EBC80B003D6CEF /* MapViewSubclass.swift in Sources */,
 				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
+				E396B92926FE3E330087F106 /* GroomerWorkingDashboard.swift in Sources */,
 				E304ED9126ED357D002D625A /* RegistrationController.swift in Sources */,
 				E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */,
 				E3502130268B99B100E5186E /* ServiceSingleton.swift in Sources */,
@@ -1239,6 +1278,7 @@
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E3D2817326F3EB8500ACE7C8 /* CustomCameraController.swift in Sources */,
+				E396B92B26FE46710087F106 /* GroomerWorkingSelector.swift in Sources */,
 				E3F0F0CE26FCEC5600AE13E6 /* DashboardEngine.swift in Sources */,
 				E38DA93426F8E59600DFD365 /* SocialSecurityController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,

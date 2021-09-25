@@ -321,23 +321,6 @@ class PhoneTextFieldWithPadding: PhoneNumberTextField {
     }
 }
 
-//class CustomTextFieldMaps: TextFieldWithImage {
-//
-//    let padding = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 50);
-//
-//    override func textRect(forBounds bounds: CGRect) -> CGRect {
-//        return bounds.inset(by: padding)
-//    }
-//
-//    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-//        return bounds.inset(by: padding)
-//    }
-//
-//    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-//        return bounds.inset(by: padding)
-//    }
-//}
-
 //MARK: - URLS/KEYS/TONES
 struct Statics {
     
@@ -357,6 +340,9 @@ struct Statics {
     
     //MARK: - LOTTI JSON ANIMATIONS
     static let LOADING_ANIMATION_GENERAL : String = "groomer_loading"
+    
+    //MARK: - OBSERVERS
+    static let RUN_DATA_ENGINE : String = "run_data_engine"
     
 }
 

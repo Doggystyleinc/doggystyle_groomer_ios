@@ -4,10 +4,22 @@
 //
 //  Created by Charlie Arcodia on 9/20/21.
 //
+//  The nine-digit SSN is composed of three parts:
+//
+//  The first set of three digits is called the Area Number
+//  The second set of two digits is called the Group Number
+//  The final set of four digits is the Serial Number
+        
+
+import AVFoundation
+import UIKit
+import Firebase
 
 
 class SocialSecurityController : UIViewController, UITextFieldDelegate {
     
+    let mainLoadingScreen = MainLoadingScreen()
+    let databaseRef = Database.database().reference()
     
     lazy var backButton : UIButton = {
         
@@ -122,7 +134,7 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
         etfc.layer.borderColor = slotGrey.cgColor
         etfc.layer.borderWidth = 1
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-//        etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
+        etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
 
         return etfc
         
@@ -151,7 +163,7 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
         etfc.layer.borderColor = slotGrey.cgColor
         etfc.layer.borderWidth = 1
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-//        etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
+        etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
 
         return etfc
         
@@ -180,19 +192,36 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
         etfc.layer.borderColor = slotGrey.cgColor
         etfc.layer.borderWidth = 1
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-//        etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
+        etfc.addTarget(self, action: #selector(self.handleResponders(textField:)), for: UIControl.Event.editingChanged)
 
         return etfc
         
     }()
     
+    lazy var toolBar : UIToolbar = {
+           
+           let bar = UIToolbar()
+           let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+           let done = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.resignation))
+           bar.items = [space, done]
+           bar.backgroundColor = coreWhiteColor
+           bar.tintColor = coreOrangeColor
+           bar.sizeToFit()
+           
+           return bar
+           
+       }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-        
+
+        self.slotOneTextField.inputAccessoryView = self.toolBar
+        self.slotTwoTextField.inputAccessoryView = self.toolBar
+        self.slotThreeTextField.inputAccessoryView = self.toolBar
+
     }
     
     func addViews() {
@@ -251,7 +280,127 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
         
     }
     
+    @objc func handleResponders(textField : UITextField) {
+        
+        if self.slotOneTextField.text?.count  == 3 && self.slotTwoTextField.text?.count  == 2 && self.slotThreeTextField.text?.count == 4 {
+            self.handleAuthorizeButton()
+            return
+        }
+        
+        if textField == self.slotOneTextField {
+            
+            if self.slotOneTextField.text?.count == 3 {
+                self.slotOneTextField.resignFirstResponder()
+                self.slotTwoTextField.becomeFirstResponder()
+            }
+            
+        } else if textField == self.slotTwoTextField {
+            
+            if self.slotTwoTextField.text?.count == 2 {
+                self.slotTwoTextField.resignFirstResponder()
+                self.slotThreeTextField.becomeFirstResponder()
+            }
+            
+        } else if textField == self.slotThreeTextField {
+            
+            if self.slotThreeTextField.text?.count == 4 {
+                self.slotThreeTextField.resignFirstResponder()
+                self.handleAuthorizeButton()
+            }
+            
+        } else {
+            print("SHOULD NEVER HIT THIS")
+        }
+    }
+    
+   @objc func resignation() {
+        
+        self.slotOneTextField.resignFirstResponder()
+        self.slotTwoTextField.resignFirstResponder()
+        self.slotThreeTextField.resignFirstResponder()
+        
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.resignation()
+        return false
+    }
+    
     @objc func handleAuthorizeButton() {
+        
+        self.resignation()
+     
+        guard let slotOne = self.slotOneTextField.text else {return}
+        guard let slotTwo = self.slotTwoTextField.text else {return}
+        guard let slotThree = self.slotThreeTextField.text else {return}
+        
+        let cleanSlotOne = slotOne.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanSlotTwo = slotTwo.trimmingCharacters(in: .whitespacesAndNewlines)
+        let cleanSlotThree = slotThree.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if cleanSlotOne.count == 3 {
+            self.slotOneTextField.layer.borderColor = UIColor .clear.cgColor
+            if cleanSlotTwo.count == 2 {
+                self.slotTwoTextField.layer.borderColor = UIColor .clear.cgColor
+                if cleanSlotThree.count == 4 {
+                    
+                    self.slotOneTextField.layer.borderColor = UIColor .clear.cgColor
+                    self.slotTwoTextField.layer.borderColor = UIColor .clear.cgColor
+                    self.slotThreeTextField.layer.borderColor = UIColor .clear.cgColor
+
+                    self.slotOneTextField.text = ""
+                    self.slotTwoTextField.text = ""
+                    self.slotThreeTextField.text = ""
+
+                    self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+                    self.simulationLogic()
+                    
+                } else {
+                    self.slotThreeTextField.layer.borderColor = coreRedColor.cgColor
+                }
+            } else {
+                self.slotTwoTextField.layer.borderColor = coreRedColor.cgColor
+            }
+        } else {
+            self.slotOneTextField.layer.borderColor = coreRedColor.cgColor
+        }
+    }
+    
+    @objc func simulationLogic() {
+        
+        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
+        
+        if groomerKey == "nil" {
+            
+            self.mainLoadingScreen.cancelMainLoadingScreen()
+            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                self.handleBackButton()
+            }
+            
+        } else {
+            
+            let ref = self.databaseRef.child("play_books").child(groomerKey)
+            let values : [String : Any] = ["groomer_has_completed_background_check_management" : true]
+            ref.updateChildValues(values) { error, ref in
+                if error != nil {
+                    
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                        print("ERROR - HANDLER")
+                        self.handleBackButton()
+                    }
+                    return
+                }
+                
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Statics.RUN_DATA_ENGINE), object: self)
+
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                self.handleSocialVerificationController()
+            }
+        }
+    }
+    
+    @objc func handleSocialVerificationController() {
         
         let socialSecuritySuccessController = SocialSecuritySuccessController()
         socialSecuritySuccessController.navigationController?.navigationBar.isHidden = true
