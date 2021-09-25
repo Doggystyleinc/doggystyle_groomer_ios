@@ -27,38 +27,32 @@ import Foundation
 
 class ServiceHTTP : NSObject {
     
-    //MARK: - SINGLETON FOR SHARES SERVICE
+    //MARK: - SINGLETON FOR SHARED SERVICES
     static let shared = ServiceHTTP()
     
     func twilioGetRequest(function_call: String, users_country_code: String, users_phone_number : String, delivery_method : String, entered_code : String, completion: @escaping ([String: Any]?, Error?) -> Void) {
 
-        //declare parameter as a dictionary which contains string as key and value combination.
         let parameters : [String : Any] = ["function_call": function_call, "users_country_code": users_country_code, "users_phone_number" : users_phone_number, "delivery_method" : delivery_method, "entered_code" : entered_code]
         
         let slug = "twilio_auth"
 
-        //create the url with NSURL
         let url = URL(string: "https://doggystyle-dev.herokuapp.com/\(slug)")!
 
-        //create the session object/
         let session = URLSession.shared
 
-        //now create the Request object using the url object
         var request = URLRequest(url: url)
-        request.httpMethod = "POST" //set http method as POST
+        request.httpMethod = "POST"
 
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted) // pass dictionary to data object and set it as request body
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         } catch let error {
             print(error.localizedDescription)
             completion(nil, error)
         }
 
-        //HTTP Headers
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
 
-        //create dataTask using the session object to send data to the server
         let task = session.dataTask(with: request, completionHandler: { data, response, error in
 
             guard error == nil else {
@@ -77,14 +71,10 @@ class ServiceHTTP : NSObject {
                     return
                 }
                 
-                print("JSON IS: \(json)")
-                
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
                         print(responseJSON)
                     }
-                
-                print("RESPONSE JSON IS: \(responseJSON)")
                 
                 completion(json, nil)
                 
