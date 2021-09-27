@@ -27,6 +27,8 @@ class VideoControlSubview : UIView {
         vb.contentMode = .scaleAspectFill
         vb.imageView?.contentMode = .scaleAspectFill
         vb.tintColor = coreWhiteColor
+        let image = UIImage(systemName: "speaker.1")?.withRenderingMode(.alwaysTemplate)
+        vb.setImage(image, for: UIControl.State.normal)
         vb.addTarget(self, action: #selector(self.handleVolumeButton), for: UIControl.Event.touchUpInside)
         return vb
         
@@ -51,12 +53,13 @@ class VideoControlSubview : UIView {
     
     lazy var lottiMusicAnimation : AnimationView = {
         
-        let lla = AnimationView(name: "music_anim_icon_2")
+        let lla = AnimationView(name: "white_music_anim")
         lla.translatesAutoresizingMaskIntoConstraints = false
         lla.backgroundColor = .clear
         lla.contentMode = .scaleAspectFit
         lla.loopMode = .loop
         lla.backgroundBehavior = .pauseAndRestore
+        lla.isHidden = true
         return lla
         
     }()
@@ -109,10 +112,10 @@ class VideoControlSubview : UIView {
         self.volumeButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         self.volumeButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         
-        self.lottiMusicAnimation.centerYAnchor.constraint(equalTo: self.controlContainer.centerYAnchor, constant: 0).isActive = true
+        self.lottiMusicAnimation.centerYAnchor.constraint(equalTo: self.controlContainer.centerYAnchor, constant: -2).isActive = true
         self.lottiMusicAnimation.rightAnchor.constraint(equalTo: self.controlContainer.rightAnchor, constant: -8).isActive = true
-        self.lottiMusicAnimation.heightAnchor.constraint(equalToConstant: 80).isActive = true
-        self.lottiMusicAnimation.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        self.lottiMusicAnimation.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        self.lottiMusicAnimation.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         self.volumeSlider.centerYAnchor.constraint(equalTo: self.controlContainer.centerYAnchor, constant: 0).isActive = true
         self.volumeSlider.leftAnchor.constraint(equalTo: self.volumeButton.rightAnchor, constant: 20).isActive = true
@@ -129,6 +132,7 @@ class VideoControlSubview : UIView {
                 self.player!.seek(to: CMTime.zero)
                 self.finishProfileSubview?.playButton.isHidden = false
                 self.lottiMusicAnimation.stop()
+                self.lottiMusicAnimation.isHidden = true
             }
         }
     }
@@ -158,6 +162,7 @@ class VideoControlSubview : UIView {
         if self.player == nil {return}
         self.player?.play()
         self.lottiMusicAnimation.play()
+        self.lottiMusicAnimation.isHidden = false
     }
     
     @objc func handleVolumeButton(sender : UIButton) {
@@ -194,6 +199,7 @@ class VideoControlSubview : UIView {
             self.player?.pause()
             self.player = nil
             self.lottiMusicAnimation.stop()
+            self.lottiMusicAnimation.isHidden = true
             
         }
     }

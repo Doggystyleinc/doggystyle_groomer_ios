@@ -181,21 +181,12 @@ class WelcomeController : UIViewController, UITextViewDelegate {
         return dcl
     }()
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-        
+      
     }
     
     func addViews() {

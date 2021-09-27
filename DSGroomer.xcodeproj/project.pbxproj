@@ -115,6 +115,8 @@
 		E39BA18F26FFB04000CD2E2E /* ios_doggystyle_icon180.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E39BA18626FFB03F00CD2E2E /* ios_doggystyle_icon180.jpg */; };
 		E39BA19026FFB04000CD2E2E /* ios_doggystyle_icon58.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E39BA18726FFB04000CD2E2E /* ios_doggystyle_icon58.jpg */; };
 		E39BA19126FFB04000CD2E2E /* ios_doggystyle_icon87.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E39BA18826FFB04000CD2E2E /* ios_doggystyle_icon87.jpg */; };
+		E39BA1932702330100CD2E2E /* white_music_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E39BA1922702330100CD2E2E /* white_music_anim.json */; };
+		E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -302,6 +304,8 @@
 		E39BA18626FFB03F00CD2E2E /* ios_doggystyle_icon180.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ios_doggystyle_icon180.jpg; sourceTree = "<group>"; };
 		E39BA18726FFB04000CD2E2E /* ios_doggystyle_icon58.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ios_doggystyle_icon58.jpg; sourceTree = "<group>"; };
 		E39BA18826FFB04000CD2E2E /* ios_doggystyle_icon87.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ios_doggystyle_icon87.jpg; sourceTree = "<group>"; };
+		E39BA1922702330100CD2E2E /* white_music_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = white_music_anim.json; sourceTree = "<group>"; };
+		E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlingExtension.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -749,6 +753,7 @@
 				E3C2EB662661705E00AB0EF6 /* MainLoadingScreen.swift */,
 				E3C2EB68266170C000AB0EF6 /* GroomerOnboardingStruct.swift */,
 				E350212F268B99B100E5186E /* ServiceSingleton.swift */,
+				E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */,
 			);
 			path = HelpersExtensions;
 			sourceTree = "<group>";
@@ -806,6 +811,7 @@
 		E3D2816526F393CC00ACE7C8 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				E39BA1922702330100CD2E2E /* white_music_anim.json */,
 				E396B91726FD1DED0087F106 /* music_anim_icon_2.json */,
 				E3F0F0DE26FD19A300AE13E6 /* music_anim_icon.json */,
 				E3D2816626F393D600ACE7C8 /* groomer_loading.json */,
@@ -1137,6 +1143,7 @@
 				E333A929265D915400897572 /* LaunchScreen.storyboard in Resources */,
 				E341C39726826CA400334A59 /* search_glass@2x.png in Resources */,
 				E3CFCB70266327A2003C1B73 /* ds_white_logo@3x.png in Resources */,
+				E39BA1932702330100CD2E2E /* white_music_anim.json in Resources */,
 				E3FB6AB5267586B400DE17D2 /* ds_logo_icon.png in Resources */,
 				E3CFCB6A2663279C003C1B73 /* ds_orange_logo@2x.png in Resources */,
 				E341C39F26826CAB00334A59 /* orange_pin@3x.png in Resources */,
@@ -1276,6 +1283,7 @@
 				E3176B6926EBC666003D6CEF /* LocationController.swift in Sources */,
 				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,
 				E38DA93026F8E05900DFD365 /* BackgroundCheckController.swift in Sources */,
+				E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */,
 				E3176B6126EAA8A9003D6CEF /* PhoneNumberVerification.swift in Sources */,
 				E38DA94326F924AF00DFD365 /* CustomDriversLicenseCamera.swift in Sources */,
 				E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */,

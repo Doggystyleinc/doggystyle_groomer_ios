@@ -39,6 +39,7 @@ extension DashboardController {
                         print("AM I IN HERE?")
                         self.mainLoadingScreen.cancelMainLoadingScreen()
                         self.groomerChecklistCollection.checkListBooleanArray = keyCompletionBooleanArray
+                        
                         self.unhideGroomerProfileSetup()
                         self.handleGroomerCollectionReload()
   
@@ -120,6 +121,7 @@ extension DashboardController {
                     return
                   }
             } else {
+                
                 completion(groomer_has_completed_groomer_profile_management, groomer_has_completed_biography_management, [groomer_has_completed_profile_photo_management, groomer_has_completed_driver_license_management, groomer_has_completed_background_check_management, groomer_has_completed_payment_preferences, groomer_has_completed_employee_agreement])
             }
                 

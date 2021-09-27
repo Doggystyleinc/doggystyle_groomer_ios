@@ -46,6 +46,7 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = self.dequeueReusableCell(withReuseIdentifier: self.groomerChecklistID, for: indexPath) as! GroomerChecklistFeeder
+        
         cell.groomerChecklistCollection = self
         
         let titleFeeder = self.titleArray[indexPath.item]
@@ -174,7 +175,9 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
             }
 
         default: print("nothing here")
-            
+            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "We are unable to find the indexpath.item for the selection you have made. Please contact support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
+                print("user hit an error")
+            }
         }
     }
     
