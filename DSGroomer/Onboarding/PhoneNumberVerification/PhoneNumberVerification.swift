@@ -232,6 +232,8 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
     
     @objc func handleNextButton() {
         
+        var hitFLag : Bool = false
+        
         guard let safePhoneNumber = self.phoneNumberTextField.text else {
             self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
             return
@@ -261,15 +263,19 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
             
             Service.shared.handlePlaybookChecker(phoneNumber: phoneNumberAsString, areaCode: countryCodeAsString) { isComplete, message, groomersFirstName, groomersLastName, groomersEmail, groomerChildKey  in
                 
+                if hitFLag == true {return}
+                hitFLag = true
+                
                 if groomersFirstName != "nil" {
-                    self.headerLabel.text = "Hello \(groomersFirstName)! Welcome to the Doggystyle team!"
+                    self.headerLabel.text = "Hello \(groomersFirstName.capitalizingFirstLetter())! Welcome to the Doggystyle team!"
                 }
                 
                 if isComplete == true {
                     self.handlePhoneAuthRequest(phoneNumberCountryCode: countryCodeAsString, phoneNumberAsString: phoneNumberAsString, groomersFirstName: groomersFirstName, groomersLastName: groomersLastName, groomersEmail: groomersEmail, groomerChildKey: groomerChildKey)
                 } else {
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: message) { complete in
+                    AlertControllerCompletion.handleAlertWithCompletion(title: "Stylist", message: message) { complete in
+                        self.handleBackButton()
                     }
                 }
             }

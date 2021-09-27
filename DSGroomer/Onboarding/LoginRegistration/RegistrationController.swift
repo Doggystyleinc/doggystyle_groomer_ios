@@ -780,9 +780,9 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
     
     func consumeAndSetData() {
         
-        let groomersFirstName = self.groomersFirstName ?? "Incognito"
-        let groomersLastName = self.groomersLastName ?? "Incognito"
-        let groomersEmail = self.groomersEmail ?? "Incognito"
+        let groomersFirstName = self.groomersFirstName?.capitalizingFirstLetter() ?? "Incognito"
+        let groomersLastName = self.groomersLastName?.capitalizingFirstLetter() ?? "Incognito"
+        let groomersEmail = self.groomersEmail?.lowercased() ?? "Incognito"
         
         self.firstNameTextField.text = "\(groomersFirstName)"
         self.lastNameTextField.text = "\(groomersLastName)"

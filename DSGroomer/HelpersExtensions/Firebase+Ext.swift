@@ -219,22 +219,23 @@ class Service : NSObject {
         var counter : Int = 0
         
         ref.observeSingleEvent(of: .value) { snapShot in
-            
+          
             if snapShot.exists() {
                 
                 let childrenCount = Int(snapShot.childrenCount)
                 
-                //LISTENING LIVE HERE FOR THE LOOP
                 handleOne = observingRefOne.observe(.childAdded) { snapLoop in
-                    
+                  
                     counter += 1;
-                    
+
                     if let JSON = snapLoop.value as? [String : Any] {
                         
                         let groomers_phone_number = JSON["groomers_phone_number"] as? String ?? "nil"
                         
                         if groomers_phone_number == phoneNumber {
                             
+                            observingRefOne.removeObserver(withHandle: handleOne)
+                          
                             let groomer_has_registered = JSON["groomer_has_registered"] as? Bool ?? false
                             let groomers_first_name = JSON["groomers_first_name"] as? String ?? "Incognito"
                             let groomers_last_name = JSON["groomers_last_name"] as? String ?? "Incognito"
@@ -242,21 +243,26 @@ class Service : NSObject {
                             let groomer_child_key = JSON["groomer_child_key"] as? String ?? "nil"
                             
                             if groomer_has_registered == false {
-                                
+                             
                                 observingRefOne.removeObserver(withHandle: handleOne)
+                                
                                 completion(true, "ok", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
+                                return
                                 
                             } else {
+
                                 observingRefOne.removeObserver(withHandle: handleOne)
-                                completion(false, "Hello! Seems we already have an account setup for you. Please go back and tap Login. Further assistance can be found at: \(Statics.SUPPORT_EMAIL_ADDRESS)", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
+                                completion(false, "Hello \(groomers_first_name.capitalizingFirstLetter()), you already have an existing account inside the Doggystyle Admin Portal. Please tap Login and enter your associate phone #. Further assistance can be found at: \(Statics.SUPPORT_EMAIL_ADDRESS)", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
+                                return
                             }
                             
                         } else {
                             
                             if counter == childrenCount {
-                                
+
                                 observingRefOne.removeObserver(withHandle: handleOne)
-                                completion(false, "Seems we cannot find you in our system. Please check the phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                                completion(false, "Hello! We cannot find you in the Doggystyle Portal. Please check your phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                                return
                             }
                             
                         }
@@ -265,6 +271,7 @@ class Service : NSObject {
                         
                         observingRefOne.removeObserver(withHandle: handleOne)
                         completion(false, "Please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                        return
                     }
                 }
                 
@@ -272,6 +279,7 @@ class Service : NSObject {
                 
                 observingRefOne.removeObserver(withHandle: handleOne)
                 completion(false, "Seems we cannot find you in our system. Please check the phone number and try again. For further assistance, please contact: \(Statics.SUPPORT_EMAIL_ADDRESS)", "nil", "nil", "nil", "nil")
+                return
             }
         }
     }
