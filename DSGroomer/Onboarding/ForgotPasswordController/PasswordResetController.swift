@@ -170,6 +170,7 @@ class PasswordResetController : UIViewController, UITextFieldDelegate, CustomAle
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         self.emailTextField.becomeFirstResponder()
+        self.handleEmailTextFieldBegin()
     }
     
     func addViews() {

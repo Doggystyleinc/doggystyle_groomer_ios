@@ -266,8 +266,8 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
                 if hitFLag == true {return}
                 hitFLag = true
                 
-                if groomersFirstName != "nil" {
-                    self.headerLabel.text = "Hello \(groomersFirstName.capitalizingFirstLetter())! Welcome to the Doggystyle team!"
+                if groomersFirstName != "nil" && groomersLastName != "nil" {
+                    self.headerLabel.text = "Hello \(groomersFirstName.capitalizingFirstLetter()) \(groomersLastName.capitalizingFirstLetter())! Welcome to the Doggystyle team!"
                 }
                 
                 if isComplete == true {
@@ -330,6 +330,8 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
     
     @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
         
+        DispatchQueue.main.async {
+        
         let alert = AlertController()
         alert.passedTitle = title
         alert.passedMmessage = message
@@ -338,7 +340,8 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
         
         alert.modalPresentationStyle = .overCurrentContext
         self.navigationController?.present(alert, animated: true, completion: nil)
-        
+            
+        }
     }
     
     func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {

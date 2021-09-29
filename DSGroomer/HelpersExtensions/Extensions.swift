@@ -332,11 +332,10 @@ struct Statics {
     static let  SUPPORT_PHONE_NUMBER : String = "6475988823"
 
     static let  FAQS : String = "https://www..com"
-    static let  APP_STORE_URL : String = "https://"
     
     static let GOOGLE_SIGN_IN : String = "google"
     static let EMAIL_SIGN_IN : String = "email"
-    static let DOGGYSTYLE_CONSUMER_APP_URL : String = "https://www.google.com"
+    static let DOGGYSTYLE_CONSUMER_APP_URL : String = "https://apps.apple.com/us/app/doggystylist/id1577824638"
     
     //MARK: - LOTTI JSON ANIMATIONS
     static let LOADING_ANIMATION_GENERAL : String = "groomer_loading"

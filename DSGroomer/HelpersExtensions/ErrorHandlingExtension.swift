@@ -8,13 +8,11 @@
 //MARK: - USAGE EXAMPLE FOR WITH AND WITHOUT AUTHENTICATION
 
 /*
- ErrorHandlingService.shared.handleErrorLogging(user_uid: "nil", error_message: "this is my error message", error_code: "this is my error code") { response, error in
-
+ ErrorHandlingService.shared.handleErrorLogging(user_uid: "nil", error_message: "this is my error message") { response, error in
      print(response)
      print(error)
  }
- ErrorHandlingService.shared.handleErrorLogging(user_uid: auth, error_message: "this is my error message", error_code: "this is my error code") { response, error in
-
+ ErrorHandlingService.shared.handleErrorLogging(user_uid: auth, error_message: "this is my error message") { response, error in
      print(response)
      print(error)
  }
@@ -29,20 +27,19 @@ class ErrorHandlingService : NSObject {
     
     static let shared = ErrorHandlingService()
     
-    func handleErrorLogging(user_uid : String?, error_message : String, error_code : String, completion: @escaping ([String: Any]?, Error?) -> Void) {
+    func handleErrorLogging(user_uid : String?, error_message : String, completion: @escaping ([String: Any]?, Error?) -> Void) {
         
         //MARK: - USER HAS NO AUTH, MAKE THIS ERROR REPORTING GLOBAL
         if user_uid == "nil" {
             
             let error_message = error_message
-            let error_code = error_code
             let error_groomers_full_name = "nil"
             let error_groomers_user_uid = "nil"
             let error_is_groomer = true
             let random_key = NSUUID().uuidString
             let path = "error_logging_global/\(random_key)"
 
-            let parameters : [String : Any] = ["error_message": error_message, "error_code": error_code, "error_groomers_full_name" : error_groomers_full_name, "error_groomers_user_uid" : error_groomers_user_uid, "error_is_groomer" : error_is_groomer, "random_key" : random_key, "path" : path]
+            let parameters : [String : Any] = ["error_message": error_message, "error_groomers_full_name" : error_groomers_full_name, "error_groomers_user_uid" : error_groomers_user_uid, "error_is_groomer" : error_is_groomer, "random_key" : random_key, "path" : path]
 
             let slug = "error_logging"
             
@@ -101,14 +98,13 @@ class ErrorHandlingService : NSObject {
             let groomersFullName = "\(usersFirstName) \(usersLastName)"
             
             let error_message = error_message
-            let error_code = error_code
             let error_groomers_full_name = groomersFullName
             let error_groomers_user_uid = userUID
             let error_is_groomer = true
             let random_key = NSUUID().uuidString
             let path = "error_logging/\(userUID)/\(random_key)"
             
-            let parameters : [String : Any] = ["error_message": error_message, "error_code": error_code, "error_groomers_full_name" : error_groomers_full_name, "error_groomers_user_uid" : error_groomers_user_uid, "error_is_groomer" : error_is_groomer, "random_key" : random_key, "path" : path]
+            let parameters : [String : Any] = ["error_message": error_message, "error_groomers_full_name" : error_groomers_full_name, "error_groomers_user_uid" : error_groomers_user_uid, "error_is_groomer" : error_is_groomer, "random_key" : random_key, "path" : path]
 
             let slug = "error_logging"
             

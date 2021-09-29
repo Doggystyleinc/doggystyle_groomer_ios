@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class WelcomeController : UIViewController, UITextViewDelegate {
+class WelcomeController : UIViewController, UITextViewDelegate, CustomAlertCallBackProtocol {
     
     let mainLoadingScreen = MainLoadingScreen()
     
@@ -252,6 +252,7 @@ class WelcomeController : UIViewController, UITextViewDelegate {
     
     @objc func handleRegistrationButton() {
         
+        UIDevice.vibrateLight()
         let phoneNumberVerification = PhoneNumberVerification()
         let nav = UINavigationController(rootViewController: phoneNumberVerification)
         nav.modalPresentationStyle = .fullScreen
@@ -262,15 +263,46 @@ class WelcomeController : UIViewController, UITextViewDelegate {
         self.navigationController?.present(nav, animated: true, completion: {
             print("Onboarding has began")
         })
+        
     }
     
     @objc func handleApplyButton() {
+        
+        UIDevice.vibrateLight()
+        self.handleCustomPopUpAlert(title: "Welcome", message: "Since Doggystyle client/stylist are currently under development, some features are in progress such as 'Apply to Doggystyle'.", passedButtons: [Statics.OK])
         print("Apply button")
     }
     
     @objc func handleLoginButton() {
+        
+        UIDevice.vibrateLight()
         let loginController = LoginController()
         loginController.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(loginController, animated: true)
+        
+    }
+    
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
+            
+        }
     }
 }

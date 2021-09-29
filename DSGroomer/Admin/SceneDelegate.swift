@@ -27,13 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = navigationController
         
         self.window = window
-        
-        //MARK: - NOTIFICATION PROMPT/ALERT
-        UNUserNotificationCenter.current().requestAuthorization(options: .badge) { (granted, error) in
-            if error != nil {
-                UIApplication.shared.applicationIconBadgeNumber = 0
-            }
-        }
+   
     }
 }
 

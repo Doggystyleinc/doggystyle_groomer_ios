@@ -77,6 +77,8 @@ class ServiceHTTP : NSObject {
                     }
                 
                 completion(json, nil)
+                print(json)
+                print(responseJSON)
                 
             } catch let error {
                 print(error.localizedDescription)

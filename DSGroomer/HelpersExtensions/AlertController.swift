@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import AudioToolbox
+import Firebase
 
 protocol CustomAlertCallBackProtocol {
     func onSelectionPassBack(buttonTitleForSwitchStatement: String)
@@ -34,6 +35,7 @@ class AlertController : UIViewController {
         mc.backgroundColor = coreWhiteColor
         mc.layer.masksToBounds = true
         mc.layer.cornerRadius = 10
+        mc.isUserInteractionEnabled = false
         
         return mc
     }()
@@ -43,7 +45,7 @@ class AlertController : UIViewController {
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .center
-        thl.font = UIFont(name: dsHeaderFont, size: 18)
+        thl.font = UIFont(name: rubikBold, size: 18)
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = true
         thl.textColor = dsFlatBlack
@@ -56,7 +58,7 @@ class AlertController : UIViewController {
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .center
-        thl.font = UIFont(name: rubikMedium, size: 18)
+        thl.font = UIFont(name: rubikRegular, size: 18)
         thl.numberOfLines = -1
         thl.adjustsFontSizeToFitWidth = false
         thl.textColor = dsFlatBlack
@@ -69,10 +71,25 @@ class AlertController : UIViewController {
         
         self.view.backgroundColor = .clear
         
-        UIView.animate(withDuration: 2.0) {
-            self.view.backgroundColor = UIColor (white: 0.0, alpha: 0.60)
-        }
         self.addViewLogic()
+        self.handleLoggers()
+    }
+   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        UIView.animate(withDuration: 0.75) {
+            self.view.backgroundColor = UIColor (white: 0.0, alpha: 0.2)
+        }
+    }
+    
+    @objc func handleLoggers() {
+        
+        let auth = Auth.auth().currentUser?.uid ?? "nil"
+        let error_message = self.passedMmessage ?? "no error message"
+        ErrorHandlingService.shared.handleErrorLogging(user_uid: auth, error_message: error_message) { response, error in
+            print("error code sent up")
+        }
     }
     
     @objc func addViewLogic() {
@@ -91,7 +108,7 @@ class AlertController : UIViewController {
         options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin),
         message = safeMessage
     
-        let estimatedMessageFrame = NSString(string: message).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: rubikMedium, size: 18)!], context: nil)
+        let estimatedMessageFrame = NSString(string: message).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font : UIFont(name: rubikRegular, size: 18)!], context: nil)
         let estimatedDescriptionHeight = estimatedMessageFrame.height
 
         self.view.addSubview(self.mainContainer)
@@ -172,18 +189,22 @@ class AlertController : UIViewController {
     }
     
     @objc func handleButtonSelection(sender : UIButton) {
-        
-       AudioServicesPlaySystemSound(1519)
-       UIDevice.vibrateLight()
-        
-        let buttonTitle = sender.titleLabel?.text ?? "Incognito"
-        
-        self.customAlertCallBackProtocol?.onSelectionPassBack(buttonTitleForSwitchStatement: buttonTitle)
-        
-        self.handleLightDismiss()
-
+        self.dismissAndCall(sender: sender)
     }
     
+    func dismissAndCall(sender : UIButton) {
+        
+        AudioServicesPlaySystemSound(1519)
+        UIDevice.vibrateLight()
+        
+        self.view.backgroundColor = .clear
+         
+        self.dismiss(animated: true) {
+            let buttonTitle = sender.titleLabel?.text ?? "Incognito"
+            self.customAlertCallBackProtocol?.onSelectionPassBack(buttonTitleForSwitchStatement: buttonTitle)
+        }
+    }
+   
     @objc func handleLightDismiss() {
         
         UIView.animate(withDuration: 0.15) {
@@ -195,6 +216,7 @@ class AlertController : UIViewController {
             self.view.backgroundColor = .clear
             
         } completion: { complete in
+            
             self.dismiss(animated: false, completion: nil)
             
             self.mainContainer.alpha = 1
@@ -202,7 +224,6 @@ class AlertController : UIViewController {
             self.buttonTwo.alpha = 1
             self.buttonThree.alpha = 1
             self.view.backgroundColor = UIColor (white: 0.0, alpha: 0.60)
-
         }
     }
 }

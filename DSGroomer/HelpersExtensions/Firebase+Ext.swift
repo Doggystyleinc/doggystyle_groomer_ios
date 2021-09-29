@@ -14,7 +14,7 @@ import Firebase
 
 //MARK:- SERVICE SINGLETON FOR CRUD OPERATIONS
 class Service : NSObject {
-    
+  
     static let shared = Service()
     
     func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool, _ imageURL : String) -> ()) {
@@ -252,7 +252,7 @@ class Service : NSObject {
                             } else {
 
                                 observingRefOne.removeObserver(withHandle: handleOne)
-                                completion(false, "Hello \(groomers_first_name.capitalizingFirstLetter()), you already have an existing account inside the Doggystyle Admin Portal. Please tap Login and enter your associate phone #. Further assistance can be found at: \(Statics.SUPPORT_EMAIL_ADDRESS)", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
+                                completion(false, "Hello \(groomers_first_name.capitalizingFirstLetter()), you already have an existing account inside the Doggystyle Admin Portal. Please tap Login and enter your associated phone #. Further assistance can be found at: \(Statics.SUPPORT_EMAIL_ADDRESS)", groomers_first_name, groomers_last_name, groomers_email, groomer_child_key)
                                 return
                             }
                             
