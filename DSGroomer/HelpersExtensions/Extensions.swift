@@ -344,6 +344,10 @@ struct Statics {
     //MARK: - OBSERVERS
     static let RUN_DATA_ENGINE : String = "run_data_engine"
     
+    //MARK: - ERROR ALERT CODES
+    static let GOT_IT : String = "Got it"
+    static let OK : String = "Ok"
+
 }
 
 extension UICollectionView {
@@ -1073,23 +1077,43 @@ extension UIView {
     
 }
 
-class AlertControllerCompletion : NSObject {
+class ParallaxHelper {
     
-    static func handleAlertWithCompletion(title : String, message : String, completion : @escaping (_ isFinished : Bool)->()) {
+    static func interpolatedMotion(toView view: UIView, magnitude : Float) {
         
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let xMotion = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
+        xMotion.minimumRelativeValue = -magnitude
+        xMotion.maximumRelativeValue = magnitude
         
-        let actionOne = UIAlertAction(title: "Ok", style: .default) { (action) in
-            completion(true)
-        }
+        let yMotion = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
+        yMotion.minimumRelativeValue = -magnitude
+        yMotion.maximumRelativeValue = magnitude
         
-        alertController.addAction(actionOne)
+        let group = UIMotionEffectGroup()
+        group.motionEffects = [xMotion, yMotion]
         
-        if let topViewController = UIApplication.getTopMostViewController() {
-            topViewController.present(alertController, animated: true, completion: nil)
-        }
+        view.addMotionEffect(group)
+        
     }
 }
+//
+//class AlertControllerCompletion : NSObject {
+//    
+//    static func handleAlertWithCompletion(title : String, message : String, completion : @escaping (_ isFinished : Bool)->()) {
+//        
+//        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//        
+//        let actionOne = UIAlertAction(title: "Ok", style: .default) { (action) in
+//            completion(true)
+//        }
+//        
+//        alertController.addAction(actionOne)
+//        
+//        if let topViewController = UIApplication.getTopMostViewController() {
+//            topViewController.present(alertController, animated: true, completion: nil)
+//        }
+//    }
+//}
 
 //MARK: - TOP VIEW CONTROLLER METHOD
 extension UIApplication {

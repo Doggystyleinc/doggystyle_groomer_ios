@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 
-class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, CustomAlertCallBackProtocol {
     
     private let groomerChecklistID = "groomerChecklistID"
     
@@ -175,9 +175,33 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
             }
 
         default: print("nothing here")
-            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "We are unable to find the indexpath.item for the selection you have made. Please contact support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                print("user hit an error")
-            }
+            self.handleCustomPopUpAlert(title: "ERROR", message: "We are unable to find the indexpath.item for the selection you have made. Please contact support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.OK])
+            
+        }
+    }
+
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.dashboardController?.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
+            
         }
     }
     

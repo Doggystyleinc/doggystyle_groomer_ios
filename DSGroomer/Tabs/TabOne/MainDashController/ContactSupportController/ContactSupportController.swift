@@ -10,7 +10,7 @@ import UIKit
 import MessageUI
 import Firebase
 
-class ContactSupportController : UIViewController, MFMailComposeViewControllerDelegate {
+class ContactSupportController : UIViewController, MFMailComposeViewControllerDelegate, CustomAlertCallBackProtocol {
     
     lazy var backButton : UIButton = {
         
@@ -235,9 +235,7 @@ class ContactSupportController : UIViewController, MFMailComposeViewControllerDe
            UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Restriction", message: "This device is unable to make phone calls.") { isComplete in
-                print("done")
-            }
+            self.handleCustomPopUpAlert(title: "Restriction", message: "This device is unable to make phone calls.", passedButtons: [Statics.OK])
         }
     }
     
@@ -257,9 +255,31 @@ class ContactSupportController : UIViewController, MFMailComposeViewControllerDe
             self.present(mail, animated: true, completion: nil)
             
         } else {
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Restriction", message: "This device is unable to Report Safety Issues.") { isComplete in
-                print("done")
-            }
+            self.handleCustomPopUpAlert(title: "Restriction", message: "This device is unable to Report Safety Issues.", passedButtons: [Statics.OK])
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
+            
         }
     }
     

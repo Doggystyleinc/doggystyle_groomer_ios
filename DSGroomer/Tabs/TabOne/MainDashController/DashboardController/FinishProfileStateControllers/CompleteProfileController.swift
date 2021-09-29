@@ -12,7 +12,7 @@ import AVFoundation
 import MobileCoreServices
 import Photos
 
-class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextViewDelegate, CustomAlertCallBackProtocol {
     
     var dashboardController : DashboardController?,
         selectedImage : UIImage?,
@@ -630,10 +630,7 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
                     
                 } else {
                     
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Photo failed to upload. Please try again. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS)") { isComplete in
-                        self.handleBackButton()
-                    }
-                    
+                    self.handleCustomPopUpAlert(title: "ERROR", message: "Photo failed to upload. Please try again. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Got it"])
                     self.activityInvoke(shouldStart: false)
                     
                 }
@@ -682,20 +679,19 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
                     ref.updateChildValues(values) { error, ref in
                         
                         if error != nil {
-                            AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "We are not able to save your bio at this time. Please try again.") { isComplete in
-                                print("BIO ALERT")
-                            }
+                            
+                            self.handleCustomPopUpAlert(title: "ERROR", message: "We are not able to save your bio at this time. Please try again.", passedButtons: ["Ok"])
+
                             return
                         }
                         
                         let groomerID = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
-                       
                         
                         if groomerID == "nil" {
-                            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) to resolve this matter.") { complete in
-                                self.mainLoadingScreen.cancelMainLoadingScreen()
-                                self.handleBackButton()
-                            }
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            
+                            self.handleCustomPopUpAlert(title: "ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) to resolve this matter.", passedButtons: ["Got it"])
+                            
                         } else {
                             
                             let playbookRef = self.databaseRef.child("play_books").child(groomerID)
@@ -704,10 +700,10 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
                             playbookRef.updateChildValues(playbookValues) { error, ref in
                                 
                                 if error != nil {
-                                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) to resolve this matter.") { complete in
-                                        self.mainLoadingScreen.cancelMainLoadingScreen()
-                                        self.handleBackButton()
-                                    }
+                                    
+                                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                                    self.handleCustomPopUpAlert(title: "ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) to resolve this matter.", passedButtons: ["Got it"])
+                                    
                                     return
                                 }
                                 
@@ -737,6 +733,31 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
         
     }
     
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case "Got it": self.handleBackButton()
+        case "Ok": print("DO nothing")
+
+        default: print("never")
+            
+        }
+    }
+    
     @objc func handleBackButton() {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
@@ -763,17 +784,11 @@ extension CompleteProfileController : UIImagePickerControllerDelegate, UINavigat
             })
             
         case .restricted:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: ["Ok"])
         case .denied:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: ["Ok"])
         default :
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: ["Ok"])
         }
     }
     

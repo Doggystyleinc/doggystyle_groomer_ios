@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class LinkBankAccountController : UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
+class LinkBankAccountController : UIViewController, UITextFieldDelegate, UIScrollViewDelegate, CustomAlertCallBackProtocol {
     
 var lastKeyboardHeight : CGFloat = 0.0,
     contentHeight : CGFloat = 560,
@@ -374,10 +374,8 @@ var lastKeyboardHeight : CGFloat = 0.0,
                     if groomerKey == "nil" {
                         
                         self.mainLoadingScreen.cancelMainLoadingScreen()
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                            print("ERROR - HANDLER")
-                            self.handleBackButton()
-                        }
+                        self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Got it"])
+                       
                         
                     } else {
 
@@ -389,10 +387,8 @@ var lastKeyboardHeight : CGFloat = 0.0,
                             if error != nil {
 
                                 self.mainLoadingScreen.cancelMainLoadingScreen()
-                                AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                                    print("ERROR - HANDLER")
-                                    self.handleBackButton()
-                                }
+                                self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Got it"])
+
                                 return
                             }
 
@@ -413,6 +409,34 @@ var lastKeyboardHeight : CGFloat = 0.0,
             self.routingNumberTextField.layer.borderColor = coreRedColor.cgColor
         }
      }
+    
+ 
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case "Got it": self.handleBackButton()
+
+        case "Ok": print("okay")
+            
+        default: print("never")
+            
+        }
+    }
      
     
     @objc func handleSaveAndContinueButton() {

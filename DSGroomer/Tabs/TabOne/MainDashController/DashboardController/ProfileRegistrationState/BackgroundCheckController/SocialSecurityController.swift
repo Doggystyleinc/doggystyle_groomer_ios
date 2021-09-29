@@ -16,7 +16,7 @@ import UIKit
 import Firebase
 
 
-class SocialSecurityController : UIViewController, UITextFieldDelegate {
+class SocialSecurityController : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
     
     let mainLoadingScreen = MainLoadingScreen()
     let databaseRef = Database.database().reference()
@@ -373,10 +373,8 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
         if groomerKey == "nil" {
             
             self.mainLoadingScreen.cancelMainLoadingScreen()
-            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                self.handleBackButton()
-            }
-            
+            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
+           
         } else {
             
             let ref = self.databaseRef.child("play_books").child(groomerKey)
@@ -385,10 +383,8 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
                 if error != nil {
                     
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                        print("ERROR - HANDLER")
-                        self.handleBackButton()
-                    }
+                    self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
+
                     return
                 }
                 
@@ -397,6 +393,30 @@ class SocialSecurityController : UIViewController, UITextFieldDelegate {
                 self.mainLoadingScreen.cancelMainLoadingScreen()
                 self.handleSocialVerificationController()
             }
+        }
+    }
+  
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: self.handleBackButton()
+            
+        default: print("Should not hit")
+            
         }
     }
     

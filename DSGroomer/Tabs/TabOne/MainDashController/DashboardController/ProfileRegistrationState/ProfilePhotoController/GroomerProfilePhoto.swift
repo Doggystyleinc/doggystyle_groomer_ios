@@ -12,7 +12,7 @@ import MobileCoreServices
 import Photos
 
 
-class GroomerProfileController : UIViewController {
+class GroomerProfileController : UIViewController, CustomAlertCallBackProtocol {
     
     var selectedImage : UIImage?
     var dashboardController : DashboardController?
@@ -349,11 +349,36 @@ class GroomerProfileController : UIViewController {
                 } else {
                     
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Photo failed to upload. Please try again. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS)") { isComplete in
-                        self.handleBackButton()
-                    }
+                    self.handleCustomPopUpAlert(title: "ERROR", message: "Photo failed to upload. Please try again. If this issue persists, please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
+                   
                 }
             })
+        }
+    }
+    
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case "Got it": self.handleBackButton()
+        case "Ok": print("Ok")
+            
+        default: print("Should not hit")
+            
         }
     }
     
@@ -410,17 +435,13 @@ extension GroomerProfileController : UIImagePickerControllerDelegate, UINavigati
             })
             
         case .restricted:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: [Statics.OK])
+
         case .denied:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: [Statics.OK])
+
         default :
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: [Statics.OK])
         }
     }
     

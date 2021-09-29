@@ -117,6 +117,7 @@
 		E39BA19126FFB04000CD2E2E /* ios_doggystyle_icon87.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E39BA18826FFB04000CD2E2E /* ios_doggystyle_icon87.jpg */; };
 		E39BA1932702330100CD2E2E /* white_music_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E39BA1922702330100CD2E2E /* white_music_anim.json */; };
 		E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */; };
+		E39BA1972702A4D400CD2E2E /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1962702A4D400CD2E2E /* AlertController.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -306,6 +307,7 @@
 		E39BA18826FFB04000CD2E2E /* ios_doggystyle_icon87.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ios_doggystyle_icon87.jpg; sourceTree = "<group>"; };
 		E39BA1922702330100CD2E2E /* white_music_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = white_music_anim.json; sourceTree = "<group>"; };
 		E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlingExtension.swift; sourceTree = "<group>"; };
+		E39BA1962702A4D400CD2E2E /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -754,6 +756,7 @@
 				E3C2EB68266170C000AB0EF6 /* GroomerOnboardingStruct.swift */,
 				E350212F268B99B100E5186E /* ServiceSingleton.swift */,
 				E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */,
+				E39BA1962702A4D400CD2E2E /* AlertController.swift */,
 			);
 			path = HelpersExtensions;
 			sourceTree = "<group>";
@@ -1254,6 +1257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E39BA1972702A4D400CD2E2E /* AlertController.swift in Sources */,
 				E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */,
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,

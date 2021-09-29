@@ -11,7 +11,7 @@ import UIKit
 import FontAwesome_swift
 import Firebase
 
-class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
+class EmployeeAgreementController : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
     
     let mainLoadingScreen = MainLoadingScreen(),
         databaseRef = Database.database().reference()
@@ -198,11 +198,9 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
         self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
 
         if groomerKey == "nil" {
+            
             self.mainLoadingScreen.cancelMainLoadingScreen()
-            AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                print("ERROR - HANDLER")
-                self.handleBackButton()
-            }
+            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Ok"])
             
         } else {
             
@@ -212,11 +210,10 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
             ref.updateChildValues(values) { error, ref in
                 
                 if error != nil {
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                        print("ERROR - HANDLER")
-                        self.handleBackButton()
-                    }
+                    
+            self.mainLoadingScreen.cancelMainLoadingScreen()
+            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Ok"])
+
                     return
                 }
                 
@@ -228,6 +225,31 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate {
             }
         }
     }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+
+        case "Ok": self.handleBackButton()
+
+        default: print("never")
+            
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
     
     @objc func handleBackButton() {
         self.navigationController?.dismiss(animated: true, completion: nil)

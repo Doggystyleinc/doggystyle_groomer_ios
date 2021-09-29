@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 
-extension DashboardController {
+extension DashboardController: CustomAlertCallBackProtocol {
     
     @objc func runDataEngine() {
         
@@ -36,23 +36,43 @@ extension DashboardController {
   
                       } else {
                         
-                        print("AM I IN HERE?")
                         self.mainLoadingScreen.cancelMainLoadingScreen()
                         self.groomerChecklistCollection.checkListBooleanArray = keyCompletionBooleanArray
                         
                         self.unhideGroomerProfileSetup()
                         self.handleGroomerCollectionReload()
-  
                 }
-                    
             }
                 
             } else {
+                
                 self.mainLoadingScreen.cancelMainLoadingScreen()
-                AlertControllerCompletion.handleAlertWithCompletion(title: "FATAL ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) and let them know your account needs attention. Please append this unique ID to the email as well: \(user_uid) - thank you.") { isComplete in
-                    self.homeController?.handleLogout()
-                }
+                self.handleCustomPopUpAlert(title: "FATAL ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) and let them know your account needs attention. Please append this unique ID to the email as well: \(user_uid) - thank you.", passedButtons: [Statics.GOT_IT])
             }
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: self.homeController?.handleLogout()
+            
+        default: print("Should not hit")
+            
         }
     }
     

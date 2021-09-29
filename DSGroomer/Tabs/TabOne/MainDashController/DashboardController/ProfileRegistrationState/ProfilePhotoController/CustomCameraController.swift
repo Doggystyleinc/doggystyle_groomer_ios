@@ -11,7 +11,7 @@ import AVFoundation
 import MobileCoreServices
 import Photos
 
-class CustomPhotoController : UIViewController {
+class CustomPhotoController : UIViewController, CustomAlertCallBackProtocol {
     
     var groomerProfileController : GroomerProfileController?
     
@@ -215,9 +215,32 @@ class CustomPhotoController : UIViewController {
     @objc func handlePermissions() {
         if self.isInLockedMode == true {
             
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permission", message: "Please head over to the Settings application and enable Camera permissions.") { complete in
-                print("Alert for permissions")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please head over to the Settings application and enable Camera permissions.", passedButtons: [Statics.OK])
+           
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
+            
         }
     }
     

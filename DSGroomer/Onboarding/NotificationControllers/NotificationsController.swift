@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class NotificationsController : UIViewController {
+class NotificationsController : UIViewController, CustomAlertCallBackProtocol {
     
     let mainLoadingScreen = MainLoadingScreen()
     
@@ -197,11 +197,7 @@ class NotificationsController : UIViewController {
         self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
        
         Service.shared.FirebaseRegistrationAndLogin { isComplete, response, responseCode, responseMessage  in
-            
-            print(response)
-            print(responseCode)
-            print(responseMessage)
-
+           
             if isComplete {
                 self.mainLoadingScreen.cancelMainLoadingScreen()
                 
@@ -210,12 +206,35 @@ class NotificationsController : UIViewController {
                 }
                 
             } else {
+                
                 self.mainLoadingScreen.cancelMainLoadingScreen()
-                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "\(responseMessage)") { complete in
-                    print("FAIL ERROR")
-                    self.navigationController?.dismiss(animated: true, completion: nil)
-                }
+                self.handleCustomPopUpAlert(title: "ERROR", message: "\(responseMessage)", passedButtons: [Statics.GOT_IT])
+              
             }
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: self.navigationController?.dismiss(animated: true, completion: nil)
+            
+        default: print("Should not hit")
+            
         }
     }
     

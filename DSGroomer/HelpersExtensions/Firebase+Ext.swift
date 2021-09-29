@@ -514,8 +514,7 @@ class Service : NSObject {
             ref.updateChildValues(values) { (error, ref) in
                 
                 if error != nil {
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Seems something went wrong attempting to register. Plase try again. If this problem persists, please contact DuvMessenger directly.") { (isComplete) in
-                    }
+                    completion(false)
                     return
                 }
                 

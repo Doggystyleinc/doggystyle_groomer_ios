@@ -10,7 +10,7 @@ import UIKit
 import PhoneNumberKit
 import Firebase
 
-class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
+class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
     
     let databaseRef = Database.database().reference()
     let mainLoadingScreen = MainLoadingScreen()
@@ -274,9 +274,7 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
                     self.handlePhoneAuthRequest(phoneNumberCountryCode: countryCodeAsString, phoneNumberAsString: phoneNumberAsString, groomersFirstName: groomersFirstName, groomersLastName: groomersLastName, groomersEmail: groomersEmail, groomerChildKey: groomerChildKey)
                 } else {
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Stylist", message: message) { complete in
-                        self.handleBackButton()
-                    }
+                    self.handleCustomPopUpAlert(title: "Stylist", message: message, passedButtons: [Statics.GOT_IT])
                 }
             }
         
@@ -295,8 +293,8 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
             if error != nil || object == nil {
                 
                 self.mainLoadingScreen.cancelMainLoadingScreen()
-                AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "This is on us, please try again.") { complete in
-            }
+                self.handleCustomPopUpAlert(title: "ERROR", message: "This is on us, please try again.", passedButtons: [Statics.OK])
+
                 return
                 
             } else {
@@ -327,6 +325,31 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate {
                     self.navigationController?.pushViewController(pinNumberEntry, animated: true)
                 }
             }
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: self.handleBackButton()
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
+            
         }
     }
 

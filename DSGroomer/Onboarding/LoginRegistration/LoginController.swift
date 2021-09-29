@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-final class LoginController: UIViewController, UITextFieldDelegate {
+final class LoginController: UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
     
     let databaseRef = Database.database().reference()
     var isKeyboardShowing : Bool = false
@@ -480,9 +480,8 @@ final class LoginController: UIViewController, UITextFieldDelegate {
                         
                     } else {
                         self.mainLoadingScreen.cancelMainLoadingScreen()
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: response) { complete in
-                            print("user error logging in")
-                        }
+                        
+                        self.handleCustomPopUpAlert(title: "ERROR", message: response, passedButtons: ["Ok"])
                     }
                 }
                 
@@ -495,6 +494,24 @@ final class LoginController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        print("USer selected okay")
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
     
     @objc private func didTapForgotPassword() {
         let passwordResetController = PasswordResetController()

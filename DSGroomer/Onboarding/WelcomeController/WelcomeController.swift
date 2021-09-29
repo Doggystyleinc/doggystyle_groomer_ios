@@ -186,7 +186,7 @@ class WelcomeController : UIViewController, UITextViewDelegate {
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-      
+        
     }
     
     func addViews() {

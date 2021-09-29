@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 
-class PinNumberEntry : UIViewController, UITextFieldDelegate {
+class PinNumberEntry : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
     
     var phoneNumber : String?
     var countryCode : String?
@@ -493,11 +493,33 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate {
                     self.handleNextButton()
                 } else {
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Error", message: "Please check your pin # and try again.") { complete in
-                        self.navigationController?.popViewController(animated: true)
-                    }
+                    self.handleCustomPopUpAlert(title: "ERROR", message: "Please check your pin # and try again.", passedButtons: [Statics.GOT_IT])
                 }
             }
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: self.navigationController?.popViewController(animated: true)
+            
+        default: print("Should not hit")
+            
         }
     }
    

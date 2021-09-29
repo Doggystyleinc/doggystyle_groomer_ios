@@ -12,7 +12,7 @@ import MobileCoreServices
 import Photos
 
 
-class DriverLicenseController : UIViewController {
+class DriverLicenseController : UIViewController, CustomAlertCallBackProtocol {
     
     var selectedImage : UIImage?,
         driversLicensePath : String?,
@@ -482,10 +482,7 @@ class DriverLicenseController : UIViewController {
                     if isComplete == false {
                         
                         self.mainLoadingScreen.cancelMainLoadingScreen()
-                        AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)") { complete in
-                            print("ERROR - HANDLER")
-                        self.handleBackButton()
-                        }
+                        self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
                         
                     } else {
                         
@@ -503,6 +500,32 @@ class DriverLicenseController : UIViewController {
         } else {
             
             print("Unknown state when uploading from the drivers license controller")
+            
+        }
+    }
+    
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: self.handleBackButton()
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
             
         }
     }
@@ -571,17 +594,11 @@ extension DriverLicenseController : UIImagePickerControllerDelegate, UINavigatio
             })
             
         case .restricted:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: [Statics.OK])
         case .denied:
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: [Statics.OK])
         default :
-            AlertControllerCompletion.handleAlertWithCompletion(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.") { (complete) in
-                print("Alert presented")
-            }
+            self.handleCustomPopUpAlert(title: "Permissions", message: "Please allow Photo Library Permissions in the Settings application.", passedButtons: [Statics.OK])
         }
     }
     

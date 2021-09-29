@@ -11,7 +11,7 @@ import UIKit
 import Firebase
 
 
-class PasswordResetController : UIViewController, UITextFieldDelegate {
+class PasswordResetController : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
     
     let databaseRef = Database.database().reference()
     let mainLoadingScreen = MainLoadingScreen()
@@ -264,21 +264,43 @@ class PasswordResetController : UIViewController, UITextFieldDelegate {
                 
                 if isComplete {
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "Success", message: "Please check your associated Email for the password reset link. Once the link is tapped, reset your password and return to the Stylist application with the newly created credentials and Login.") { isComplete in
-                        self.handleBackButton()
-                    }
+                    self.handleCustomPopUpAlert(title: "Success", message: "Please check your associated Email for the password reset link. Once the link is tapped, reset your password and return to the Stylist application with the newly created credentials and Login.", passedButtons: ["Got it"])
                     
                 } else {
+                    
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    AlertControllerCompletion.handleAlertWithCompletion(title: "ERROR", message: response) { complete in
-                        print("Issue with password reset")
-                        self.handleBackButton()
-                    }
+                    self.handleCustomPopUpAlert(title: "ERROR", message: response, passedButtons: ["Got it"])
                 }
             }
             
         } else {
             self.emailTextField.layer.borderColor = coreRedColor.cgColor
+        }
+    }
+    
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case "Got it": self.handleBackButton()
+        case "Ok": print("Ok")
+
+        default: print("Should not hit")
+            
         }
     }
     
