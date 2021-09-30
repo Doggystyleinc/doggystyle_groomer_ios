@@ -140,39 +140,39 @@ class GroomerChecklistCollection : UICollectionView, UICollectionViewDelegateFlo
         guard let indexPath = self.indexPath(for: selectedButtonCell) else {return}
         
         let titleFeeder = self.titleArray[indexPath.item]
-        let isCompleted = self.checkListBooleanArray[indexPath.item]
+//        let isCompleted = self.checkListBooleanArray[indexPath.item]
         
         switch titleFeeder {
         
         case "Profile picture" :
             
-            if isCompleted == false {
+//            if isCompleted == false {
                 self.handleProfileSelectionTaps()
-            }
+//            }
             
         case "Drivers license" :
             
-            if isCompleted == false {
+//            if isCompleted == false {
             self.handleDriversLicenseTaps()
-            }
+//            }
             
         case "Background check" :
             
-            if isCompleted == false {
+//            if isCompleted == false {
             self.handleBackgroundTaps()
-            }
+//            }
             
         case "Payment preferences" :
             
-            if isCompleted == false {
+//            if isCompleted == false {
             self.handlepaymentPreferencesTaps()
-            }
+//            }
             
         case "Employee agreement" :
             
-            if isCompleted == false {
+//            if isCompleted == false {
             self.handleEmployeeAgreementTaps()
-            }
+//            }
 
         default: print("nothing here")
             self.handleCustomPopUpAlert(title: "ERROR", message: "We are unable to find the indexpath.item for the selection you have made. Please contact support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.OK])

@@ -1450,7 +1450,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DSGroomer/DSGroomer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.3;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = STQP84FTBY;
 				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1473,7 +1473,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DSGroomer/DSGroomer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.3;
+				CURRENT_PROJECT_VERSION = 1.0.4;
 				DEVELOPMENT_TEAM = STQP84FTBY;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;

@@ -487,13 +487,38 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate, CustomAlertCallBac
         
         ServiceHTTP.shared.twilioGetRequest(function_call: "request_for_authorization", users_country_code: countryCode, users_phone_number: phone, delivery_method: "sms", entered_code: enteredCode) { object, error in
             
-            DispatchQueue.main.async {
-                if error == nil {
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    self.handleNextButton()
-                } else {
-                    self.mainLoadingScreen.cancelMainLoadingScreen()
-                    self.handleCustomPopUpAlert(title: "ERROR", message: "Please check your pin # and try again.", passedButtons: [Statics.GOT_IT])
+            guard let obj = object else {return}
+        
+            for (key,value) in obj {
+                
+                let response = String(describing: value)
+                print(response)
+                
+                if key == "twilio_response" {
+                    
+                    switch response {
+                    
+                    case "denied" :
+                        DispatchQueue.main.async {
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            self.handleCustomPopUpAlert(title: "Incorrect Pin", message: "Please check your pin # and try again.", passedButtons: [Statics.GOT_IT])
+                        }
+                       
+                    case "failed" :
+                        DispatchQueue.main.async {
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            self.handleCustomPopUpAlert(title: "Internal Error", message: "Internal error, please try again.", passedButtons: [Statics.GOT_IT])
+                        }
+                        
+                    case "approved" :
+                        DispatchQueue.main.async {
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                           self.handleNextButton()
+                        }
+                        
+                    default: print("unknown from twilio")
+                    
+                    }
                 }
             }
         }
