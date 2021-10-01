@@ -15,39 +15,39 @@ extension DashboardController: CustomAlertCallBackProtocol {
         
         self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
         
-        //MARK: - GRAB THE PLAYBOOK KEY FROM THE ALL USERS NODE FOR PLAYBOOKS REFERENCE
-        self.grabPlayBookKey { doesKeyExist, returnedKey, user_uid in
-            
-            if doesKeyExist {
-                
-                //MARK: - CHECK TO SEE IF THE GROOMER HAS COMPLETED THEIR PROFILE MANAGEMENT
-                self.checkGroomerChecklistCompletion(groomerKey: returnedKey) { hasCompletedProfileManagement, hasCompletedBiographyManagement, keyCompletionBooleanArray in
+                //MARK: - GRAB THE PLAYBOOK KEY FROM THE ALL USERS NODE FOR PLAYBOOKS REFERENCE
+                self.grabPlayBookKey { doesKeyExist, returnedKey, user_uid in
                     
-                    if hasCompletedBiographyManagement {
-                  
-                          self.mainLoadingScreen.cancelMainLoadingScreen()
-                          self.setupTheUsersDashboard()
-  
-                      //MARK: - GROOMER HAS TO COMPLETE HIS BIOGRAPHY
-                      } else if hasCompletedProfileManagement {
-  
-                          self.mainLoadingScreen.cancelMainLoadingScreen()
-                          self.handleProfileManagementCompletionSetup()
-  
-                      } else {
+                    if doesKeyExist {
+                        
+                        //MARK: - CHECK TO SEE IF THE GROOMER HAS COMPLETED THEIR PROFILE MANAGEMENT
+                        self.checkGroomerChecklistCompletion(groomerKey: returnedKey) { hasCompletedProfileManagement, hasCompletedBiographyManagement, keyCompletionBooleanArray in
+                            
+                            if hasCompletedBiographyManagement {
+                          
+                                  self.mainLoadingScreen.cancelMainLoadingScreen()
+                                  self.setupTheUsersDashboard()
+          
+                              //MARK: - GROOMER HAS TO COMPLETE HIS BIOGRAPHY
+                              } else if hasCompletedProfileManagement {
+          
+                                  self.mainLoadingScreen.cancelMainLoadingScreen()
+                                  self.handleProfileManagementCompletionSetup()
+          
+                              } else {
+                                
+                                self.mainLoadingScreen.cancelMainLoadingScreen()
+                                self.groomerChecklistCollection.checkListBooleanArray = keyCompletionBooleanArray
+                                
+                                self.unhideGroomerProfileSetup()
+                                self.handleGroomerCollectionReload()
+                        }
+                    }
+                        
+                    } else {
                         
                         self.mainLoadingScreen.cancelMainLoadingScreen()
-                        self.groomerChecklistCollection.checkListBooleanArray = keyCompletionBooleanArray
-                        
-                        self.unhideGroomerProfileSetup()
-                        self.handleGroomerCollectionReload()
-                }
-            }
-                
-            } else {
-                
-                self.mainLoadingScreen.cancelMainLoadingScreen()
-                self.handleCustomPopUpAlert(title: "FATAL ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) and let them know your account needs attention. Please append this unique ID to the email as well: \(user_uid) - thank you.", passedButtons: [Statics.GOT_IT])
+                        self.handleCustomPopUpAlert(title: "FATAL ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) and let them know your account needs attention. Please append this unique ID to the email as well: \(user_uid) - thank you.", passedButtons: [Statics.GOT_IT])
             }
         }
     }

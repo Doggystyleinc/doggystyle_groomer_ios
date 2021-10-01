@@ -25,11 +25,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         
         //GOOGLE PLACES KEY
-        GMSPlacesClient.provideAPIKey("AIzaSyCfb7KxeoO6WSfQ7jpcBbykiMvyRHv6zaw")
+        GMSPlacesClient.provideAPIKey("AIzaSyCsQHp5h7ReANC8G4hSJ3xFF-unyiSfgBs")
         
         //GOOGLE MAPS KEY
-        GMSServices.provideAPIKey("AIzaSyD0QooK2JJuDUBU0MSlRBLU0FT3STJoFVw")
-        
+        GMSServices.provideAPIKey("AIzaSyCsQHp5h7ReANC8G4hSJ3xFF-unyiSfgBs")
+//        GMSServices.provideAPIKey("AIzaSyD0QooK2JJuDUBU0MSlRBLU0FT3STJoFVw")
+
         return true
     }
     

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>227362523264-h4mg5rm1ukf44c8blhu0dm89a6h3ibvq.apps.googleusercontent.com</string>
+	<string>1013733295926-44mn7rmnn4v8f5550f29pgn6u5htqbhg.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.227362523264-h4mg5rm1ukf44c8blhu0dm89a6h3ibvq</string>
+	<string>com.googleusercontent.apps.1013733295926-44mn7rmnn4v8f5550f29pgn6u5htqbhg</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDgQqE2rD0DRCA3RRobl7joQCBZA6hd5y0</string>
+	<string>AIzaSyC-HX47IovrGc0V7YyKk47Lucvhtc9ZEKE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>227362523264</string>
+	<string>1013733295926</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.doggystyle.Project-Doggystyle-iOS</string>
+	<string>com.doggystyle.DSGroomer</string>
 	<key>PROJECT_ID</key>
-	<string>doggystyle-dev</string>
+	<string>doggystyle-development-b5e59</string>
 	<key>STORAGE_BUCKET</key>
-	<string>doggystyle-dev.appspot.com</string>
+	<string>doggystyle-development-b5e59.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:227362523264:ios:041925f00aa7877c37fe65</string>
-	<key>DATABASE_URL</key>
-	<string>https://doggystyle-dev-default-rtdb.firebaseio.com</string>
+	<string>1:1013733295926:ios:083e123837062a87ffd597</string>
 </dict>
 </plist>

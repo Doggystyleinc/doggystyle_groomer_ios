@@ -102,7 +102,7 @@ class AlertController : UIViewController {
         self.descriptionLabel.text = safeMessage
 
         let width : CGFloat = UIScreen.main.bounds.width / 1.2
-        let buffer : CGFloat = 152 //INCREASE HERE IF THE WHITE PADDING IS CUTTING OFF THE DESCRIPTION LABEL
+        let buffer : CGFloat = 132 //INCREASE HERE IF THE WHITE PADDING IS CUTTING OFF THE DESCRIPTION LABEL
 
         let size = CGSize(width: (UIScreen.main.bounds.width / 1.2) - 81, height: 2000),
         options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin),
@@ -126,7 +126,7 @@ class AlertController : UIViewController {
         self.headerLabel.rightAnchor.constraint(equalTo: self.mainContainer.rightAnchor, constant: -20).isActive = true
         self.headerLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
 
-        self.descriptionLabel.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 30).isActive = true
+        self.descriptionLabel.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 10).isActive = true
         self.descriptionLabel.leftAnchor.constraint(equalTo: self.mainContainer.leftAnchor, constant: 41).isActive = true
         self.descriptionLabel.rightAnchor.constraint(equalTo: self.mainContainer.rightAnchor, constant: -41).isActive = true
         self.descriptionLabel.bottomAnchor.constraint(equalTo: self.mainContainer.bottomAnchor, constant: -48).isActive = true

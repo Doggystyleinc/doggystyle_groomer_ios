@@ -5,6 +5,15 @@
 //  Created by Charlie Arcodia on 9/9/21.
 //
 
+public enum OnboardingRoutes {
+    
+    case fromRegister
+    case fromLogin
+    
+}
+
+var onboardingRoutes = OnboardingRoutes.fromLogin
+
 import Foundation
 import UIKit
 
@@ -252,6 +261,8 @@ class WelcomeController : UIViewController, UITextViewDelegate, CustomAlertCallB
     
     @objc func handleRegistrationButton() {
         
+        onboardingRoutes = .fromRegister
+        
         UIDevice.vibrateLight()
         let phoneNumberVerification = PhoneNumberVerification()
         let nav = UINavigationController(rootViewController: phoneNumberVerification)
@@ -263,25 +274,30 @@ class WelcomeController : UIViewController, UITextViewDelegate, CustomAlertCallB
         self.navigationController?.present(nav, animated: true, completion: {
             print("Onboarding has began")
         })
-        
     }
     
     @objc func handleApplyButton() {
         
         UIDevice.vibrateLight()
         self.handleCustomPopUpAlert(title: "Welcome", message: "Since Doggystyle client/stylist are currently under development, some features are in progress such as 'Apply to Doggystyle'.", passedButtons: [Statics.OK])
-        print("Apply button")
     }
     
     @objc func handleLoginButton() {
         
-        UIDevice.vibrateLight()
-        let loginController = LoginController()
-        loginController.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(loginController, animated: true)
+        onboardingRoutes = .fromLogin
         
+        UIDevice.vibrateLight()
+        let phoneNumberVerification = PhoneNumberVerification()
+        let nav = UINavigationController(rootViewController: phoneNumberVerification)
+        nav.modalPresentationStyle = .fullScreen
+        nav.navigationBar.isHidden = true
+        
+        //BUILDER STRUCT - RESET WHEN HITTING THE REGISTRATION FLOW
+        groomerOnboardingStruct = GroomerOnboardingStruct()
+        self.navigationController?.present(nav, animated: true, completion: {
+            print("Onboarding has began")
+        })
     }
-    
     
     @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
         

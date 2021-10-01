@@ -166,6 +166,13 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
         
+        if onboardingRoutes == .fromRegister {
+            self.headerLabel.text = "Hello! Welcome to the Doggystyle team!"
+            self.subHeaderLabel.text = "Let’s start by verifying your phone number"
+        } else if onboardingRoutes == .fromLogin {
+            self.headerLabel.text = "Welcome back!"
+            self.subHeaderLabel.text = "Login with your phone number"
+        }
     }
     
     func addViews() {
@@ -232,6 +239,19 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
     
     @objc func handleNextButton() {
         
+        if onboardingRoutes == .fromRegister {
+            
+            self.handleNextFromRegister()
+            
+        } else if onboardingRoutes == .fromLogin {
+            
+            self.handleNextFromLogin()
+            
+        }
+    }
+    
+    func handleNextFromRegister() {
+        
         var hitFLag : Bool = false
         
         guard let safePhoneNumber = self.phoneNumberTextField.text else {
@@ -284,6 +304,62 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
             self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
             
           }
+    }
+    
+    func handleNextFromLogin() {
+        
+        guard let safePhoneNumber = self.phoneNumberTextField.text else {
+            self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
+            return
+        }
+        
+        if safePhoneNumber.count < 5 {
+            self.phoneNumberTextField.layer.borderColor = coreRedColor.cgColor
+            return
+        }
+        
+        let phoneNumberKit = PhoneNumberKit()
+        
+        let phoneNumberText = self.phoneNumberTextField.phoneNumber?.nationalNumber ?? 0
+        let phoneNumberCountryCode = self.phoneNumberTextField.phoneNumber?.countryCode ?? 0
+
+        let phoneNumberAsString = String(phoneNumberText)
+        let countryCodeAsString = String(phoneNumberCountryCode)
+        
+        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
+        self.phoneNumberTextField.resignFirstResponder()
+        
+          let isValid = phoneNumberKit.isValidPhoneNumber(safePhoneNumber)
+        
+            if isValid {
+                
+                ServiceHTTP.shared.twilioGetRequest(function_call: "request_for_pin", users_country_code: countryCodeAsString, users_phone_number: phoneNumberAsString, delivery_method: "sms", entered_code: "nil") { object, error in
+
+                    if error != nil || object == nil {
+                        self.mainLoadingScreen.cancelMainLoadingScreen()
+                        self.handleCustomPopUpAlert(title: "ERROR", message: "This is on us, please try again.", passedButtons: [Statics.OK])
+                    } else {
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            let pinNumberEntry = PinNumberEntry()
+                            pinNumberEntry.phoneNumber = phoneNumberAsString
+                            pinNumberEntry.countryCode = countryCodeAsString
+                            pinNumberEntry.modalPresentationStyle = .fullScreen
+                            pinNumberEntry.navigationController?.navigationBar.isHidden = true
+                            
+                            self.navigationController?.pushViewController(pinNumberEntry, animated: true)
+                        }
+                    }
+                }
+                   
+            } else {
+                
+                self.mainLoadingScreen.cancelMainLoadingScreen()
+                self.handleCustomPopUpAlert(title: "Authentication", message: "Please check the formatting of your phone number and try again. If this issue persists, please contact HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS).", passedButtons: [Statics.OK])
+                
+            }
     }
     
     @objc func handlePhoneAuthRequest(phoneNumberCountryCode : String, phoneNumberAsString : String, groomersFirstName : String, groomersLastName : String, groomersEmail : String, groomerChildKey : String) {

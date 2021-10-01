@@ -7,8 +7,9 @@
 
 import UIKit
 import PhoneNumberKit
+import GoogleMaps
 
-class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate {
+class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate, UITextViewDelegate, CLLocationManagerDelegate, CustomAlertCallBackProtocol {
     
     var screenHeight = UIScreen.main.bounds.height,
         isKeyboardPresented : Bool = false,
@@ -20,8 +21,23 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         lastKeyboardHeight : CGFloat = 0.0,
         contentOffSet : CGFloat = 0.0,
         contentHeight : CGFloat = 845.0,
-        isKeyboardShowing : Bool = false
+        isKeyboardShowing : Bool = false,
+        isSelectedNameChosen : Bool = false,
+        predictionString : String = "",
+        locationManager = CLLocationManager(),
+        isLocationServicesEnabled : Bool = false,
+        isSearchInProgress : Bool = false,
+        cityNameFetch : String?,
+        cityPlacesIdFetch : String?
     
+    lazy var citySearchSubView : CitySearchSubView = {
+        
+        let ndsb = CitySearchSubView(frame: .zero)
+        ndsb.registrationController = self
+        ndsb.isHidden = true
+        return ndsb
+        
+    }()
     
     lazy var backButton : UIButton = {
         
@@ -411,24 +427,26 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         return dcl
     }()
     
-    lazy var cityTextField: CustomTextField = {
+    lazy var cityTextField : UITextField = {
         
-        let etfc = CustomTextField()
+        let etfc = UITextField()
         etfc.translatesAutoresizingMaskIntoConstraints = false
+        let placeholder = NSAttributedString(string: "City", attributes: [NSAttributedString.Key.foregroundColor: dsFlatBlack.withAlphaComponent(0.4)])
+        etfc.attributedPlaceholder = placeholder
         etfc.textAlignment = .left
-        etfc.textColor = coreBlackColor
+        etfc.backgroundColor = coreWhiteColor
+        etfc.textColor = UIColor .darkGray.withAlphaComponent(1.0)
         etfc.font = UIFont(name: rubikRegular, size: 18)
         etfc.allowsEditingTextAttributes = false
         etfc.autocorrectionType = .no
         etfc.delegate = self
-        etfc.backgroundColor = coreWhiteColor
-        etfc.returnKeyType = UIReturnKeyType.done
-        etfc.keyboardType = .alphabet
         etfc.layer.masksToBounds = true
-        etfc.layer.cornerRadius = 8
-        etfc.isSecureTextEntry = false
+        etfc.keyboardAppearance = UIKeyboardAppearance.light
+        etfc.returnKeyType = UIReturnKeyType.done
+        
         etfc.leftViewMode = .always
         etfc.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: 0))
+        
         etfc.clipsToBounds = false
         etfc.layer.masksToBounds = false
         etfc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
@@ -436,44 +454,14 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         etfc.layer.shadowOffset = CGSize(width: 2, height: 3)
         etfc.layer.shadowRadius = 9
         etfc.layer.shouldRasterize = false
-        etfc.layer.borderColor = UIColor.clear.cgColor
-        etfc.layer.borderWidth = 1
-        etfc.keyboardAppearance = UIKeyboardAppearance.light
-        etfc.addTarget(self, action: #selector(self.handleCityTextFieldChange), for: .editingChanged)
+        etfc.layer.borderColor = dividerGrey.withAlphaComponent(0.2).cgColor
+        etfc.layer.borderWidth = 1.0
+        etfc.layer.cornerRadius = 10
+        etfc.tintColor = .clear
         etfc.addTarget(self, action: #selector(self.handleCityTextFieldBegin), for: .touchDown)
         
         return etfc
         
-    }()
-    
-    let typingCityLabel : UILabel = {
-        
-        let tel = UILabel()
-        tel.translatesAutoresizingMaskIntoConstraints = false
-        tel.backgroundColor = coreWhiteColor
-        tel.text = "City"
-        tel.font = UIFont(name: rubikBold, size: 13)
-        tel.textAlignment = .left
-        tel.translatesAutoresizingMaskIntoConstraints = false
-        tel.isHidden = true
-        tel.textColor = dsFlatBlack.withAlphaComponent(0.4)
-        
-        return tel
-    }()
-    
-    let placeHolderCityLabel : UILabel = {
-        
-        let tel = UILabel()
-        tel.translatesAutoresizingMaskIntoConstraints = false
-        tel.backgroundColor = .clear
-        tel.text = "City"
-        tel.font = UIFont(name: rubikRegular, size: 18)
-        tel.textAlignment = .left
-        tel.translatesAutoresizingMaskIntoConstraints = false
-        tel.isHidden = false
-        tel.textColor = dsFlatBlack.withAlphaComponent(0.4)
-        
-        return tel
     }()
     
     lazy var confirmButton: UIButton = {
@@ -509,7 +497,7 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         sv.delegate = self
         sv.contentMode = .scaleAspectFit
         sv.isUserInteractionEnabled = true
-        sv.delaysContentTouches = true
+        sv.delaysContentTouches = false
         
         return sv
         
@@ -562,18 +550,26 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.handleLastNameTextFieldBegin()
         self.handleEmailTextFieldBegin()
         
+        self.cityTextField.textContentType = UITextContentType(rawValue: "")
+        self.cityTextField.inputView = UIView()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         NotificationCenter.default.removeObserver(self)
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.handleLocationServicesAuthorization()
     }
     
     func addViews() {
@@ -610,10 +606,9 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.contentView.addSubview(self.typingPasswordLabel)
         
         self.contentView.addSubview(self.cityTextField)
-        self.contentView.addSubview(self.typingCityLabel)
-        self.contentView.addSubview(self.placeHolderCityLabel)
-        
         self.contentView.addSubview(self.confirmButton)
+        
+        self.view.addSubview(self.citySearchSubView)
         
         self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
@@ -709,14 +704,6 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.cityTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.cityTextField.heightAnchor.constraint(equalToConstant: 70).isActive = true
         
-        self.placeHolderCityLabel.leftAnchor.constraint(equalTo: self.cityTextField.leftAnchor, constant: 30).isActive = true
-        self.placeHolderCityLabel.centerYAnchor.constraint(equalTo: self.cityTextField.centerYAnchor, constant: 0).isActive = true
-        self.placeHolderCityLabel.sizeToFit()
-        
-        self.typingCityLabel.leftAnchor.constraint(equalTo: self.cityTextField.leftAnchor, constant: 25).isActive = true
-        self.typingCityLabel.topAnchor.constraint(equalTo: self.cityTextField.topAnchor, constant: 14).isActive = true
-        self.typingCityLabel.sizeToFit()
-        
         self.referralTextField.topAnchor.constraint(equalTo: self.cityTextField.bottomAnchor, constant: 20).isActive = true
         self.referralTextField.leftAnchor.constraint(equalTo: self.firstNameTextField.leftAnchor, constant: 0).isActive = true
         self.referralTextField.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
@@ -735,6 +722,106 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.confirmButton.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: 0).isActive = true
         self.confirmButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+        self.citySearchSubView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0).isActive = true
+        self.citySearchSubView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        self.citySearchSubView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        self.citySearchSubView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        
+    }
+    
+    //ENABLE LOCATION SERVICES OR ELSE DISMISS THE CONTROLLER
+    @objc func handleLocationServicesAuthorization() {
+        
+        self.locationManager.delegate = self
+        
+        if CLLocationManager.locationServicesEnabled() {
+            
+            switch self.locationManager.authorizationStatus {
+            
+            case .authorizedAlways, .authorizedWhenInUse:
+                
+                self.handleSuccess()
+                
+            case .notDetermined, .restricted :
+                
+                self.locationManager.requestWhenInUseAuthorization()
+                
+            case .denied:
+                
+                self.handleCustomPopUpAlert(title: "Location Services", message: "Please allow Doggystyle permission to the devices location so we can find nearby cities.", passedButtons: [Statics.GOT_IT, "Cancel"])
+                
+            default : print("Hit an unknown state")
+                
+            }
+            
+        } else {
+            
+            self.handleCustomPopUpAlert(title: "Location Services", message: "Please allow Doggystyle permission to the devices location so we can find nearby cities.", passedButtons: [Statics.GOT_IT, "Cancel"])
+        }
+    }
+    
+    func handleSuccess() {
+        self.isLocationServicesEnabled = true
+        self.cityTextField.placeholder = "City"
+        self.cityTextField.isUserInteractionEnabled = true
+        
+    }
+    func handleFailure() {
+        self.isLocationServicesEnabled = false
+        self.cityTextField.placeholder = "Enable location services"
+        self.cityTextField.isUserInteractionEnabled = false
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT:
+            
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    self.handleSuccess()
+                })
+            }
+            
+        case "Cancel": print("Tapped cancel")
+            
+        default: print("Should not hit")
+            
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedAlways || status == .authorizedWhenInUse {
+            if CLLocationManager.isMonitoringAvailable(for: CLBeaconRegion.self) {
+                if CLLocationManager.isRangingAvailable() {
+                    self.handleSuccess()
+                }
+            }
+        } else {
+            self.handleFailure()
+        }
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        self.cityTextField.endEditing(true)
     }
     
     @objc func adjustContentSize() {
@@ -746,6 +833,8 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
     }
     
     @objc func handleKeyboardShow(notification : Notification) {
+        
+        if self.isSearchInProgress == true {return}
         
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as! NSValue
@@ -827,7 +916,7 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.referralTextField.resignFirstResponder()
         self.emailTextField.resignFirstResponder()
         self.passwordTextField.resignFirstResponder()
-        self.cityTextField.resignFirstResponder()
+        //        self.cityTextField.resignFirstResponder()
         
     }
     
@@ -867,16 +956,39 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.placeHolderReferralLabel.isHidden = true
     }
     
-    @objc func handleCityTextFieldChange() {
-        if self.cityTextField.text != "" {
-            typingCityLabel.isHidden = false
-            placeHolderCityLabel.isHidden = true
+    @objc func handleCityTextFieldBegin() {
+        
+        self.isSearchInProgress = true
+        
+        self.resignation()
+        
+        self.citySearchSubView.isHidden = false
+        
+        self.citySearchSubView.moveConstraints()
+        
+        UIView.animate(withDuration: 0.2) {
+            self.citySearchSubView.alpha = 1
         }
     }
     
-    @objc func handleCityTextFieldBegin() {
-        self.typingCityLabel.isHidden = false
-        self.placeHolderCityLabel.isHidden = true
+    @objc func fillBreed(breedType : String) {
+        
+        self.isSearchInProgress = false
+        self.cityTextField.text = breedType
+        self.isSelectedNameChosen = true
+        self.citySearchSubView.cityTextField.resignFirstResponder()
+        
+        UIView.animate(withDuration: 0.025) {
+            self.citySearchSubView.alpha = 0
+        }
+    }
+    
+    @objc func tappedPrediction() {
+        
+        if self.predictionString != "" {
+            self.cityTextField.text = self.predictionString
+            self.isSelectedNameChosen = true
+        }
     }
     
     @objc func handleEmailTextFieldChange() {
@@ -921,22 +1033,22 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.resignation()
         UIDevice.vibrateLight()
         self.scrollView.scrollToTop()
-        self.handleValidationChecks()
+        self.perform(#selector(self.handleValidationChecks), with: nil, afterDelay: 0.35)
+        
     }
     
-    func handleValidationChecks() {
+    @objc func handleValidationChecks() {
         
         guard let firstNameTextField = self.firstNameTextField.text else {return}
         guard let lastNameTextField = self.lastNameTextField.text else {return}
         guard let emailNameTextField = self.emailTextField.text else {return}
         guard let passwordNameTextField = self.passwordTextField.text else {return}
-        guard let cityTextField = self.cityTextField.text else {return}
+        guard let _ = self.cityTextField.text else {return}
         
         let cleanFirstName = firstNameTextField.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanLastName = lastNameTextField.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanEmail = emailNameTextField.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanPassword = passwordNameTextField.trimmingCharacters(in: .whitespacesAndNewlines)
-        let cleanCity = cityTextField.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if cleanFirstName.count > 2 {
             self.firstNameTextField.layer.borderColor = UIColor .clear.cgColor
@@ -946,37 +1058,40 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
                     self.emailTextField.layer.borderColor = UIColor .clear.cgColor
                     if cleanPassword.count > 3 {
                         self.passwordTextField.layer.borderColor = UIColor .clear.cgColor
-                        if cleanCity.count > 2 {
+                            if self.cityNameFetch != nil && self.cityPlacesIdFetch != nil {
                             
-                            self.firstNameTextField.layer.borderColor = UIColor .clear.cgColor
-                            self.lastNameTextField.layer.borderColor = UIColor .clear.cgColor
-                            self.emailTextField.layer.borderColor = UIColor .clear.cgColor
-                            self.passwordTextField.layer.borderColor = UIColor .clear.cgColor
-                            self.cityTextField.layer.borderColor = UIColor .clear.cgColor
-                            
-                            //all systems go here! - check the referral code
-                            
-                            let referralCode = self.referralTextField.text ?? "nil"
-                            
-                            if referralCode.count > 0 && referralCode != "nil" {
-                                
-                                print("USER HAS A REFERRAL CODE")
-                                groomerOnboardingStruct.groomers_city = cleanCity
-                                groomerOnboardingStruct.groomers_referral_code = referralCode
-                                groomerOnboardingStruct.groomers_password = cleanPassword
+                                    self.firstNameTextField.layer.borderColor = UIColor .clear.cgColor
+                                    self.lastNameTextField.layer.borderColor = UIColor .clear.cgColor
+                                    self.emailTextField.layer.borderColor = UIColor .clear.cgColor
+                                    self.passwordTextField.layer.borderColor = UIColor .clear.cgColor
+                                    self.cityTextField.layer.borderColor = UIColor .clear.cgColor
+                                    
+                                    //all systems go here! - check the referral code
+                                    let referralCode = self.referralTextField.text ?? "nil"
+                                    
+                                    if referralCode.count > 0 && referralCode != "nil" {
+                                        
+                                        print("USER HAS A REFERRAL CODE")
+                                        groomerOnboardingStruct.groomers_referral_code = referralCode
+                                        groomerOnboardingStruct.groomers_password = cleanPassword
+                                        
+                                        groomerOnboardingStruct.groomers_city_place_id = self.cityPlacesIdFetch
+                                        groomerOnboardingStruct.groomers_city = self.cityNameFetch
 
-                                self.handleCompleteButton()
-                                
-                            } else {
-                                
-                                print("USER DOES NOT HAVE A REFERRAL CODE")
-                                groomerOnboardingStruct.groomers_city = cleanCity
-                                groomerOnboardingStruct.groomers_referral_code = "nil"
-                                groomerOnboardingStruct.groomers_password = cleanPassword
-                               
-                                self.handleCompleteButton()
-                                
-                            }
+                                        self.handleCompleteButton()
+                                        
+                                    } else {
+                                        
+                                        print("USER DOES NOT HAVE A REFERRAL CODE")
+                                        groomerOnboardingStruct.groomers_referral_code = "nil"
+                                        groomerOnboardingStruct.groomers_password = cleanPassword
+                                        
+                                        groomerOnboardingStruct.groomers_city_place_id = self.cityPlacesIdFetch
+                                        groomerOnboardingStruct.groomers_city = self.cityNameFetch
+                                        
+                                        self.handleCompleteButton()
+                                        
+                                    }
                             
                         } else {
                             self.cityTextField.layer.borderColor = coreRedColor.cgColor

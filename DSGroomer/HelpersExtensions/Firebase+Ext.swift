@@ -299,15 +299,20 @@ class Service : NSObject {
         guard let groomers_last_name = groomerOnboardingStruct.groomers_last_name else {return}
         guard let groomers_email = groomerOnboardingStruct.groomers_email else {return}
         guard let groomers_city = groomerOnboardingStruct.groomers_city else {return}
+        guard let groomers_city_place_id = groomerOnboardingStruct.groomers_city_place_id else {return}
+
         guard let groomers_referral_code = groomerOnboardingStruct.groomers_referral_code else {return}
         
         guard let groomer_accepted_terms_of_service = groomerOnboardingStruct.groomer_accepted_terms_of_service else {return}
         guard let groomer_enable_notifications = groomerOnboardingStruct.groomer_enable_notifications else {return}
         guard let groomer_child_key = groomerOnboardingStruct.groomer_child_key else {return}
-        guard let groomers_password = groomerOnboardingStruct.groomers_password else {return}
+        guard let _ = groomerOnboardingStruct.groomers_password else {return} //DO NOT STORE IN THE DATABASE
         
+        let emailTemplate = "\(groomers_area_code)_\(groomers_phone_number)_doggystyle@gmail.com"
+        let passwordTemplate = "\(groomers_area_code)_\(groomers_phone_number)_doggystyle"
+
         //MARK: - AUTHENTICATE A NEW ACCOUNT ON BEHALF OF THE GROOMER
-        Auth.auth().createUser(withEmail: groomers_email, password: groomers_password) { (result, error) in
+        Auth.auth().createUser(withEmail: emailTemplate, password: passwordTemplate) { (result, error) in
             
             if error != nil {
                 if let errCode = AuthErrorCode(rawValue: error!._code) {
@@ -330,7 +335,7 @@ class Service : NSObject {
             } else {
                 
                 //MARK: - SIGN IN ON BEHALF OF THE GROOMER
-                Auth.auth().signIn(withEmail: groomers_email, password: groomers_password) { (user, error) in
+                Auth.auth().signIn(withEmail: emailTemplate, password: passwordTemplate) { (user, error) in
                     
                     if error != nil {
                         completion(false, "Login Error: \(error?.localizedDescription as Any).", 200, "Hello! Okay, here’s what happened. We were able to complete your account, but we were unable to sign you in. Please reach out to HQ: \(Statics.SUPPORT_EMAIL_ADDRESS). Thank you.")
@@ -361,6 +366,8 @@ class Service : NSObject {
                                                    "groomers_last_name" : groomers_last_name,
                                                    "groomers_email" : groomers_email,
                                                    "groomers_city" : groomers_city,
+                                                   "groomers_city_place_id" : groomers_city_place_id,
+
                                                    "groomers_referral_code" : groomers_referral_code,
                                                    
                                                    "groomer_accepted_terms_of_service" : groomer_accepted_terms_of_service,
@@ -416,6 +423,8 @@ class Service : NSObject {
                 let groomers_last_name = JSON["groomers_last_name"] as? String ?? "nil"
                 let groomers_email = JSON["groomers_email"] as? String ?? "nil"
                 let groomers_city = JSON["groomers_city"] as? String ?? "nil"
+                let groomers_city_place_id = JSON["groomers_city_place_id"] as? String ?? "nil"
+
                 let groomers_referral_code = JSON["groomers_referral_code"] as? String ?? "nil"
                 
                 let groomer_enable_notifications = JSON["groomer_enable_notifications"] as? Bool ?? false
@@ -435,7 +444,10 @@ class Service : NSObject {
                 groomerUserStruct.groomers_first_name = groomers_first_name
                 groomerUserStruct.groomers_last_name = groomers_last_name
                 groomerUserStruct.groomers_email = groomers_email
+                
                 groomerUserStruct.groomers_city = groomers_city
+                groomerUserStruct.groomers_city_place_id = groomers_city_place_id
+
                 groomerUserStruct.groomers_referral_code = groomers_referral_code
                 
                 groomerUserStruct.groomer_enable_notifications = groomer_enable_notifications

@@ -30,6 +30,7 @@ struct GroomerOnboardingStruct {
     var groomers_last_name : String?
     var groomers_email : String?
     var groomers_city : String?
+    var groomers_city_place_id : String?
     var groomers_referral_code : String?
     
     //TERMS OF SERVICE
@@ -62,6 +63,7 @@ struct GroomerUserStruct {
     var groomers_last_name : String?
     var groomers_email : String?
     var groomers_city : String?
+    var groomers_city_place_id : String?
     var groomers_referral_code : String?
     
     //TERMS OF SERVICE

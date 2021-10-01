@@ -152,6 +152,7 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate, Custo
         self.view.addSubview(self.agreeButton)
         self.view.addSubview(self.termsTextView)
         self.view.addSubview(self.clickToSignContiner)
+        
         self.clickToSignContiner.addSubview(self.signatureLine)
         self.clickToSignContiner.addSubview(self.signatureTextField)
 
@@ -194,15 +195,13 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate, Custo
     
     @objc func handleAgreeButton() {
         
-        let groomerKey = groomerUserStruct.groomer_child_key_from_playbook ?? "nil"
-        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
-
-        if groomerKey == "nil" {
-            
+        guard let groomerKey = groomerUserStruct.groomer_child_key_from_playbook else {
             self.mainLoadingScreen.cancelMainLoadingScreen()
             self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Ok"])
-            
-        } else {
+            return
+        }
+        
+        self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
             
             let ref = self.databaseRef.child("play_books").child(groomerKey)
             let values : [String : Any] = ["groomer_has_completed_employee_agreement" : true]
@@ -222,7 +221,6 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate, Custo
                 self.mainLoadingScreen.cancelMainLoadingScreen()
                 self.handleBackButton()
                 
-            }
         }
     }
     

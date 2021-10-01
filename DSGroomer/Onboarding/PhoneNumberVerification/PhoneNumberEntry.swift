@@ -492,7 +492,6 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate, CustomAlertCallBac
             for (key,value) in obj {
                 
                 let response = String(describing: value)
-                print(response)
                 
                 if key == "twilio_response" {
                     
@@ -501,19 +500,19 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate, CustomAlertCallBac
                     case "denied" :
                         DispatchQueue.main.async {
                             self.mainLoadingScreen.cancelMainLoadingScreen()
-                            self.handleCustomPopUpAlert(title: "Incorrect Pin", message: "Please check your pin # and try again.", passedButtons: [Statics.GOT_IT])
+                            self.handleCustomPopUpAlert(title: "Incorrect Pin", message: "Please try again.", passedButtons: [Statics.GOT_IT])
                         }
                        
                     case "failed" :
                         DispatchQueue.main.async {
                             self.mainLoadingScreen.cancelMainLoadingScreen()
-                            self.handleCustomPopUpAlert(title: "Internal Error", message: "Internal error, please try again.", passedButtons: [Statics.GOT_IT])
+                            self.handleCustomPopUpAlert(title: "Internal Error", message: "Please try again.", passedButtons: [Statics.GOT_IT])
                         }
                         
                     case "approved" :
                         DispatchQueue.main.async {
                             self.mainLoadingScreen.cancelMainLoadingScreen()
-                           self.handleNextButton()
+                            self.handleNextButton()
                         }
                         
                     default: print("unknown from twilio")
@@ -555,6 +554,47 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate, CustomAlertCallBac
     
     @objc func handleNextButton() {
         
+        if onboardingRoutes == .fromRegister {
+            self.presentLocationFinderController()
+        } else {
+            self.handleGroomerLogin()
+        }
+    }
+    
+    func handleGroomerLogin() {
+        
+         let phoneNumber = self.phoneNumber ?? "nil"
+         let areaCode = self.countryCode ?? "nil"
+        
+        if phoneNumber == "nil" || areaCode == "nil" {
+        } else {
+        
+            let emailTemplate = "\(areaCode)_\(phoneNumber)_doggystyle@gmail.com"
+            let passwordTemplate = "\(areaCode)_\(phoneNumber)_doggystyle"
+            
+            Service.shared.FirebaseLogin(usersEmailAddress: emailTemplate, usersPassword: passwordTemplate) { loginSuccess, response, responseCode in
+              
+                if loginSuccess == false {
+                    print("Login error")
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    self.handleCustomPopUpAlert(title: "ERROR", message: "Seems there is an issue logging you in. Please make sure you have already registered.", passedButtons: [Statics.OK])
+                    
+                } else {
+                    print("Login success now fill the data source")
+                    
+                    Service.shared.fillGroomerDataStruct { isComplete in
+                    
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    self.presentHomeController()
+                        
+                    }
+                }
+            }
+        }
+    }
+    
+    func presentLocationFinderController() {
+        
         let locationController = LocationController()
         
         locationController.phoneNumber = self.phoneNumber
@@ -566,6 +606,16 @@ class PinNumberEntry : UIViewController, UITextFieldDelegate, CustomAlertCallBac
         locationController.modalPresentationStyle = .fullScreen
         locationController.navigationController?.navigationBar.isHidden = true
         self.navigationController?.pushViewController(locationController, animated: true)
+        
+    }
+    
+    private func presentHomeController() {
+        
+        let homeController = HomeController()
+        let navVC = UINavigationController(rootViewController: homeController)
+        navVC.modalPresentationStyle = .fullScreen
+        navVC.navigationBar.isHidden = true
+        navigationController?.present(navVC, animated: true)
         
     }
 }
