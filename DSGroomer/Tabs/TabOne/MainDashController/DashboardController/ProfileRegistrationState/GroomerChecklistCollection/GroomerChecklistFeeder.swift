@@ -127,6 +127,10 @@ class GroomerChecklistFeeder : UICollectionViewCell {
         }
     }
     
+    func removeImage() {
+        self.checkListIcon.setImage(nil, for: .normal)
+    }
+    
     @objc func handleSelection(sender : UIButton) {
         
         self.groomerChecklistCollection?.handleSelection(sender:sender)

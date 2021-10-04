@@ -152,6 +152,8 @@ class CustomPhotoController : UIViewController, CustomAlertCallBackProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
+        if self.captureSession == nil {return}
+        
         if self.captureSession.isRunning {
             self.captureSession.stopRunning()
         }
@@ -283,33 +285,37 @@ class CustomPhotoController : UIViewController, CustomAlertCallBackProtocol {
 }
 
 extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate {
-    
-    @objc func checkForGalleryAuth() {
+  
+    func checkForGalleryAuth() {
         
         UIDevice.vibrateLight()
-        
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch photoAuthorizationStatus {
-        
-        case .authorized:
-            self.cameraLock(isLocked: false)
-            self.openGallery()
-        case .notDetermined: 
+
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+            case .authorized:
+                self.cameraLock(isLocked: false)
+                self.openGallery()
             
-            PHPhotoLibrary.requestAuthorization({
-                (newStatus) in
-                if newStatus ==  PHAuthorizationStatus.authorized {
-                    self.openGallery()
-                    self.cameraLock(isLocked: false)
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    if granted {
+                        self.openGallery()
+                        self.cameraLock(isLocked: false)
+                    } else {
+                        self.cameraLock(isLocked: true)
+                    }
                 }
-            })
             
-        case .restricted: self.cameraLock(isLocked: true)
-            
-        case .denied: self.cameraLock(isLocked: true)
-            
-        default : self.cameraLock(isLocked: true)
-            
+            case .denied:
+                  self.cameraLock(isLocked: true)
+                  return
+
+            case .restricted:
+                  self.cameraLock(isLocked: true)
+                  return
+                
+        default:
+            self.cameraLock(isLocked: true)
+            return
         }
     }
     
@@ -319,7 +325,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
         
     }
     
-    func setupAndStartCaptureSession(){
+    func setupAndStartCaptureSession() {
         
         DispatchQueue.global(qos: .userInitiated).async {
             
@@ -369,7 +375,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
         DispatchQueue.main.async {
             
             if isLocked {
-                
+                print("LOCKING")
                 //PERMISSIONS ARE DISABLED
                 self.profileImageview.titleLabel?.font = UIFont.fontAwesome(ofSize: 70, style: .solid)
                 self.profileImageview.setTitle(String.fontAwesomeIcon(name: .lock), for: .normal)
@@ -381,6 +387,7 @@ extension CustomPhotoController: UIImagePickerControllerDelegate, UINavigationCo
             } else {
                 
                 //PERMISSIONS ARE ENABLED
+                print("NOT LOCKING")
                 self.profileImageview.setTitle("", for: .normal)
                 self.lookingGoodLabel.isHidden = false
                 self.errorLookingGoodLabel.isHidden = true

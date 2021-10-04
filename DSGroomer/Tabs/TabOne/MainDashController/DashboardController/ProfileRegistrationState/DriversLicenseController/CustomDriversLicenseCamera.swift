@@ -321,31 +321,36 @@ class CustomDriversLicenseCamera : UIViewController, CustomAlertCallBackProtocol
 
 extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVCapturePhotoCaptureDelegate {
     
-    @objc func checkForGalleryAuth() {
+    func checkForGalleryAuth() {
         
         UIDevice.vibrateLight()
-        
-        let photoAuthorizationStatus = PHPhotoLibrary.authorizationStatus()
-        switch photoAuthorizationStatus {
-        
-        case .authorized:
-            self.cameraLock(isLocked: false)
-            self.openGallery()
-        case .notDetermined:
+
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+            case .authorized:
+                self.cameraLock(isLocked: false)
+                self.openGallery()
             
-            PHPhotoLibrary.requestAuthorization({
-                (newStatus) in
-                if newStatus ==  PHAuthorizationStatus.authorized {
-                    self.openGallery()
-                    self.cameraLock(isLocked: false)
+            case .notDetermined:
+                AVCaptureDevice.requestAccess(for: .video) { granted in
+                    if granted {
+                        self.openGallery()
+                        self.cameraLock(isLocked: false)
+                    } else {
+                        self.cameraLock(isLocked: true)
+                    }
                 }
-            })
             
-        case .restricted: self.cameraLock(isLocked: true)
-            
-        case .denied: self.cameraLock(isLocked: true)
-            
-        default : self.cameraLock(isLocked: true)
+            case .denied:
+                  self.cameraLock(isLocked: true)
+                  return
+
+            case .restricted:
+                  self.cameraLock(isLocked: true)
+                  return
+                
+        default:
+            self.cameraLock(isLocked: true)
+            return
             
         }
     }
@@ -407,8 +412,7 @@ extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigat
         self.videoPreviewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
         self.videoPreviewLayer.videoGravity = .resizeAspectFill
         self.videoPreviewLayer.connection?.videoOrientation = .landscapeRight
-        self.videoPreviewLayer.connection?.automaticallyAdjustsVideoMirroring = false
-        self.videoPreviewLayer.connection?.isVideoMirrored = false
+        self.videoPreviewLayer.connection?.automaticallyAdjustsVideoMirroring = true
         
         DispatchQueue.main.async {
             self.profileImageview.layer.addSublayer(self.videoPreviewLayer)
@@ -498,6 +502,18 @@ extension CustomDriversLicenseCamera: UIImagePickerControllerDelegate, UINavigat
             }
         } else {
             print("hittin here")
+        }
+    }
+}
+
+extension UIInterfaceOrientation {
+    var videoOrientation: AVCaptureVideoOrientation? {
+        switch self {
+        case .portraitUpsideDown: return .portraitUpsideDown
+        case .landscapeRight: return .landscapeRight
+        case .landscapeLeft: return .landscapeLeft
+        case .portrait: return .portrait
+        default: return nil
         }
     }
 }

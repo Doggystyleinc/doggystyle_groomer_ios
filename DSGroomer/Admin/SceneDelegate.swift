@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: sceneWindow)
         window.makeKeyAndVisible()
         
-        let decisionController = RegistrationController(),
+        let decisionController = DecisionController(),
             navigationController = UINavigationController(rootViewController: decisionController)
         navigationController.navigationBar.isHidden = true
         navigationController.modalPresentationStyle = .fullScreen

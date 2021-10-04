@@ -45,7 +45,7 @@ class WelcomeController : UIViewController, UITextViewDelegate, CustomAlertCallB
         
         let cbf = UIButton(type: .system)
         cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("Register", for: UIControl.State.normal)
+        cbf.setTitle("Continue on-boarding", for: UIControl.State.normal)
         cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 18)
         cbf.titleLabel?.adjustsFontSizeToFitWidth = true
         cbf.titleLabel?.numberOfLines = 1

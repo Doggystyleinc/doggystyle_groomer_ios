@@ -47,7 +47,7 @@ extension DashboardController: CustomAlertCallBackProtocol {
                     } else {
                         
                         self.mainLoadingScreen.cancelMainLoadingScreen()
-                        self.handleCustomPopUpAlert(title: "FATAL ERROR", message: "Please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS) and let them know your account needs attention. Please append this unique ID to the email as well: \(user_uid) - thank you.", passedButtons: [Statics.GOT_IT])
+                        self.handleCustomPopUpAlert(title: "ACCOUNT ", message: "This account has been deactivated. If you have any questions, please reach out to HQ @ \(Statics.SUPPORT_EMAIL_ADDRESS).", passedButtons: [Statics.GOT_IT])
             }
         }
     }

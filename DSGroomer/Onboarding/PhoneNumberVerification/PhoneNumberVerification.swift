@@ -294,7 +294,7 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
                     self.handlePhoneAuthRequest(phoneNumberCountryCode: countryCodeAsString, phoneNumberAsString: phoneNumberAsString, groomersFirstName: groomersFirstName, groomersLastName: groomersLastName, groomersEmail: groomersEmail, groomerChildKey: groomerChildKey)
                 } else {
                     self.mainLoadingScreen.cancelMainLoadingScreen()
-                    self.handleCustomPopUpAlert(title: "\(groomersFirstName.capitalizingFirstLetter()) \(groomersLastName.capitalizingFirstLetter())", message: message, passedButtons: [Statics.GOT_IT])
+                    self.handleCustomPopUpAlert(title: "Stylist", message: message, passedButtons: [Statics.GOT_IT])
                 }
             }
         
