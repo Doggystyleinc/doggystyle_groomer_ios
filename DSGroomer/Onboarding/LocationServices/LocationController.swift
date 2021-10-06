@@ -131,7 +131,6 @@ class LocationController : UIViewController {
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-        
     }
     
     func addViews() {

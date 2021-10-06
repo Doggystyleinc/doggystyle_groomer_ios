@@ -78,6 +78,8 @@
 		E333A929265D915400897572 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E333A927265D915400897572 /* LaunchScreen.storyboard */; };
 		E333A93A265D94B000897572 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A939265D94B000897572 /* HomeController.swift */; };
 		E333A93D265D94BB00897572 /* DecisionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E333A93C265D94BB00897572 /* DecisionController.swift */; };
+		E334FBA8270E44CA003F24D5 /* NoServiceFlag.swift in Sources */ = {isa = PBXBuildFile; fileRef = E334FBA7270E44CA003F24D5 /* NoServiceFlag.swift */; };
+		E334FBAE270E683A003F24D5 /* LocationBroadcaster.swift in Sources */ = {isa = PBXBuildFile; fileRef = E334FBAD270E683A003F24D5 /* LocationBroadcaster.swift */; };
 		E341C39726826CA400334A59 /* search_glass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C39426826CA300334A59 /* search_glass@2x.png */; };
 		E341C39826826CA400334A59 /* search_glass.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C39526826CA400334A59 /* search_glass.png */; };
 		E341C39926826CA400334A59 /* search_glass@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C39626826CA400334A59 /* search_glass@3x.png */; };
@@ -269,6 +271,8 @@
 		E333A92A265D915400897572 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E333A939265D94B000897572 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		E333A93C265D94BB00897572 /* DecisionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecisionController.swift; sourceTree = "<group>"; };
+		E334FBA7270E44CA003F24D5 /* NoServiceFlag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoServiceFlag.swift; sourceTree = "<group>"; };
+		E334FBAD270E683A003F24D5 /* LocationBroadcaster.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationBroadcaster.swift; sourceTree = "<group>"; };
 		E341C39426826CA300334A59 /* search_glass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_glass@2x.png"; sourceTree = "<group>"; };
 		E341C39526826CA400334A59 /* search_glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_glass.png; sourceTree = "<group>"; };
 		E341C39626826CA400334A59 /* search_glass@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_glass@3x.png"; sourceTree = "<group>"; };
@@ -601,6 +605,23 @@
 			path = TabThree;
 			sourceTree = "<group>";
 		};
+		E334FBA6270E44B2003F24D5 /* NetworkMonitoring */ = {
+			isa = PBXGroup;
+			children = (
+				E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */,
+				E334FBA7270E44CA003F24D5 /* NoServiceFlag.swift */,
+			);
+			path = NetworkMonitoring;
+			sourceTree = "<group>";
+		};
+		E334FBAC270E682A003F24D5 /* LocationBroadcaster */ = {
+			isa = PBXGroup;
+			children = (
+				E334FBAD270E683A003F24D5 /* LocationBroadcaster.swift */,
+			);
+			path = LocationBroadcaster;
+			sourceTree = "<group>";
+		};
 		E341C39326826C9200334A59 /* GroomerLocationIcons */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,11 +769,12 @@
 		E3C2EB5826616EC600AB0EF6 /* HelpersExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				E334FBAC270E682A003F24D5 /* LocationBroadcaster */,
+				E334FBA6270E44B2003F24D5 /* NetworkMonitoring */,
 				E32D6BC12664256A003DEEB3 /* Firebase+Ext.swift */,
 				E3C2EB5926616EF500AB0EF6 /* Extensions.swift */,
 				E3C2EB5B26616F2E00AB0EF6 /* BridgingHeader.h */,
 				E3C2EB5C26616FAA00AB0EF6 /* ShareExtension.swift */,
-				E3C2EB5E26616FE000AB0EF6 /* NetworkMonitor.swift */,
 				E3C2EB6026616FFA00AB0EF6 /* RatingLibrary.swift */,
 				E3C2EB622661702800AB0EF6 /* SMSMessageExt.swift */,
 				E3C2EB642661704000AB0EF6 /* PushNotificationManager.swift */,
@@ -1266,6 +1288,7 @@
 				E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */,
 				E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */,
 				E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */,
+				E334FBAE270E683A003F24D5 /* LocationBroadcaster.swift in Sources */,
 				E3FB6B072676B16400DE17D2 /* GroomerChecklistFeeder.swift in Sources */,
 				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,
 				E3C2EB5F26616FE000AB0EF6 /* NetworkMonitor.swift in Sources */,
@@ -1304,6 +1327,7 @@
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
 				E38DA93226F8E32600DFD365 /* CriminalRecordController.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
+				E334FBA8270E44CA003F24D5 /* NoServiceFlag.swift in Sources */,
 				E38DA93626F8E8F100DFD365 /* SocialSecurityConfirmation.swift in Sources */,
 				E3176B6726EBBD4A003D6CEF /* TermsOfService.swift in Sources */,
 				E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */,

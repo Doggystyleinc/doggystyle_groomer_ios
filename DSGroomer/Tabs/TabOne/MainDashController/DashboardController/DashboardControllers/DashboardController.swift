@@ -153,6 +153,16 @@ class DashboardController : UIViewController {
        return dh
     }()
     
+    let broadcastingColorCircle : UIView = {
+        
+        let bcc = UIView()
+        bcc.translatesAutoresizingMaskIntoConstraints = false
+        bcc.layer.masksToBounds = true
+        bcc.backgroundColor = coreRedColor
+        
+        return bcc
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -180,6 +190,7 @@ class DashboardController : UIViewController {
         self.view.addSubview(self.finishProfileSubview)
         self.view.addSubview(self.groomerWorkingDashboard)
         self.view.addSubview(self.showTruckContainerButton)
+        self.view.addSubview(self.broadcastingColorCircle)
 
         self.informationIcon.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 64).isActive = true
         self.informationIcon.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
@@ -230,6 +241,12 @@ class DashboardController : UIViewController {
         self.groomerWorkingDashboard.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.groomerWorkingDashboard.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.groomerWorkingDashboard.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0).isActive = true
+        
+        self.broadcastingColorCircle.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -100).isActive = true
+        self.broadcastingColorCircle.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 100).isActive = true
+        self.broadcastingColorCircle.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        self.broadcastingColorCircle.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 45).isActive = true
+        self.broadcastingColorCircle.layer.cornerRadius = 2.5
 
     }
     

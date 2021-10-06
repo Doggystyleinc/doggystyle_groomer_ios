@@ -6,13 +6,14 @@
 //
 
 import Network
+import Foundation
 
+//MARK: - SHARED INSTANCE
 class NetworkMonitor {
     
     static let shared = NetworkMonitor()
-    
-    let monitor = NWPathMonitor()
     private var status: NWPath.Status = .requiresConnection
+    let monitor = NWPathMonitor()
     var isReachable: Bool { status == .satisfied }
     var isReachableOnCellular: Bool = true
     
@@ -21,30 +22,32 @@ class NetworkMonitor {
             self?.status = path.status
             self?.isReachableOnCellular = path.isExpensive
             
+            //MARK: - SATISFIED
             if path.status == .satisfied {
-                print("satisfied!")
+                print("satisfied")
                 DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: NSNotification.Name("HANDLE_SERVICE_SATISFIED"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(Statics.HANDLE_SERVICE_SATISFIED), object: nil)
                 }
                 
+                //MARK: - UNSATISFIED
             } else if path.status == .unsatisfied {
-                
-                print("unsatisfied!")
+                print("unsatisfied")
+
                 DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: NSNotification.Name("HANDLE_SERVICE_UNSATISIFED"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(Statics.HANDLE_SERVICE_UNSATISIFED), object: nil)
                 }
                 
+                //MARK: - REQUIRES CONNECTION
             } else if path.status == .requiresConnection {
-                
+                print("requiresConnection")
+
                 DispatchQueue.main.async {
-                    print("requiresConnection!")
-                    NotificationCenter.default.post(name: NSNotification.Name("HANDLE_SERVICE_UNSATISIFED"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(Statics.HANDLE_SERVICE_UNSATISIFED), object: nil)
                 }
                 
             } else {
                 print("HIT THE ELSE FOR NETWORK")
             }
-            print(path.isExpensive)
         }
         
         let queue = DispatchQueue(label: "NetworkMonitor")
@@ -55,3 +58,4 @@ class NetworkMonitor {
         monitor.cancel()
     }
 }
+

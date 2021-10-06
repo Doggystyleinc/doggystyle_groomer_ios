@@ -916,7 +916,6 @@ class RegistrationController: UIViewController, UITextFieldDelegate, UIScrollVie
         self.referralTextField.resignFirstResponder()
         self.emailTextField.resignFirstResponder()
         self.passwordTextField.resignFirstResponder()
-        //        self.cityTextField.resignFirstResponder()
         
     }
     

@@ -30,6 +30,7 @@ class MapsSubview : GMSMapView, CLLocationManagerDelegate{
         self.setupMap()
         
         self.handleFailure()
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
 
     }
     

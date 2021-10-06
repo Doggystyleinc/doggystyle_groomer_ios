@@ -11,20 +11,32 @@ import Firebase
 import Lottie
 import AudioToolbox
 import AVFoundation
+import GoogleMaps
+import GooglePlaces
 
-class HomeController : UITabBarController {
+class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAlertCallBackProtocol {
     
     let databaseRef = Database.database().reference(),
         dashboardController = DashboardController(),
         tabTwoController = TabTwoController(),
         tabThreeController = TabThreeController(),
-        storageRef = Storage.storage().reference()
+        storageRef = Storage.storage().reference(),
+        locationManager = CLLocationManager()
+   
     
     var statusBarHeight : CGFloat = 0.0,
         keyWindow : UIWindow = UIWindow(),
         viewHasBeenLaidOut : Bool = false,
         startingVerticalConstant: CGFloat  = 0.0,
         startingHorizontalConstant: CGFloat  = 0.0
+    
+    lazy var flagView : NoServiceFlag = {
+        
+        let fv = NoServiceFlag()
+        fv.homeController = self
+        
+        return fv
+    }()
     
     var successFailureView : UIView = {
         
@@ -122,10 +134,17 @@ class HomeController : UITabBarController {
         self.tabBar.shadowImage = UIImage()
         self.tabBar.itemPositioning = .fill
         
+        //MARK: - MONITORS THE NETWORK FOR SERVICE AND THROWS THE APPROPRIATE FLAG
         NetworkMonitor.shared.startMonitoring()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleServiceSatisfied), name: NSNotification.Name(Statics.HANDLE_SERVICE_SATISFIED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleServiceUnsatisfied), name: NSNotification.Name(Statics.HANDLE_SERVICE_UNSATISIFED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.checkForLocationServices), name: NSNotification.Name(Statics.RUN_LOCATION_CHECKER), object: nil)
+
         let ratingLibrary = RatingLibraryExtension()
         ratingLibrary.checkForRating()
+        
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
         
         self.addTabsAndCustomCenterCircle {
             self.addViews()
@@ -137,7 +156,69 @@ class HomeController : UITabBarController {
         
         self.tabBarItem.image?.withAlignmentRectInsets(UIEdgeInsets(top: 1440, left: 45, bottom: 0, right: 0))
         self.tabBarItem.imageInsets = UIEdgeInsets(top: 140, left: 45, bottom: 0, right: 0)
+        self.checkForLocationServices()
+
+    }
+    
+    @objc func checkForLocationServices() {
         
+        if CLLocationManager.locationServicesEnabled() {
+            
+            switch self.locationManager.authorizationStatus {
+            
+            case .authorizedAlways, .authorizedWhenInUse:
+                
+                self.dashboardController.broadcastingColorCircle.backgroundColor = coreGreenColor
+                LocationBroadcaster.shared.runBroadcaster()
+                
+            default:
+                
+                self.handleCustomPopUpAlert(title: "LOCATION SERVICES", message: "To use the Doggystyle application, Location Services is required to let the groomers know when you’ll arrive.", passedButtons: [Statics.GOT_IT])
+                self.dashboardController.broadcastingColorCircle.backgroundColor = coreRedColor
+            }
+        } else {
+            self.dashboardController.broadcastingColorCircle.backgroundColor = coreRedColor
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        alert.passedIconName = .canadianMapleLeaf
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT:
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("in the settings with a flag of: \(success)")
+                })
+            }
+            
+        default: print("Should not hit")
+            
+        }
+    }
+    
+    @objc func handleServiceSatisfied() {
+        self.flagView.cancelFlagView()
+    }
+    @objc func handleServiceUnsatisfied() {
+        self.flagView.callFlagWindow()
     }
     
     @objc func handleDoubleTap() {

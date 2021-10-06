@@ -321,7 +321,6 @@ class PhoneTextFieldWithPadding: PhoneNumberTextField {
     }
 }
 
-//MARK: - URLS/KEYS/TONES
 struct Statics {
     
     //MARK: - URLS AND LINKS FOR DUV MESSENGER
@@ -340,12 +339,15 @@ struct Statics {
     //MARK: - LOTTI JSON ANIMATIONS
     static let LOADING_ANIMATION_GENERAL : String = "groomer_loading"
     
-    //MARK: - OBSERVERS
-    static let RUN_DATA_ENGINE : String = "run_data_engine"
-    
     //MARK: - ERROR ALERT CODES
     static let GOT_IT : String = "Got it"
     static let OK : String = "Ok"
+    
+    //MARK: - LISTENERS AND OBSERVERS
+    static let RUN_DATA_ENGINE : String = "run_data_engine"
+    static let HANDLE_SERVICE_SATISFIED : String = "HANDLE_SERVICE_SATISFIED"
+    static let HANDLE_SERVICE_UNSATISIFED : String = "HANDLE_SERVICE_UNSATISIFED"
+    static let RUN_LOCATION_CHECKER : String = "RUN_LOCATION_CHECKER"
 
 }
 
