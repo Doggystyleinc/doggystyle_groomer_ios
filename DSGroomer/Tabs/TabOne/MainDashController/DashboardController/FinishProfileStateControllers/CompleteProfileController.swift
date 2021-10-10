@@ -380,7 +380,6 @@ class CompleteProfileController : UIViewController, UITextFieldDelegate, UITextV
         self.scrollView.keyboardDismissMode = .interactive
         self.notesTextView.contentInset = UIEdgeInsets(top: 18, left: 10, bottom: 18, right: 10)
 
-
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -162,6 +162,8 @@ class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAler
     
     @objc func checkForLocationServices() {
         
+        self.locationManager.delegate = self
+        
         if CLLocationManager.locationServicesEnabled() {
             
             switch self.locationManager.authorizationStatus {
@@ -173,7 +175,10 @@ class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAler
                 
             default:
                 
+                self.locationManager.requestAlwaysAuthorization()
+
                 self.handleCustomPopUpAlert(title: "LOCATION SERVICES", message: "To use the Doggystyle application, Location Services is required to let the groomers know when you’ll arrive.", passedButtons: [Statics.GOT_IT])
+                
                 self.dashboardController.broadcastingColorCircle.backgroundColor = coreRedColor
             }
         } else {
