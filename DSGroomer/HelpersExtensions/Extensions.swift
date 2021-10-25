@@ -334,6 +334,7 @@ struct Statics {
     
     static let GOOGLE_SIGN_IN : String = "google"
     static let EMAIL_SIGN_IN : String = "email"
+    static let DOGGYSTYLE_STYLIST_APP_URL : String = "https://apps.apple.com/us/app/doggystylist/id1577824638"
     static let DOGGYSTYLE_CONSUMER_APP_URL : String = "https://apps.apple.com/us/app/doggystylist/id1577824638"
     
     //MARK: - LOTTI JSON ANIMATIONS
@@ -342,13 +343,14 @@ struct Statics {
     //MARK: - ERROR ALERT CODES
     static let GOT_IT : String = "Got it"
     static let OK : String = "Ok"
-    
+    static let CANCEL : String = "Cancel"
+
     //MARK: - LISTENERS AND OBSERVERS
     static let RUN_DATA_ENGINE : String = "run_data_engine"
     static let HANDLE_SERVICE_SATISFIED : String = "HANDLE_SERVICE_SATISFIED"
     static let HANDLE_SERVICE_UNSATISIFED : String = "HANDLE_SERVICE_UNSATISIFED"
     static let RUN_LOCATION_CHECKER : String = "RUN_LOCATION_CHECKER"
-
+    
 }
 
 extension UICollectionView {

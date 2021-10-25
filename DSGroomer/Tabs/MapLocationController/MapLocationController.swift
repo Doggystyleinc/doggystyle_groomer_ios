@@ -120,12 +120,13 @@ class MapLocationController : UIViewController {
         
     }()
     
-    let mapView : UIView = {
+    lazy var mapView : MapNavigateLocationSubview = {
         
-        let mv = UIView()
+        let mv = MapNavigateLocationSubview(frame: .zero)
         mv.translatesAutoresizingMaskIntoConstraints = false
         mv.backgroundColor = .red
-        
+        mv.mapLocationController = self
+
        return mv
     }()
     
@@ -144,64 +145,11 @@ class MapLocationController : UIViewController {
         
     }()
     
-    let slideToConfirmContainer : UIView = {
+    lazy var slideToConfirmComponent : SwipeToConfirmSubview = {
         
-        let stc = UIView()
-        stc.translatesAutoresizingMaskIntoConstraints = false
-        stc.backgroundColor = bellgrey
-        stc.layer.masksToBounds = true
-        stc.clipsToBounds = true
-        stc.layer.cornerRadius = 20
-        
-       return stc
-    }()
-    
-    lazy var slideMeIcon : UIButton = {
-
-        let cbf = UIButton()
-        cbf.translatesAutoresizingMaskIntoConstraints = true
-        cbf.backgroundColor = coreOrangeColor
-        cbf.contentMode = .scaleAspectFill
-        cbf.titleLabel?.font = UIFont.fontAwesome(ofSize: 20, style: .solid)
-        cbf.setTitle(String.fontAwesomeIcon(name: .arrowRight), for: .normal)
-        cbf.setTitleColor(coreWhiteColor, for: .normal)
-        cbf.layer.masksToBounds = true
-        cbf.layer.cornerRadius = 20
-        cbf.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-
-        return cbf
-
-    }()
-    
-    lazy var slideMeButton : CustomSlider = {
-        
-        let cbf = CustomSlider()
-        cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.backgroundColor = .clear
-        cbf.contentMode = .scaleAspectFill
-        let image = UIImage(named: "slider_thumb")?.withRenderingMode(.alwaysOriginal)
-        cbf.setThumbImage(image, for: .normal)
-        cbf.tintColor = coreOrangeColor
-        cbf.minimumTrackTintColor = bellgrey
-        cbf.maximumTrackTintColor = .clear
-        cbf.addTarget(self, action: #selector(self.handleSliderConfirmation(slider:event:)), for: .valueChanged)
-
-        return cbf
-        
-    }()
-   
-    let slideToConfirmLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .center
-        thl.text = "Slide to confirm arrival"
-        thl.font = UIFont(name: dsHeaderFont, size: 18)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = true
-        thl.textColor = dsFlatBlack
-        return thl
-        
+       let sc = SwipeToConfirmSubview()
+       sc.mapLocationController = self
+        return sc
     }()
     
     override func viewDidLoad() {
@@ -209,7 +157,6 @@ class MapLocationController : UIViewController {
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
-        self.animateLabel()
         
     }
     
@@ -231,11 +178,9 @@ class MapLocationController : UIViewController {
         self.bottomContainer.addSubview(self.addressLabel)
         self.bottomContainer.addSubview(self.sendButton)
         
-        //MARK: - SLIDE TO CONFIRM
-        self.bottomContainer.addSubview(self.slideToConfirmContainer)
-        self.slideToConfirmContainer.addSubview(self.slideToConfirmLabel)
-        self.slideToConfirmContainer.addSubview(self.slideMeButton)
-
+        //MARK: - SLIDE TO CONFIRM COMPONENT
+        self.bottomContainer.addSubview(self.slideToConfirmComponent)
+      
         self.headerContainer.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.headerContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.headerContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
@@ -288,69 +233,17 @@ class MapLocationController : UIViewController {
         self.sendButton.widthAnchor.constraint(equalToConstant: 41).isActive = true
         self.sendButton.layer.cornerRadius = 41/2
         
-        self.slideToConfirmContainer.bottomAnchor.constraint(equalTo: self.bottomContainer.bottomAnchor, constant: -44).isActive = true
-        self.slideToConfirmContainer.leftAnchor.constraint(equalTo: self.bottomContainer.leftAnchor, constant: 30).isActive = true
-        self.slideToConfirmContainer.rightAnchor.constraint(equalTo: self.bottomContainer.rightAnchor, constant: -30).isActive = true
-        self.slideToConfirmContainer.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        self.slideMeButton.bottomAnchor.constraint(equalTo: self.bottomContainer.bottomAnchor, constant: -44).isActive = true
-        self.slideMeButton.leftAnchor.constraint(equalTo: self.bottomContainer.leftAnchor, constant: 30).isActive = true
-        self.slideMeButton.rightAnchor.constraint(equalTo: self.bottomContainer.rightAnchor, constant: -30).isActive = true
-        self.slideMeButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        self.slideToConfirmLabel.centerYAnchor.constraint(equalTo: self.slideToConfirmContainer.centerYAnchor, constant: 0).isActive = true
-        self.slideToConfirmLabel.leftAnchor.constraint(equalTo: self.slideToConfirmContainer.leftAnchor, constant: 80).isActive = true
-        self.slideToConfirmLabel.rightAnchor.constraint(equalTo: self.slideToConfirmContainer.rightAnchor, constant: -80).isActive = true
-        self.slideToConfirmLabel.sizeToFit()
-        
-        self.slideMeButton.layer.cornerRadius = 20
-        
-    }
-    
-    func animateLabel() {
-        
-        UIView.animate(withDuration: 0.7) {
-            self.slideToConfirmLabel.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            self.slideToConfirmLabel.alpha = 0.0
-        
-        } completion: { complete in
-            UIView.animate(withDuration: 0.7) {
-                self.slideToConfirmLabel.alpha = 1.0
-                self.slideToConfirmLabel.transform = CGAffineTransform(scaleX: 1.03, y: 1.03)
+        self.slideToConfirmComponent.bottomAnchor.constraint(equalTo: self.bottomContainer.bottomAnchor, constant: -44).isActive = true
+        self.slideToConfirmComponent.leftAnchor.constraint(equalTo: self.bottomContainer.leftAnchor, constant: 30).isActive = true
+        self.slideToConfirmComponent.rightAnchor.constraint(equalTo: self.bottomContainer.rightAnchor, constant: -30).isActive = true
+        self.slideToConfirmComponent.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
-            } completion: { complete in
-                self.animateLabel()
-            }
-        }
     }
+   
     
-    @objc func handleSliderConfirmation(slider : UISlider, event : UIEvent) {
-        
-        if let touchEvent = event.allTouches?.first {
-               switch touchEvent.phase {
-               case .began: print("began")
-                   // handle drag began
-               case .moved: print("moved")
-                   // handle drag moved
-               case .ended: print("ended")
-                if slider.value < 1.0 {
-                    slider.setValue(0, animated:true)
-                } else {
-                    print("Confirmed the slide")
-                    UIDevice.vibrateLight()
-                    self.handleConfirmArrival()
-                }
-               
-               default:
-                   break
-          }
-       }
+    @objc func handleSwipeToComplete() {
+        print("Compltere this one herez")
     }
-    
-    @objc func handleConfirmArrival() {
-        print("arrived")
-    }
-    
     
     @objc func handleNotificationsController() {
         print("handleNotificationsController")
@@ -359,16 +252,4 @@ class MapLocationController : UIViewController {
     @objc func handleWarningIcon() {
         print("handleWarningIcon")
     }
-}
-
-class CustomSlider: UISlider {
-
-var trackHeight: CGFloat = 60
-
-override func trackRect(forBounds bounds: CGRect) -> CGRect {
-    var rect = super.trackRect(forBounds: bounds)
-    rect.size.height = trackHeight
-    rect.origin.y -= trackHeight / 2
-    return rect
-  }
 }

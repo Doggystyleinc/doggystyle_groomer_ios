@@ -84,6 +84,9 @@
 		E334FBBC27136EED003F24D5 /* slider_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E334FBB927136EEC003F24D5 /* slider_arrow@3x.png */; };
 		E334FBBD27136EED003F24D5 /* slider_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E334FBBA27136EEC003F24D5 /* slider_arrow.png */; };
 		E334FBBE27136EED003F24D5 /* slider_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E334FBBB27136EEC003F24D5 /* slider_arrow@2x.png */; };
+		E334FBC027148F02003F24D5 /* SwipeToConfirmSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E334FBBF27148F02003F24D5 /* SwipeToConfirmSubview.swift */; };
+		E334FBC2271491B7003F24D5 /* green_check_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E334FBC1271491B7003F24D5 /* green_check_anim.json */; };
+		E334FBC4271497F8003F24D5 /* MapNavigateLocationSubview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E334FBC3271497F8003F24D5 /* MapNavigateLocationSubview.swift */; };
 		E341C39726826CA400334A59 /* search_glass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C39426826CA300334A59 /* search_glass@2x.png */; };
 		E341C39826826CA400334A59 /* search_glass.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C39526826CA400334A59 /* search_glass.png */; };
 		E341C39926826CA400334A59 /* search_glass@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E341C39626826CA400334A59 /* search_glass@3x.png */; };
@@ -281,6 +284,9 @@
 		E334FBB927136EEC003F24D5 /* slider_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider_arrow@3x.png"; sourceTree = "<group>"; };
 		E334FBBA27136EEC003F24D5 /* slider_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = slider_arrow.png; sourceTree = "<group>"; };
 		E334FBBB27136EEC003F24D5 /* slider_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider_arrow@2x.png"; sourceTree = "<group>"; };
+		E334FBBF27148F02003F24D5 /* SwipeToConfirmSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToConfirmSubview.swift; sourceTree = "<group>"; };
+		E334FBC1271491B7003F24D5 /* green_check_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = green_check_anim.json; sourceTree = "<group>"; };
+		E334FBC3271497F8003F24D5 /* MapNavigateLocationSubview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapNavigateLocationSubview.swift; sourceTree = "<group>"; };
 		E341C39426826CA300334A59 /* search_glass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_glass@2x.png"; sourceTree = "<group>"; };
 		E341C39526826CA400334A59 /* search_glass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_glass.png; sourceTree = "<group>"; };
 		E341C39626826CA400334A59 /* search_glass@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_glass@3x.png"; sourceTree = "<group>"; };
@@ -635,6 +641,8 @@
 			isa = PBXGroup;
 			children = (
 				E334FBB627123167003F24D5 /* MapLocationController.swift */,
+				E334FBBF27148F02003F24D5 /* SwipeToConfirmSubview.swift */,
+				E334FBC3271497F8003F24D5 /* MapNavigateLocationSubview.swift */,
 			);
 			path = MapLocationController;
 			sourceTree = "<group>";
@@ -868,6 +876,7 @@
 		E3D2816526F393CC00ACE7C8 /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				E334FBC1271491B7003F24D5 /* green_check_anim.json */,
 				E39BA1922702330100CD2E2E /* white_music_anim.json */,
 				E396B91726FD1DED0087F106 /* music_anim_icon_2.json */,
 				E3F0F0DE26FD19A300AE13E6 /* music_anim_icon.json */,
@@ -1189,6 +1198,7 @@
 				E3653A4E2707A29700B629AB /* Doggystylist_120.jpg in Resources */,
 				E3FB6AE02676894700DE17D2 /* calendar_deselected.png in Resources */,
 				E3FB6AD42676870800DE17D2 /* home_selected_3@3x.png in Resources */,
+				E334FBC2271491B7003F24D5 /* green_check_anim.json in Resources */,
 				E3FB6AEC2676895400DE17D2 /* person_deselected@2x.png in Resources */,
 				E334FBBE27136EED003F24D5 /* slider_arrow@2x.png in Resources */,
 				E3FB6AFA26768BB800DE17D2 /* notification_bell@2x.png in Resources */,
@@ -1316,6 +1326,7 @@
 				E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */,
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
+				E334FBC027148F02003F24D5 /* SwipeToConfirmSubview.swift in Sources */,
 				E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */,
 				E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */,
 				E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */,
@@ -1362,6 +1373,7 @@
 				E334FBA8270E44CA003F24D5 /* NoServiceFlag.swift in Sources */,
 				E38DA93626F8E8F100DFD365 /* SocialSecurityConfirmation.swift in Sources */,
 				E3176B6726EBBD4A003D6CEF /* TermsOfService.swift in Sources */,
+				E334FBC4271497F8003F24D5 /* MapNavigateLocationSubview.swift in Sources */,
 				E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,
 				E3FB6B052676B13800DE17D2 /* GroomerChecklistCollection.swift in Sources */,
