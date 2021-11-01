@@ -128,6 +128,11 @@
 		E39BA1932702330100CD2E2E /* white_music_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E39BA1922702330100CD2E2E /* white_music_anim.json */; };
 		E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */; };
 		E39BA1972702A4D400CD2E2E /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1962702A4D400CD2E2E /* AlertController.swift */; };
+		E3B87A2D273072F3009139C5 /* IPAddressgrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A2C273072F3009139C5 /* IPAddressgrabber.swift */; };
+		E3B87A3327308C52009139C5 /* StartingChecklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3227308C52009139C5 /* StartingChecklist.swift */; };
+		E3B87A3527308E65009139C5 /* ChecklistCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */; };
+		E3B87A3727309A30009139C5 /* IssueReportingPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */; };
+		E3B87A392730A0AE009139C5 /* IssueReportingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -330,6 +335,11 @@
 		E39BA1922702330100CD2E2E /* white_music_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = white_music_anim.json; sourceTree = "<group>"; };
 		E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlingExtension.swift; sourceTree = "<group>"; };
 		E39BA1962702A4D400CD2E2E /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		E3B87A2C273072F3009139C5 /* IPAddressgrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressgrabber.swift; sourceTree = "<group>"; };
+		E3B87A3227308C52009139C5 /* StartingChecklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingChecklist.swift; sourceTree = "<group>"; };
+		E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCollectionView.swift; sourceTree = "<group>"; };
+		E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueReportingPopup.swift; sourceTree = "<group>"; };
+		E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueReportingCollectionView.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -539,6 +549,7 @@
 		E333A91B265D915400897572 /* DSGroomer */ = {
 			isa = PBXGroup;
 			children = (
+				E3B87A3127308C29009139C5 /* PreFlightCheckControllers */,
 				E32D6BC52664355D003DEEB3 /* DSGroomer.entitlements */,
 				E3C2EB5226616DB500AB0EF6 /* Firebase */,
 				E333A932265D917600897572 /* Admin */,
@@ -643,6 +654,8 @@
 				E334FBB627123167003F24D5 /* MapLocationController.swift */,
 				E334FBBF27148F02003F24D5 /* SwipeToConfirmSubview.swift */,
 				E334FBC3271497F8003F24D5 /* MapNavigateLocationSubview.swift */,
+				E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */,
+				E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */,
 			);
 			path = MapLocationController;
 			sourceTree = "<group>";
@@ -748,6 +761,15 @@
 			path = GroomerWorkingDashboard;
 			sourceTree = "<group>";
 		};
+		E3B87A3127308C29009139C5 /* PreFlightCheckControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E3B87A3227308C52009139C5 /* StartingChecklist.swift */,
+				E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */,
+			);
+			path = PreFlightCheckControllers;
+			sourceTree = "<group>";
+		};
 		E3BEE4342665560700D765A7 /* FontAwesome */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,6 +840,7 @@
 				E350212F268B99B100E5186E /* ServiceSingleton.swift */,
 				E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */,
 				E39BA1962702A4D400CD2E2E /* AlertController.swift */,
+				E3B87A2C273072F3009139C5 /* IPAddressgrabber.swift */,
 			);
 			path = HelpersExtensions;
 			sourceTree = "<group>";
@@ -1325,6 +1348,7 @@
 				E39BA1972702A4D400CD2E2E /* AlertController.swift in Sources */,
 				E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */,
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
+				E3B87A392730A0AE009139C5 /* IssueReportingCollectionView.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
 				E334FBC027148F02003F24D5 /* SwipeToConfirmSubview.swift in Sources */,
 				E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */,
@@ -1342,6 +1366,7 @@
 				E304ED9126ED357D002D625A /* RegistrationController.swift in Sources */,
 				E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */,
 				E3502130268B99B100E5186E /* ServiceSingleton.swift in Sources */,
+				E3B87A3327308C52009139C5 /* StartingChecklist.swift in Sources */,
 				E3176B6526EABBFB003D6CEF /* NotificationsController.swift in Sources */,
 				E38DA94126F9006400DFD365 /* SupportChatController.swift in Sources */,
 				E3176B5F26EAA450003D6CEF /* LoginController.swift in Sources */,
@@ -1360,6 +1385,7 @@
 				E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */,
 				E3176B6126EAA8A9003D6CEF /* PhoneNumberVerification.swift in Sources */,
 				E38DA94326F924AF00DFD365 /* CustomDriversLicenseCamera.swift in Sources */,
+				E3B87A3527308E65009139C5 /* ChecklistCollectionView.swift in Sources */,
 				E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */,
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
@@ -1371,8 +1397,10 @@
 				E38DA93226F8E32600DFD365 /* CriminalRecordController.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
 				E334FBA8270E44CA003F24D5 /* NoServiceFlag.swift in Sources */,
+				E3B87A2D273072F3009139C5 /* IPAddressgrabber.swift in Sources */,
 				E38DA93626F8E8F100DFD365 /* SocialSecurityConfirmation.swift in Sources */,
 				E3176B6726EBBD4A003D6CEF /* TermsOfService.swift in Sources */,
+				E3B87A3727309A30009139C5 /* IssueReportingPopup.swift in Sources */,
 				E334FBC4271497F8003F24D5 /* MapNavigateLocationSubview.swift in Sources */,
 				E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,

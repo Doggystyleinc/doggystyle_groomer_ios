@@ -193,47 +193,61 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate, Custo
 
     }
     
-    @objc func handleAgreeButton() {
+   @objc func handleAgreeButton() {
         
         guard let groomerKey = groomerUserStruct.groomer_child_key_from_playbook else {
             self.mainLoadingScreen.cancelMainLoadingScreen()
-            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Ok"])
+            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
             return
         }
         
         self.mainLoadingScreen.callMainLoadingScreen(lottiAnimationName: Statics.LOADING_ANIMATION_GENERAL)
-            
-            let ref = self.databaseRef.child("play_books").child(groomerKey)
-            let values : [String : Any] = ["groomer_has_completed_employee_agreement" : true]
-            
-            ref.updateChildValues(values) { error, ref in
-                
-                if error != nil {
-                    
-            self.mainLoadingScreen.cancelMainLoadingScreen()
-            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: ["Ok"])
 
-                    return
-                }
-                
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Statics.RUN_DATA_ENGINE), object: self)
-
-                self.mainLoadingScreen.cancelMainLoadingScreen()
-                self.handleBackButton()
-                
-        }
-    }
-    
-    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        let screenShotAsImage = self.view.takeScreenshotOfView()
+        let timeStamp : Double = Date().timeIntervalSince1970
+        var ipAddress : String = ""
         
-        switch type {
-
-        case "Ok": self.handleBackButton()
-
-        default: print("never")
-            
+        if let addr = getWiFiAddress() {
+            ipAddress = addr
+        } else {
+            ipAddress = "nil"
         }
-    }
+        
+            Service.shared.uploadEmployeeAgreementPhoto(imageToUpload: screenShotAsImage) { isComplete, photoURL in
+                
+                if isComplete {
+                    
+                    let ref = self.databaseRef.child("play_books").child(groomerKey).child("employee_agreement_trace")
+                    
+                    let valuesArray : [String : Any] = ["employee_signature_screenshot" : photoURL, "employee_signature_time_stamp" : timeStamp, "ip_address" : ipAddress]
+
+                    ref.updateChildValues(valuesArray) { err, ref in
+                        
+                        if err != nil {
+                            self.mainLoadingScreen.cancelMainLoadingScreen()
+                            self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
+                        } else {
+                            
+                            let values : [String : Any] = ["groomer_has_completed_employee_agreement" : true]
+                            
+                            let refTwo = self.databaseRef.child("play_books").child(groomerKey)
+                            
+                            refTwo.updateChildValues(values) { error, ref in
+                                
+                                //MARK: - SUCCESS
+                                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Statics.RUN_DATA_ENGINE), object: self)
+                                self.mainLoadingScreen.cancelMainLoadingScreen()
+                                self.handleBackButton()
+                                
+                            }
+                        }
+                    }
+                } else {
+                    self.mainLoadingScreen.cancelMainLoadingScreen()
+                    self.handleCustomPopUpAlert(title: "ERROR", message: "Seems to be a systems error. Reach out to support @ \(Statics.SUPPORT_EMAIL_ADDRESS)", passedButtons: [Statics.GOT_IT])
+                }
+            }
+        }
     
     @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
         
@@ -246,6 +260,18 @@ class EmployeeAgreementController : UIViewController, UITextFieldDelegate, Custo
         alert.modalPresentationStyle = .overCurrentContext
         self.navigationController?.present(alert, animated: true, completion: nil)
         
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+
+        case "\(Statics.GOT_IT)": self.handleBackButton()
+        case "\(Statics.OK)": print("do nothing here")
+
+        default: print("never")
+            
+        }
     }
     
     

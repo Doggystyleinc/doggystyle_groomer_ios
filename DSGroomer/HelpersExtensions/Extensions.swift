@@ -51,6 +51,7 @@ var friends_array_phone_number = [String](),
     imagePermissionsGrey = UIColor(hex: 0xC4C4C4),
     globalStatusBarHeight : CGFloat = 0.0,
     globalFooterHeight : CGFloat = 0.0,
+    lightGreyButtonColor = UIColor(hex: 0xF3F3F3),
     
     //FOR THE CHAT CONTROLLER, WHEN A USER SWIPES LEFT TO EXPOSE THE REPLY ARROW
     globalIsReplyExpanded : Bool = false,
@@ -396,6 +397,25 @@ func hexStringToUIColor (hex:String) -> UIColor {
 extension UIImageView {
     
     func takeScreenshot() -> UIImage {
+        
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
+        
+        drawHierarchy(in: self.bounds, afterScreenUpdates: true)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        if (image != nil)
+        {
+            return image!
+        }
+        return UIImage()
+    }
+}
+
+extension UIView {
+    
+    func takeScreenshotOfView() -> UIImage {
         
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, false, UIScreen.main.scale)
         

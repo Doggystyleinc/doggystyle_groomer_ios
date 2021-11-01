@@ -10,6 +10,8 @@ import UIKit
 
 class MapLocationController : UIViewController {
     
+    var isWarningPresented : Bool = false
+    
     let headerContainer : UIView = {
         
         let hc = UIView()
@@ -152,6 +154,14 @@ class MapLocationController : UIViewController {
         return sc
     }()
     
+    lazy var issueReportingPopup : IssueReportingPopup = {
+        
+        let rp = IssueReportingPopup(frame: .zero)
+        rp.mapLocationController = self
+        
+        return rp
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -180,6 +190,9 @@ class MapLocationController : UIViewController {
         
         //MARK: - SLIDE TO CONFIRM COMPONENT
         self.bottomContainer.addSubview(self.slideToConfirmComponent)
+        
+        //MARK: - REPORTINGPOP UP
+        self.view.addSubview(self.issueReportingPopup)
       
         self.headerContainer.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.headerContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
@@ -239,7 +252,6 @@ class MapLocationController : UIViewController {
         self.slideToConfirmComponent.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
     }
-   
     
     @objc func handleSwipeToComplete() {
         print("Compltere this one herez")
@@ -250,6 +262,24 @@ class MapLocationController : UIViewController {
     }
     
     @objc func handleWarningIcon() {
-        print("handleWarningIcon")
+        
+        if self.isWarningPresented {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.8, options: .curveEaseInOut) {
+                self.issueReportingPopup.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                self.view.layoutIfNeeded()
+                self.issueReportingPopup.layoutIfNeeded()
+            } completion: { complete in
+                self.isWarningPresented = false
+                self.issueReportingPopup.issueReportingCollectionView.clearData()
+            }
+        } else {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.8, options: .curveEaseInOut) {
+                self.issueReportingPopup.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height - (UIScreen.main.bounds.height / 1.5)), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                self.view.layoutIfNeeded()
+                self.issueReportingPopup.layoutIfNeeded()
+            } completion: { complete in
+                self.isWarningPresented = true
+            }
+        }
     }
 }

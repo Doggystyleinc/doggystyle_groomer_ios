@@ -180,6 +180,38 @@ class Service : NSObject {
             }
         }
     }
+    
+    func uploadEmployeeAgreementPhoto(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool, _ uploadURL : String) -> ()) {
+        
+        guard let userUid = Auth.auth().currentUser?.uid else {return}
+        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
+        let storageRef = Storage.storage().reference()
+        
+        let randomString = NSUUID().uuidString
+        let imageRef = storageRef.child("groomers_employee_agreement").child(userUid).child(randomString)
+        
+        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
+            
+            if error != nil {
+                completion(false, "nil")
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (urlGRab, error) in
+                
+                if error != nil {
+                    completion(false, "nil")
+                    return
+                }
+                
+                if let uploadUrl = urlGRab?.absoluteString {
+                    completion(true, uploadUrl)
+                }
+            })
+        }
+    }
+    
+    
    
     //MARK:- DOUBLE CHECK FOR AUTH SO WE CAN MAKE SURE THERE ALL USERS NODE IS CURRENT
     func authCheck(completion : @escaping (_ hasAuth : Bool)->()) {
