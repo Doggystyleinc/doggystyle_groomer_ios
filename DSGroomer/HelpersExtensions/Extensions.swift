@@ -52,7 +52,8 @@ var friends_array_phone_number = [String](),
     globalStatusBarHeight : CGFloat = 0.0,
     globalFooterHeight : CGFloat = 0.0,
     lightGreyButtonColor = UIColor(hex: 0xF3F3F3),
-    
+    softGrey = UIColor(hex: 0x7D7D7D),
+
     //FOR THE CHAT CONTROLLER, WHEN A USER SWIPES LEFT TO EXPOSE THE REPLY ARROW
     globalIsReplyExpanded : Bool = false,
     

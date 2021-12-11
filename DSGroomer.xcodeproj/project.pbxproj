@@ -133,6 +133,9 @@
 		E3B87A3527308E65009139C5 /* ChecklistCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */; };
 		E3B87A3727309A30009139C5 /* IssueReportingPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */; };
 		E3B87A392730A0AE009139C5 /* IssueReportingCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */; };
+		E3B87A3E2731B1EE009139C5 /* ActiveDogPickupPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3D2731B1EE009139C5 /* ActiveDogPickupPopup.swift */; };
+		E3B87A402731B965009139C5 /* SwipeToConfirmActive.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3F2731B965009139C5 /* SwipeToConfirmActive.swift */; };
+		E3B87A422731BCD9009139C5 /* ActiveDogPickupCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A412731BCD9009139C5 /* ActiveDogPickupCollectionView.swift */; };
 		E3BEE43F2665571B00D765A7 /* fa-light-300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43E2665561F00D765A7 /* fa-light-300.ttf */; };
 		E3BEE4402665571B00D765A7 /* fa-regular-400.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE43B2665561E00D765A7 /* fa-regular-400.ttf */; };
 		E3BEE4412665571B00D765A7 /* fa-solid-900.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */; };
@@ -340,6 +343,9 @@
 		E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCollectionView.swift; sourceTree = "<group>"; };
 		E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueReportingPopup.swift; sourceTree = "<group>"; };
 		E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueReportingCollectionView.swift; sourceTree = "<group>"; };
+		E3B87A3D2731B1EE009139C5 /* ActiveDogPickupPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveDogPickupPopup.swift; sourceTree = "<group>"; };
+		E3B87A3F2731B965009139C5 /* SwipeToConfirmActive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeToConfirmActive.swift; sourceTree = "<group>"; };
+		E3B87A412731BCD9009139C5 /* ActiveDogPickupCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveDogPickupCollectionView.swift; sourceTree = "<group>"; };
 		E3BEE4352665561D00D765A7 /* Font Awesome 5 Duotone-Solid-900.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Duotone-Solid-900.otf"; sourceTree = "<group>"; };
 		E3BEE4362665561D00D765A7 /* Font Awesome 5 Free-Regular-400.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Font Awesome 5 Free-Regular-400.otf"; sourceTree = "<group>"; };
 		E3BEE4372665561D00D765A7 /* fa-solid-900.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-solid-900.ttf"; sourceTree = "<group>"; };
@@ -651,11 +657,7 @@
 		E334FBB527123152003F24D5 /* MapLocationController */ = {
 			isa = PBXGroup;
 			children = (
-				E334FBB627123167003F24D5 /* MapLocationController.swift */,
-				E334FBBF27148F02003F24D5 /* SwipeToConfirmSubview.swift */,
-				E334FBC3271497F8003F24D5 /* MapNavigateLocationSubview.swift */,
-				E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */,
-				E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */,
+				E3B87A3A2731B1AA009139C5 /* MapPopUps */,
 			);
 			path = MapLocationController;
 			sourceTree = "<group>";
@@ -768,6 +770,37 @@
 				E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */,
 			);
 			path = PreFlightCheckControllers;
+			sourceTree = "<group>";
+		};
+		E3B87A3A2731B1AA009139C5 /* MapPopUps */ = {
+			isa = PBXGroup;
+			children = (
+				E334FBB627123167003F24D5 /* MapLocationController.swift */,
+				E334FBBF27148F02003F24D5 /* SwipeToConfirmSubview.swift */,
+				E334FBC3271497F8003F24D5 /* MapNavigateLocationSubview.swift */,
+				E3B87A3C2731B1C3009139C5 /* ActiveAppointment */,
+				E3B87A3B2731B1B6009139C5 /* TroubleShooting */,
+			);
+			path = MapPopUps;
+			sourceTree = "<group>";
+		};
+		E3B87A3B2731B1B6009139C5 /* TroubleShooting */ = {
+			isa = PBXGroup;
+			children = (
+				E3B87A3627309A30009139C5 /* IssueReportingPopup.swift */,
+				E3B87A382730A0AE009139C5 /* IssueReportingCollectionView.swift */,
+			);
+			path = TroubleShooting;
+			sourceTree = "<group>";
+		};
+		E3B87A3C2731B1C3009139C5 /* ActiveAppointment */ = {
+			isa = PBXGroup;
+			children = (
+				E3B87A3D2731B1EE009139C5 /* ActiveDogPickupPopup.swift */,
+				E3B87A3F2731B965009139C5 /* SwipeToConfirmActive.swift */,
+				E3B87A412731BCD9009139C5 /* ActiveDogPickupCollectionView.swift */,
+			);
+			path = ActiveAppointment;
 			sourceTree = "<group>";
 		};
 		E3BEE4342665560700D765A7 /* FontAwesome */ = {
@@ -1350,6 +1383,7 @@
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
 				E3B87A392730A0AE009139C5 /* IssueReportingCollectionView.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
+				E3B87A3E2731B1EE009139C5 /* ActiveDogPickupPopup.swift in Sources */,
 				E334FBC027148F02003F24D5 /* SwipeToConfirmSubview.swift in Sources */,
 				E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */,
 				E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */,
@@ -1377,6 +1411,7 @@
 				E3F1205126EE87B9008F2421 /* ContactSupportController.swift in Sources */,
 				E36539FE2707774A00B629AB /* CitySearchCollection.swift in Sources */,
 				E3F0F0D626FD13F100AE13E6 /* VideoSubview.swift in Sources */,
+				E3B87A422731BCD9009139C5 /* ActiveDogPickupCollectionView.swift in Sources */,
 				E38DA92D26F8DDC500DFD365 /* DriversLicenseController.swift in Sources */,
 				E3176B6926EBC666003D6CEF /* LocationController.swift in Sources */,
 				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,
@@ -1394,6 +1429,7 @@
 				E3F0F0CE26FCEC5600AE13E6 /* DashboardEngine.swift in Sources */,
 				E38DA93426F8E59600DFD365 /* SocialSecurityController.swift in Sources */,
 				E32D6BC22664256A003DEEB3 /* Firebase+Ext.swift in Sources */,
+				E3B87A402731B965009139C5 /* SwipeToConfirmActive.swift in Sources */,
 				E38DA93226F8E32600DFD365 /* CriminalRecordController.swift in Sources */,
 				E3C2EB6F2661723800AB0EF6 /* ProfileController.swift in Sources */,
 				E334FBA8270E44CA003F24D5 /* NoServiceFlag.swift in Sources */,

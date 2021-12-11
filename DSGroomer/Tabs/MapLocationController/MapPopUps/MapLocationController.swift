@@ -11,7 +11,8 @@ import UIKit
 class MapLocationController : UIViewController {
     
     var isWarningPresented : Bool = false
-    
+    var isActivePopupPresented : Bool = false
+
     let headerContainer : UIView = {
         
         let hc = UIView()
@@ -162,11 +163,20 @@ class MapLocationController : UIViewController {
         return rp
     }()
     
+   lazy var activeDogPickup : ActiveDogPickupPopup = {
+        
+        let adpu = ActiveDogPickupPopup(frame: .zero)
+        adpu.mapLocationController = self
+            
+       return adpu
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
+        self.perform(#selector(self.handleActiveApt), with: nil, afterDelay: 1.0)
         
     }
     
@@ -193,7 +203,8 @@ class MapLocationController : UIViewController {
         
         //MARK: - REPORTINGPOP UP
         self.view.addSubview(self.issueReportingPopup)
-      
+        self.view.addSubview(self.activeDogPickup)
+
         self.headerContainer.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
         self.headerContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.headerContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
@@ -254,11 +265,9 @@ class MapLocationController : UIViewController {
     }
     
     @objc func handleSwipeToComplete() {
-        print("Compltere this one herez")
     }
     
     @objc func handleNotificationsController() {
-        print("handleNotificationsController")
     }
     
     @objc func handleWarningIcon() {
@@ -268,7 +277,7 @@ class MapLocationController : UIViewController {
                 self.issueReportingPopup.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
                 self.view.layoutIfNeeded()
                 self.issueReportingPopup.layoutIfNeeded()
-            } completion: { complete in
+            } completion: { complete in 
                 self.isWarningPresented = false
                 self.issueReportingPopup.issueReportingCollectionView.clearData()
             }
@@ -281,5 +290,35 @@ class MapLocationController : UIViewController {
                 self.isWarningPresented = true
             }
         }
+    }
+    
+    @objc func handleActiveApt() {
+        
+        if self.isActivePopupPresented {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.8, options: .curveEaseInOut) {
+                self.activeDogPickup.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                self.view.layoutIfNeeded()
+                self.activeDogPickup.layoutIfNeeded()
+            } completion: { complete in
+                self.isActivePopupPresented = false
+            }
+        } else {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.8, options: .curveEaseInOut) {
+                self.activeDogPickup.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height - (UIScreen.main.bounds.height / 1.5)), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                self.view.layoutIfNeeded()
+                self.activeDogPickup.layoutIfNeeded()
+            } completion: { complete in
+                self.isActivePopupPresented = true
+            }
+        }
+    }
+    
+    @objc func presentChatController() {
+        
+        let supportChatController = SupportChatController()
+        supportChatController.navigationController?.navigationBar.isHidden = true
+        supportChatController.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(supportChatController, animated: true)
+        
     }
 }
