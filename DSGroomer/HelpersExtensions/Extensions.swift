@@ -37,7 +37,7 @@ var friends_array_phone_number = [String](),
     recordCharcoalGrey = UIColor(hex: 0x4A4A4A),
     loadingBlueProgress = UIColor(hex: 0x0062FF),
     predictionGrey = UIColor(hex: 0x707070),
-    dividerGrey = UIColor(hex: 0xBCBCBC),
+    dividerGrey = UIColor(hex: 0xEDEDED),
     imageBorderBlue = UIColor(hex: 0x1F5FC5),
     dsFlatBlack = UIColor(hex: 0x302F3C),
     dsButtonLightGrey = UIColor(hex: 0xEDEDED),
@@ -53,6 +53,10 @@ var friends_array_phone_number = [String](),
     globalFooterHeight : CGFloat = 0.0,
     lightGreyButtonColor = UIColor(hex: 0xF3F3F3),
     softGrey = UIColor(hex: 0x7D7D7D),
+    lightGrey = UIColor(hex: 0xD8D8D8),
+    chatTimeGrey = UIColor(hex: 0xABAAB1),
+    placeHolderGrey = UIColor(hex: 0xC6C5CD),
+    completeGreen = UIColor(hex: 0x30BE76),
 
     //FOR THE CHAT CONTROLLER, WHEN A USER SWIPES LEFT TO EXPOSE THE REPLY ARROW
     globalIsReplyExpanded : Bool = false,
@@ -352,6 +356,15 @@ struct Statics {
     static let HANDLE_SERVICE_SATISFIED : String = "HANDLE_SERVICE_SATISFIED"
     static let HANDLE_SERVICE_UNSATISIFED : String = "HANDLE_SERVICE_UNSATISIFED"
     static let RUN_LOCATION_CHECKER : String = "RUN_LOCATION_CHECKER"
+
+    //MARK: - ANIMATION FOR THE LOADING SCREEN
+    static let PAW_ANIMATION : String = "paw_animation"
+    
+    //MARK: - NOTIFICATIONS
+    static let NOTIFICATION_REFERRAL_INVITE : String = "referral_invite"
+    static let NOTIFICATION_WELCOME_ABOARD: String = "welcome_aboard"
+    static let NOTIFICATION_TEXT_MESSAGE: String = "text_message"
+    static let NOTIFICATION_MEDIA_MESSAGE: String = "media_message"
     
 }
 
@@ -1326,6 +1339,46 @@ extension UIView {
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         layer.mask = mask
+    }
+}
+
+extension Date {
+    
+    func timePassed() -> String {
+        
+        let currentDate = Date()
+        let nameFormatter = DateFormatter()
+        
+        nameFormatter.dateFormat = "EEEE"
+        nameFormatter.locale = Locale(identifier: "en_US_POSIX")
+        
+        let secondsBetween: TimeInterval = currentDate.timeIntervalSince(self as Date)
+        let numberOfDays = Int(secondsBetween / 86400)
+        print("numberOfDays", numberOfDays)
+
+        let currentWeekDayName = nameFormatter.string(from: currentDate)
+        let passedWeekDayName = nameFormatter.string(from: self)
+        
+        //CHECK FOR TODAY - GIVE EXACT TIME
+        if currentWeekDayName == passedWeekDayName {
+            
+            nameFormatter.amSymbol = "am"
+            nameFormatter.pmSymbol = "pm"
+            nameFormatter.dateFormat = "hh:mm a"
+            let name = nameFormatter.string(from: self)
+            return name
+            
+            //CHECK FOR THE LAST WEEK - GIVE WEEK DAY NAME
+        } else if numberOfDays <= 7 {
+            
+            return passedWeekDayName
+            
+            //IF BEYOND A WEEK, GIVE THE FULL DATE
+        } else {
+            nameFormatter.dateFormat = "MMM dd, yyyy"
+            let name = nameFormatter.string(from: self)
+            return name
+        }
     }
 }
 

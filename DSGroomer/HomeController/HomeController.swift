@@ -19,7 +19,7 @@ class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAler
     let databaseRef = Database.database().reference(),
         dashboardController = DashboardController(),
         tabTwoController = TabTwoController(),
-        tabThreeController = TabThreeController(),
+        profileController = ProfileController(),
         storageRef = Storage.storage().reference(),
         locationManager = CLLocationManager()
    
@@ -386,9 +386,9 @@ class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAler
         self.tabTwoController.homeController = self
         secondarytab.tabBarItem = UITabBarItem(title: nil, image: calendar, selectedImage: calendarFill)
         
-        let tertiaryTab = UINavigationController(rootViewController: self.tabThreeController)
+        let tertiaryTab = UINavigationController(rootViewController: self.profileController)
         tertiaryTab.navigationBar.isHidden = true
-        self.tabThreeController.homeController = self
+        self.profileController.homeController = self
         tertiaryTab.tabBarItem = UITabBarItem(title: nil, image: people, selectedImage: peopleFill)
         
         viewControllers = [mainTab, secondarytab, tertiaryTab]
@@ -396,6 +396,94 @@ class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAler
         completion()
         
     }
+    
+    func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool) -> ()) {
+        
+        guard let userUid = Auth.auth().currentUser?.uid else {return}
+        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.15) else {return}
+        
+        let randomString = NSUUID().uuidString
+        let imageRef = self.storageRef.child("imageSubmissions").child(userUid).child(randomString)
+        
+        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
+            
+            if error != nil {
+                completion(false);
+                return
+            }
+            
+            imageRef.downloadURL(completion: { (urlGRab, error) in
+                
+                if error != nil {
+                    completion(false);
+                    return
+                }
+                
+                if let uploadUrl = urlGRab?.absoluteString {
+                    
+                    let values : [String : Any] = ["profile_image_url" : uploadUrl]
+                    let refUploadPath = self.databaseRef.child("all_users").child(userUid)
+                    
+                    groomerUserStruct.profile_image_url = uploadUrl
+                    
+                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                        if error != nil {
+                            completion(false);
+                            return
+                        } else {
+                            completion(true);
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
+    func uploadUserChatImage(imageToUpload : UIImage, imageHeight : Double, imageWidth : Double, completion : @escaping (_ isComplete : Bool, _ imageURL : String) -> ()) {
+        
+        guard let userUid = Auth.auth().currentUser?.uid else {return}
+        guard let imageDataToUpload = imageToUpload.jpegData(compressionQuality: 0.35) else {return}
+
+        let randomString = NSUUID().uuidString
+        let imageRef = self.storageRef.child("support_chat_controller_media").child(userUid).child(randomString)
+
+        imageRef.putData(imageDataToUpload, metadata: nil) { (metaDataPass, error) in
+
+            if error != nil {
+                completion(false, "nil");
+                return
+            }
+
+            imageRef.downloadURL(completion: { (urlGRab, error) in
+
+                if error != nil {
+                    completion(false, "nil");
+                    return
+                }
+
+                if let uploadUrl = urlGRab?.absoluteString {
+                    
+                    let refUploadPath = self.databaseRef.child("customer_support").child("support_chat").child("this_is_a_random_starter_key").childByAutoId()
+
+                    let parent_key = refUploadPath.key ?? "nil"
+                    
+                    let time_stamp : Double = NSDate().timeIntervalSince1970
+
+                    let values : [String : Any] = ["time_stamp" : time_stamp, "type_of_message" : "media_message", "message" : "nil", "senders_firebase_uid" : userUid, "message_parent_key" : parent_key, "users_selected_image_url" : uploadUrl, "image_height" : imageHeight, "image_width" : imageWidth]
+                    
+                    refUploadPath.updateChildValues(values, withCompletionBlock: { (error, ref) in
+                        if error != nil {
+                            completion(false, "nil");
+                            return
+                        } else {
+                            completion(true, uploadUrl);
+                        }
+                    })
+                }
+            })
+        }
+    }
+    
   
     @objc func handleLogout() {
         

@@ -12,6 +12,8 @@ import Firebase
 
 class ContactSupportController : UIViewController, MFMailComposeViewControllerDelegate, CustomAlertCallBackProtocol {
     
+    var homeController : HomeController?
+    
     lazy var backButton : UIButton = {
         
         let cbf = UIButton(type: .system)
@@ -291,10 +293,12 @@ class ContactSupportController : UIViewController, MFMailComposeViewControllerDe
     
     @objc func handleChatController() {
         
-        let supportChatController = SupportChatController()
-        supportChatController.navigationController?.navigationBar.isHidden = true
-        supportChatController.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(supportChatController, animated: true)
+        let chatController = SupportChatController()
+        chatController.homeController = self.homeController
+        let nav = UINavigationController(rootViewController: chatController)
+        nav.navigationBar.isHidden = true
+        nav.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(nav, animated: true, completion: nil)
         
     }
     

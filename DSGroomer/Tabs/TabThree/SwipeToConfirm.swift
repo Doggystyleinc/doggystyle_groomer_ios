@@ -1,31 +1,18 @@
 //
-//  SwipeToConfirmSubview.swift
+//  SwipeToConfirm.swift
 //  DSGroomer
 //
-//  Created by Charlie Arcodia on 10/11/21.
+//  Created by Charlie Arcodia on 12/13/21.
 //
 
-class CustomSlider: UISlider {
-
-var trackHeightGrab: CGFloat = 60
-
-//MARK: - KEEP THE COMPONENT CENTERED BY TAKING HALF OFF THE Y ORIGIN
-override func trackRect(forBounds bounds: CGRect) -> CGRect {
-    var rect = super.trackRect(forBounds: bounds)
-    rect.size.height = trackHeightGrab
-    rect.origin.y -= trackHeightGrab / 2
-    return rect
-  }
-}
 
 import Foundation
 import UIKit
 import Lottie
 
-class SwipeToConfirmSubview : UIView {
+class SwipeToConfirmClockInSubview : UIView {
     
-    var mapLocationController : MapLocationController?,
-        profileController : ProfileController?,
+    var profileController : ProfileController?,
         cutTheEndlessLoop : Bool = false
     
     lazy var slideMeIcon : UIButton = {
@@ -67,7 +54,7 @@ class SwipeToConfirmSubview : UIView {
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .center
-        thl.text = "Slide to confirm arrival"
+        thl.text = "Slide to clock in"
         thl.font = UIFont(name: dsHeaderFont, size: 18)
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = true
@@ -187,9 +174,8 @@ class SwipeToConfirmSubview : UIView {
             self.checkMarkAnimation.isHidden = true
             self.backgroundColor = bellgrey
             self.slideToConfirmLabel.isHidden = false
-            self.slideToConfirmLabel.text = "Confirmed"
+            self.slideToConfirmLabel.text = "Clock out"
             self.cutTheEndlessLoop = true
-            self.mapLocationController?.handleSwipeToComplete()
             self.profileController?.handleSwipeToClockIn()
         }
     }

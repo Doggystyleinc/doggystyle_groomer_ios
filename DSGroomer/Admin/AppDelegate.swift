@@ -12,7 +12,7 @@ import GooglePlaces
 import GoogleMaps
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     var devicesOrientation: UIInterfaceOrientationMask = .portrait
     
@@ -30,6 +30,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //GOOGLE MAPS KEY
         GMSServices.provideAPIKey("AIzaSyCsQHp5h7ReANC8G4hSJ3xFF-unyiSfgBs")
         //GMSServices.provideAPIKey("AIzaSyD0QooK2JJuDUBU0MSlRBLU0FT3STJoFVw")
+        
+        UNUserNotificationCenter.current().delegate = self
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions, completionHandler: { _, _ in
+            print("NOTIFICATION AUTH - APPROVAL HIT")
+        })
+        
+        application.registerForRemoteNotifications()
 
         return true
     }

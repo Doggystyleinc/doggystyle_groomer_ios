@@ -69,5 +69,6 @@ struct GroomerUserStruct {
     //TERMS OF SERVICE
     var groomer_enable_notifications : Bool?
     var users_ref_key : String?
-    
+    var user_notification_settings : [String : Any]?
+
 }

@@ -1,105 +1,84 @@
-//
-//  PushNotificationManager.swift
-//  DSGroomer
-//
-//  Created by Charlie Arcodia on 5/28/21.
-//
-//
-//import Foundation
-//import UIKit
-//import Firebase
-//import Alamofire
-//
-//class PushNotificationManager : NSObject {
-//    
-//    static func sendPushNotification(body : String, user_uid : String, is_group : Bool, groupName : String, completion : @escaping (_ success : Any?, _ error : Any?) -> ()) {
-//        
-//        var titleGrab : String = ""
-//        var bodyGrab : String = ""
-//        
-//        let databaseRef = Database.database().reference()
-//        
-//        guard let user_uid_fetch = Auth.auth().currentUser?.uid else {return}
-//        
-//        databaseRef.child("all_users").child(user_uid).observeSingleEvent(of: .value, with: { (snap : DataSnapshot) in
-//            
-//            guard let dic = snap.value as? [String : AnyObject] else {return}
-//            
-//            let pushToken = dic["push_token"] as? String ?? "nil"
-//            
-//            databaseRef.child("all_users").child(user_uid_fetch).observeSingleEvent(of: .value) { (snapName : DataSnapshot) in
-//                
-//                guard let dicTwo = snapName.value as? [String : AnyObject] else {return}
-//                
-//                let sendersName = dicTwo["users_name"] as? String ?? "Incognito"
-//                
-//                let token = pushToken
-//                
-//                if is_group == false {
-//                    
-//                    titleGrab = sendersName
-//                    
-//                    bodyGrab = body
-//                    
-//                } else {
-//                    
-//                    titleGrab = "\(sendersName) @ \(groupName)"
-//                    
-//                    bodyGrab = body
-//                }
-//                
-//                let url = "https://fcm.googleapis.com/fcm/send"
-//                
-//                var secretKey = ""
-//                
-//                if EnvironemntModeHelper.isCurrentEnvironmentDebug() == true {
-//                    
-//                    secretKey = "key = AAAAqbyindo:APA91bGQ_VsY8ki4WyKM-tqaNBpzYi1_COroXBGntsUtHTLMZKTe9_kqmBEQfuLIDwqKr1yznKcHmzhHYMh2qkNMABjLXBmWFld8hdA0TZr4-hbLfZ--UR679oaj2t9PoUD1HXBdJtDg"
-//                    
-//                } else {
-//                    
-//                    secretKey = "key = AAAAqbyindo:APA91bGQ_VsY8ki4WyKM-tqaNBpzYi1_COroXBGntsUtHTLMZKTe9_kqmBEQfuLIDwqKr1yznKcHmzhHYMh2qkNMABjLXBmWFld8hdA0TZr4-hbLfZ--UR679oaj2t9PoUD1HXBdJtDg"
-//                    
-//                }
-//                
-//                let headers : HTTPHeaders = ["Content-Type" : "application/json",
-//                                             "Authorization" : secretKey]
-//                
-//                let notificationsParameters: Parameters = [
-//                    
-//                    "to": token,
-//                    "content-available":true,
-//                    "priority":"high",
-//                    "notification" : [
-//                        "title" : titleGrab,
-//                        "body" : bodyGrab,
-//                    ],
-//                    
-//                ]
-//                
-//                AF.request(url, method: .post, parameters: notificationsParameters, encoding : JSONEncoding.default, headers: headers).responseJSON { response in
-//                    
-//                    switch response.result {
-//                    
-//                    case .success:
-//                        
-//                        let data = response.value
-//                        print(data as Any)
-//                        completion(data, nil)
-//                        
-//                    case .failure(let error):
-//                        
-//                        completion(nil, error)
-//                        
-//                    }
-//                }
-//                
-//            }
-//            
-//        }) { (true) in
-//            
-//        }
-//        
-//    }
-//    
-//}
+
+
+import Foundation
+import UIKit
+import Firebase
+import Alamofire
+
+final class PushNotificationManager: NSObject {
+    
+    static func sendPushNotification(title : String, body : String, recipients_user_uid : String, completion : @escaping (_ success : Any?, _ error : Any?) -> ()) {
+        
+        //MARK: - GUARD HERE JUST INCASE THE IMPORRIBLE BECOMES POSSIBLE
+        if title.count == 0 {
+            completion(false, nil)
+            return
+        }
+        if body.count == 0 {
+            completion(false, nil)
+            return
+        }
+        
+        let databaseRef = Database.database().reference()
+        
+        //MARK: - USER SHOULD NOT BE HERE IF THEY ARE NOT SIGNED IN
+        guard let _ = Auth.auth().currentUser?.uid else { return }
+        
+        databaseRef.child("all_users").child(recipients_user_uid).observeSingleEvent(of: .value, with: { (snap : DataSnapshot) in
+            print("opush 1.5")
+
+            guard let dic = snap.value as? [String : AnyObject] else { return }
+            
+            let pushToken = dic["users_push_token"] as? String ?? "nil"
+            let sendersName = dic["user_first_name"] as? String ?? "nil"
+            
+            if pushToken == "nil" {
+                completion(false, nil)
+                return
+            }
+            if sendersName == "nil" {
+                completion(false, nil)
+                return
+            }
+            
+            let token = pushToken
+            
+            let url = "https://fcm.googleapis.com/fcm/send"
+            var secretKey = ""
+            
+            if EnvironemntModeHelper.isCurrentEnvironmentDebug() == true {
+                secretKey = "key = AAAA7Ac2hzY:APA91bH3nYaC11MliJl7W5sSyMMkwD90r-Qphrgse51T_z-WmPLAKv8Z9myn4kf6NhJAVQ7MgrZPJR3zqiXpCRM0DO2YCvvds5US7kG4_aXYVe2wcq2A8BlSgfvM-XU_Rp1cYhFFqeMB"
+            } else {
+                secretKey = "key = AAAAtw2tTGs:APA91bGjykgZ6WXJpZKMwGzuD49SJqTKhDHmqhsFnxA31icmrlibVtgjTfzUUannS-o1o0ac8PO5UcqGr-4kMWgX6bA5ysin-RZ7irfaf1O2Bl9bGX9dQSVTpYZMsGG3g5Ew1ZaDG4me"
+            }
+            
+            let headers : HTTPHeaders = ["Content-Type" : "application/json",
+                                         "Authorization" : secretKey]
+            
+            let notificationsParameters: Parameters = [
+                "to": token,
+                "content-available":true,
+                "priority":"high",
+                "notification" : [
+                    "title" : title,
+                    "body" : body,
+                ],
+            ]
+            
+            AF.request(url, method: .post, parameters: notificationsParameters, encoding : JSONEncoding.default, headers: headers).responseJSON { response in
+                
+                switch response.result {
+                
+                case .success:
+                    print("SUCCESS FROM THE PUSH NOTE")
+                    let data = response.value
+                    completion(data, nil)
+                    
+                case .failure(let error):
+                    print("FAILURE FROM THE PUSH NOTE")
+                    completion(nil, error)
+                }
+            }
+        }) { (true) in }
+    }
+}

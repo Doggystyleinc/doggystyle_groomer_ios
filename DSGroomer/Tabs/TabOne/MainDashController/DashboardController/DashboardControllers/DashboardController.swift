@@ -170,6 +170,7 @@ class DashboardController : UIViewController {
         self.addViews()
         self.runDataEngine()
         self.postObservers()
+        self.loadNotificationListener()
 
     }
     
@@ -318,8 +319,48 @@ class DashboardController : UIViewController {
         
     }
     
+    func loadNotificationListener() {
+        
+        guard let user_uid = Auth.auth().currentUser?.uid else {return}
+        let ref = self.databaseRef.child("notifications").child(user_uid)
+        
+        var counter : Int = 0
+        
+        ref.observe(.value) { snapJSON in
+            
+            if snapJSON.exists() {
+                
+                for child in snapJSON.children.allObjects as! [DataSnapshot] {
+                    
+                    let JSON = child.value as? [String : AnyObject] ?? [:]
+                    
+                    let has_seen = JSON["notification_has_read"] as? Bool ?? false
+                    
+                    if has_seen == false {
+                        counter += 1
+                    }
+                }
+                
+                if counter == 0 {
+                    self.notificationBubble.isHidden = true
+                    self.notificationBubble.text = ""
+                } else {
+                    self.notificationBubble.isHidden = false
+                    self.notificationBubble.text = "\(counter)"
+                    counter = 0
+                }
+                
+                //MARK: - NO DATA HERE EXISTS YET
+            } else if !snapJSON.exists() {
+                self.notificationBubble.isHidden = true
+                counter = 0
+            }
+        }
+    }
+    
     @objc func handleNotificationsController() {
-        print("Notifications")
+        let notificationVC = YourNotificationController()
+        self.navigationController?.pushViewController(notificationVC, animated: true)
     }
     
     @objc func handleHelpController() {

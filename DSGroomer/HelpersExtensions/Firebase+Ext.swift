@@ -69,6 +69,63 @@ class Service : NSObject {
         }
     }
     
+    //MARK: - ADDS ONE TO THE APPLICATIONS NOTIFICATION SYSTEM AS WELL AS THROUGH THE CLOUD MESSAGING SYSTEM ATTACHED AS AN EXTENSION
+    func notificationSender(notificationType : String, userUID : String, textMessage : String?, imageURL : String?, completion : @escaping (_ isComplete : Bool) -> ()) {
+        
+        let databaseRef = Database.database().reference()
+        
+        let inviters_firstName = groomerUserStruct.groomers_first_name ?? "nil",
+            inviters_lastName = groomerUserStruct.groomers_last_name ?? "nil",
+            inviters_UID = groomerUserStruct.users_ref_key ?? "nil",
+            inviters_email = groomerUserStruct.groomers_email ?? "nil",
+            sendersProfileImage = groomerUserStruct.profile_image_url ?? "nil",
+            timeStamp : Double = Date().timeIntervalSince1970
+        
+        //MARK: - UPDATE THE USERS NOTIFICATOINS VALUES
+        let notificationRef = databaseRef.child("notifications").child(userUID).childByAutoId()
+        
+        let notificationSenderFirstName = inviters_firstName,
+            notificationSenderLastName = inviters_lastName,
+            notificationSenderInviteDate = timeStamp,
+            notificationSenderInviteUUID = inviters_UID,
+            notificationSenderEmail = inviters_email,
+            hasSeen = false,
+            childKey = notificationRef.key ?? "nil",
+            notificationTextMessage = textMessage ?? "nil",
+            notificationMediaURL = imageURL ?? "nil",
+
+            
+            notificationValues : [String : Any] = ["notification_type" : notificationType,
+                                                   "notification_first_name" : notificationSenderFirstName,
+                                                   "notification_last_name" : notificationSenderLastName,
+                                                   "notification_time_stamp" : notificationSenderInviteDate,
+                                                   "notification_UID" : notificationSenderInviteUUID,
+                                                   "notification_email" : notificationSenderEmail,
+                                                   "notification_has_read" : hasSeen,
+                                                   "notification_profile_image" : sendersProfileImage,
+                                                   "child_key" : childKey,
+                                                   "notification_text_message" : notificationTextMessage,
+                                                   "notification_media_message" : notificationMediaURL
+            ]
+        
+        notificationRef.updateChildValues(notificationValues, withCompletionBlock: { error, ref in
+            
+            //MARK: - FALL THROUGH ERROR
+            switch notificationType {
+            
+            case "referral_invite" : completion(true)
+            case "welcome_aboard" : completion(true)
+            default: completion(true)
+                
+            }
+            //MARK: - ADD THE NOTIFICATION SENDER AS NECESSARY WITH THE ABOVE SWITCH
+            
+            //PushNotificationManager.sendPushNotification(title: "TEST", body: "THIS IS A TEST: BODY", recipients_user_uid: "jvsWMqMe9MhdAHXJkx7rxOtINUD2") { success, error in
+            //print("Sent the notification with success flag: \(success) and an error flag of: \(error)")
+            //}
+        })
+    }
+    
     func uploadDriversLicenseImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool, _ driversImageURL : String) -> ()) {
         
         guard let userUid = Auth.auth().currentUser?.uid else {return}
@@ -465,6 +522,7 @@ class Service : NSObject {
                 let users_ref_key = JSON["users_ref_key"] as? String ?? "nil"
                 let profile_image_url = JSON["profile_image_url"] as? String ?? "nil"
                 let drivers_license_image_url = JSON["drivers_license_image_url"] as? String ?? "nil"
+                let user_notification_settings = JSON["user_notification_settings"] as? [String : Any] ?? ["nil" : "nil"]
 
                 groomerUserStruct.groomers_phone_number = groomers_phone_number
                 groomerUserStruct.groomers_area_code = groomers_area_code
@@ -488,6 +546,8 @@ class Service : NSObject {
                 groomerUserStruct.users_ref_key = users_ref_key
                 groomerUserStruct.profile_image_url = profile_image_url
                 groomerUserStruct.drivers_license_image_url = drivers_license_image_url
+                groomerUserStruct.user_notification_settings = user_notification_settings
+
 
                 completion(true)
                 
