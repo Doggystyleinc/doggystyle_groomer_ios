@@ -174,7 +174,7 @@ class HomeController : UITabBarController, CLLocationManagerDelegate, CustomAler
                 LocationBroadcaster.shared.runBroadcaster()
                 
             default:
-                
+                print("requesting info here")
                 self.locationManager.requestAlwaysAuthorization()
 
                 self.handleCustomPopUpAlert(title: "LOCATION SERVICES", message: "To use the Doggystyle application, Location Services is required to let the groomers know when you’ll arrive.", passedButtons: [Statics.GOT_IT])

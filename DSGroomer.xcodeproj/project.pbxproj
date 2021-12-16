@@ -18,6 +18,8 @@
 		E304ED8E26EBF075002D625A /* tab_home_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E304ED8526EBF074002D625A /* tab_home_icon@2x.png */; };
 		E304ED8F26EBF075002D625A /* tab_person_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E304ED8626EBF075002D625A /* tab_person_icon@2x.png */; };
 		E304ED9126ED357D002D625A /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E304ED9026ED357D002D625A /* RegistrationController.swift */; };
+		E306A925276BECB100B6F814 /* EarningsSupportPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */; };
+		E306A927276BECD200B6F814 /* EarningsSupportCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */; };
 		E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3176B2926EA8A13003D6CEF /* WelcomeController.swift */; };
 		E3176B3A26EA9485003D6CEF /* Rubik-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3176B3926EA9460003D6CEF /* Rubik-Black.ttf */; };
 		E3176B3B26EA9485003D6CEF /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3176B2E26EA945E003D6CEF /* Rubik-BlackItalic.ttf */; };
@@ -236,6 +238,8 @@
 		E304ED8526EBF074002D625A /* tab_home_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_home_icon@2x.png"; sourceTree = "<group>"; };
 		E304ED8626EBF075002D625A /* tab_person_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab_person_icon@2x.png"; sourceTree = "<group>"; };
 		E304ED9026ED357D002D625A /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsSupportPopup.swift; sourceTree = "<group>"; };
+		E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsSupportCollectionView.swift; sourceTree = "<group>"; };
 		E3176B2926EA8A13003D6CEF /* WelcomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		E3176B2C26EA945E003D6CEF /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
 		E3176B2D26EA945E003D6CEF /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
@@ -595,6 +599,8 @@
 			isa = PBXGroup;
 			children = (
 				E332AE6F2768189800D1F856 /* EarningsAndReviews.swift */,
+				E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */,
+				E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */,
 			);
 			path = EarningsAndReviews;
 			sourceTree = "<group>";
@@ -1459,8 +1465,10 @@
 				E396B91B26FD21F50087F106 /* CompleteProfileController.swift in Sources */,
 				E38DA93926F8ED9400DFD365 /* LinkBankAccountController.swift in Sources */,
 				E3D2816C26F3AEB900ACE7C8 /* PasswordResetController.swift in Sources */,
+				E306A925276BECB100B6F814 /* EarningsSupportPopup.swift in Sources */,
 				E334FBAE270E683A003F24D5 /* LocationBroadcaster.swift in Sources */,
 				E3FB6B072676B16400DE17D2 /* GroomerChecklistFeeder.swift in Sources */,
+				E306A927276BECD200B6F814 /* EarningsSupportCollectionView.swift in Sources */,
 				E332AE532767FE4B00D1F856 /* ChatCollectionView.swift in Sources */,
 				E332AE4E2767F65200D1F856 /* SwipeToConfirm.swift in Sources */,
 				E3C2EB632661702800AB0EF6 /* SMSMessageExt.swift in Sources */,

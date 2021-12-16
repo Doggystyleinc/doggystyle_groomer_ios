@@ -39,6 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
         
         application.registerForRemoteNotifications()
+        
+        
+        
 
         return true
     }

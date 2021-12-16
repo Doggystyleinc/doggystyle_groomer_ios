@@ -8,7 +8,9 @@
 import Foundation
 import UIKit
 
-class EarningsAndReviews : UIViewController {
+class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
+    
+    var isWarningPresented : Bool = false
     
     lazy var backButton : UIButton = {
         
@@ -418,7 +420,13 @@ class EarningsAndReviews : UIViewController {
         
     }()
     
-   
+    lazy var earningsIssueReportingPopup : EarningsSupportPopup = {
+        
+        let rp = EarningsSupportPopup(frame: .zero)
+        rp.earningsAndReviews = self
+        
+        return rp
+    }()
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -469,6 +477,8 @@ class EarningsAndReviews : UIViewController {
         self.summaryContainer.addSubview(self.tipsLabel)
         self.summaryContainer.addSubview(self.earningsValue)
         self.summaryContainer.addSubview(self.tipsValue)
+        
+        self.view.addSubview(self.earningsIssueReportingPopup)
 
         self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         self.backButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
@@ -614,12 +624,82 @@ class EarningsAndReviews : UIViewController {
 
     }
     
+    @objc func handleWarningIcon() {
+        
+        if self.isWarningPresented {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.8, options: .curveEaseInOut) {
+                self.earningsIssueReportingPopup.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                self.view.layoutIfNeeded()
+                self.earningsIssueReportingPopup.layoutIfNeeded()
+            } completion: { complete in
+                self.isWarningPresented = false
+                self.earningsIssueReportingPopup.earningsReportingCollection.clearData()
+            }
+        } else {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.8, options: .curveEaseInOut) {
+                self.earningsIssueReportingPopup.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height - (UIScreen.main.bounds.height / 1.5)), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
+                self.view.layoutIfNeeded()
+                self.earningsIssueReportingPopup.layoutIfNeeded()
+            } completion: { complete in
+                self.isWarningPresented = true
+            }
+        }
+    }
+    
+    @objc func handleSubmitButton() {
+        
+        let selection = self.earningsIssueReportingPopup.earningsReportingCollection.collectionArray
+        
+        let count = selection.count
+        
+        if count <= 0 {
+            print("nothing selected here")
+        } else {
+            
+            Service.shared.supportTicketHandler(typeOfSuportMessage: "payment_issue", supportMessage: selection[0]) { isComplete in
+                
+                if isComplete {
+                    self.handleQuestionMarkIcon()
+                    self.handleCustomPopUpAlert(title: "Request", message: "Delivered - you should be hearing from HQ shortly.", passedButtons: [Statics.GOT_IT])
+                } else {
+                    self.handleQuestionMarkIcon()
+                    self.handleCustomPopUpAlert(title: "Failed", message: "Please try again.", passedButtons: [Statics.GOT_IT])
+                }
+            }
+        }
+    }
+    
+    @objc func handleCustomPopUpAlert(title : String, message : String, passedButtons: [String]) {
+        
+        let alert = AlertController()
+        alert.passedTitle = title
+        alert.passedMmessage = message
+        alert.passedButtonSelections = passedButtons
+        alert.customAlertCallBackProtocol = self
+        alert.modalPresentationStyle = .overCurrentContext
+        self.navigationController?.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    func onSelectionPassBack(buttonTitleForSwitchStatement type: String) {
+        
+        switch type {
+        
+        case Statics.GOT_IT: print(Statics.GOT_IT)
+        case Statics.OK: print(Statics.OK)
+            
+        default: print("Should not hit")
+            
+        }
+    }
+    
     @objc func handleBackButton() {
         self.dismiss(animated: true, completion: nil)
     }
     
     @objc func handleQuestionMarkIcon() {
         print("question incoming")
+        self.handleWarningIcon()
     }
     
     @objc func handleSeeGroomzForDetails() {

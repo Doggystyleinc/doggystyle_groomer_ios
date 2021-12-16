@@ -1,16 +1,17 @@
 //
-//  IssueReportingPopup.swift
+//  EarningsSupportPopup.swift
 //  DSGroomer
 //
-//  Created by Charlie Arcodia on 11/1/21.
+//  Created by Charlie Arcodia on 12/16/21.
 //
+
 
 import Foundation
 import UIKit
 
-class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
+class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     
-    var mapLocationController : MapLocationController?
+    var earningsAndReviews : EarningsAndReviews?
     
     lazy var cancelButton : UIButton = {
         
@@ -45,7 +46,7 @@ class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .left
-        thl.text = "Please don’t hestitate to contact emergency services first, HQ will be on standby to help "
+        thl.text = "Payments can take up to 4 business days to show up in your account"
         thl.font = UIFont(name: rubikRegular, size: 16)
         thl.numberOfLines = -1
         thl.adjustsFontSizeToFitWidth = false
@@ -94,12 +95,13 @@ class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
         
     }()
     
-    lazy var issueReportingCollectionView : IssueReportingCollectionView = {
+    lazy var earningsReportingCollection : EarningsSupportCollectionView = {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        let ir = IssueReportingCollectionView(frame: .zero, collectionViewLayout: layout)
+        let ir = EarningsSupportCollectionView(frame: .zero, collectionViewLayout: layout)
         ir.translatesAutoresizingMaskIntoConstraints = false
+        ir.earningsSupportPopup = self
         
        return ir
     }()
@@ -122,7 +124,7 @@ class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
         self.addSubview(self.descriptionLabel)
         self.addSubview(self.callHQButton)
         self.addSubview(self.submitButton)
-        self.addSubview(self.issueReportingCollectionView)
+        self.addSubview(self.earningsReportingCollection)
 
         self.cancelButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         self.cancelButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
@@ -149,14 +151,14 @@ class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
         self.submitButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -30).isActive = true
         self.submitButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
-        self.issueReportingCollectionView.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 10).isActive = true
-        self.issueReportingCollectionView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
-        self.issueReportingCollectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
-        self.issueReportingCollectionView.bottomAnchor.constraint(equalTo: self.submitButton.topAnchor, constant: -10).isActive = true
+        self.earningsReportingCollection.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 10).isActive = true
+        self.earningsReportingCollection.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
+        self.earningsReportingCollection.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
+        self.earningsReportingCollection.bottomAnchor.constraint(equalTo: self.submitButton.topAnchor, constant: -10).isActive = true
     }
     
     @objc func handleCancelButton() {
-        self.mapLocationController?.handleWarningIcon()
+        self.earningsAndReviews?.handleWarningIcon()
     }
     
     @objc func handlePhoneCall() {
@@ -180,7 +182,7 @@ class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
         alert.customAlertCallBackProtocol = self
         alert.passedIconName = .infoCircle
         alert.modalPresentationStyle = .overCurrentContext
-        self.mapLocationController?.present(alert, animated: true, completion: nil)
+        self.earningsAndReviews?.present(alert, animated: true, completion: nil)
         
     }
     
@@ -194,6 +196,7 @@ class IssueReportingPopup : UIView, CustomAlertCallBackProtocol {
     }
     
     @objc func handleSubmitButton() {
+        self.earningsAndReviews?.handleSubmitButton()
     }
     
     required init?(coder: NSCoder) {

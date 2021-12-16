@@ -17,6 +17,29 @@ class Service : NSObject {
   
     static let shared = Service()
     
+    func supportTicketHandler(typeOfSuportMessage : String, supportMessage : String, completion : @escaping ( _ complete : Bool) -> ()) {
+        
+        let databaseRef = Database.database().reference()
+        let ref = databaseRef.child("support_tickets").childByAutoId()
+        
+        guard let support_uid = Auth.auth().currentUser?.uid else {return}
+        
+        let firstName = groomerUserStruct.groomers_first_name ?? "no first name"
+        let lastName = groomerUserStruct.groomers_last_name ?? "no last name"
+
+        let time_stamp : Double = Date().timeIntervalSince1970
+        
+        let values : [String : Any] = ["time_stamp" : time_stamp, "support_uid" : support_uid, "type_of_support_ticket" : typeOfSuportMessage, "first_name" : firstName, "last_name" : lastName, "support_identifier" : supportMessage, "is_groomer" : true, "support_ticket_satisfied" : false]
+        
+        ref.updateChildValues(values) { error, ref in
+            if error != nil {
+                completion(false)
+                return
+            }
+            completion(true)
+        }
+    }
+    
     func uploadProfileImage(imageToUpload : UIImage, completion : @escaping (_ isComplete : Bool, _ imageURL : String) -> ()) {
         
         guard let userUid = Auth.auth().currentUser?.uid else {return}
