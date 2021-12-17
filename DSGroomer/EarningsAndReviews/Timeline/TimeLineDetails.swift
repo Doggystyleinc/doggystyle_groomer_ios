@@ -1,14 +1,14 @@
 //
-//  EarningsAndReviews.swift
+//  TimeLineDetails.swift
 //  DSGroomer
 //
-//  Created by Charlie Arcodia on 12/13/21.
+//  Created by Charlie Arcodia on 12/17/21.
 //
 
 import Foundation
 import UIKit
 
-class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
+class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
     
     var isWarningPresented : Bool = false
     
@@ -31,7 +31,7 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         let thl = UILabel()
         thl.translatesAutoresizingMaskIntoConstraints = false
         thl.textAlignment = .center
-        thl.text = "Earnings"
+        thl.text = "Timesheet"
         thl.font = UIFont(name: rubikMedium, size: 18)
         thl.numberOfLines = 1
         thl.adjustsFontSizeToFitWidth = false
@@ -56,23 +56,22 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         return dcl
     }()
     
-    let headerContainer : UIView = {
+    lazy var earningsIssueReportingPopup : EarningsSupportPopup = {
         
-        let wc = UIView()
-        wc.translatesAutoresizingMaskIntoConstraints = false
-        wc.backgroundColor = coreWhiteColor
-        wc.isUserInteractionEnabled = true
-        wc.layer.masksToBounds = true
-        wc.layer.cornerRadius = 20
-        wc.clipsToBounds = false
-        wc.layer.masksToBounds = false
-        wc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
-        wc.layer.shadowOpacity = 0.05
-        wc.layer.shadowOffset = CGSize(width: 2, height: 3)
-        wc.layer.shadowRadius = 9
-        wc.layer.shouldRasterize = false
-        return wc
+        let rp = EarningsSupportPopup(frame: .zero)
+        rp.timeLineDetails = self
         
+        return rp
+    }()
+    
+    lazy var timeLineCollectionView : TimeLineCollectionView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        let gcv = TimeLineCollectionView(frame: .zero, collectionViewLayout: layout)
+        gcv.timeLineDetails = self
+        
+       return gcv
     }()
     
     let centerDataContainer : UIView = {
@@ -91,124 +90,6 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         wc.layer.shadowRadius = 9
         wc.layer.shouldRasterize = false
         return wc
-        
-    }()
-    
-    let summaryContainer : UIView = {
-        
-        let wc = UIView()
-        wc.translatesAutoresizingMaskIntoConstraints = false
-        wc.backgroundColor = coreWhiteColor
-        wc.isUserInteractionEnabled = true
-        wc.layer.masksToBounds = true
-        wc.layer.cornerRadius = 20
-        wc.clipsToBounds = false
-        wc.layer.masksToBounds = false
-        wc.layer.shadowColor = coreBlackColor.withAlphaComponent(0.8).cgColor
-        wc.layer.shadowOpacity = 0.05
-        wc.layer.shadowOffset = CGSize(width: 2, height: 3)
-        wc.layer.shadowRadius = 9
-        wc.layer.shouldRasterize = false
-        return wc
-        
-    }()
-    
-    lazy var groomzButton : UIButton = {
-        
-        let cbf = UIButton(type: .system)
-        cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("See Groomz Details & Reviews", for: UIControl.State.normal)
-        cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 18)
-        cbf.titleLabel?.adjustsFontSizeToFitWidth = true
-        cbf.titleLabel?.numberOfLines = 1
-        cbf.titleLabel?.adjustsFontForContentSizeCategory = true
-        cbf.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
-        cbf.layer.cornerRadius = 15
-        cbf.layer.masksToBounds = true
-        cbf.tintColor = coreOrangeColor
-        cbf.addTarget(self, action: #selector(self.handleSeeGroomzForDetails), for: .touchUpInside)
-        
-        return cbf
-        
-    }()
-    
-    lazy var timeSheetButton : UIButton = {
-        
-        let cbf = UIButton(type: .system)
-        cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("View Timesheet", for: UIControl.State.normal)
-        cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 18)
-        cbf.titleLabel?.adjustsFontSizeToFitWidth = true
-        cbf.titleLabel?.numberOfLines = 1
-        cbf.titleLabel?.adjustsFontForContentSizeCategory = true
-        cbf.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
-        cbf.layer.cornerRadius = 15
-        cbf.layer.masksToBounds = true
-        cbf.tintColor = coreOrangeColor
-        cbf.addTarget(self, action: #selector(self.handleViewTimeSheet), for: .touchUpInside)
-        
-        return cbf
-        
-    }()
-    
-    lazy var paymentHistoryButton : UIButton = {
-        
-        let cbf = UIButton(type: .system)
-        cbf.translatesAutoresizingMaskIntoConstraints = false
-        cbf.setTitle("View Payment History", for: UIControl.State.normal)
-        cbf.titleLabel?.font = UIFont.init(name: dsHeaderFont, size: 18)
-        cbf.titleLabel?.adjustsFontSizeToFitWidth = true
-        cbf.titleLabel?.numberOfLines = 1
-        cbf.titleLabel?.adjustsFontForContentSizeCategory = true
-        cbf.backgroundColor = coreOrangeColor.withAlphaComponent(0.2)
-        cbf.layer.cornerRadius = 15
-        cbf.layer.masksToBounds = true
-        cbf.tintColor = coreOrangeColor
-        cbf.addTarget(self, action: #selector(self.handlePaymentHistory), for: .touchUpInside)
-        
-        return cbf
-        
-    }()
-    
-    let dateTimeFrameHeaderLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .center
-        thl.text = "Dec 1 - Dec 7"
-        thl.font = UIFont(name: dsHeaderFont, size: 13)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = dsFlatBlack
-        return thl
-        
-    }()
-    
-    let totalEarningsHeaderLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .center
-        thl.text = "$734.00"
-        thl.font = UIFont(name: dsSubHeaderFont, size: 32)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = dsFlatBlack
-        return thl
-        
-    }()
-    
-    let footerForHeaderLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .center
-        thl.text = "Earned so far this pay period"
-        thl.font = UIFont(name: rubikRegular, size: 13)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = softGrey
-        return thl
         
     }()
     
@@ -350,83 +231,6 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         return mdv
     }()
     
-    let summaryHeaderLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .left
-        thl.text = "Summary"
-        thl.font = UIFont(name: rubikMedium, size: 18)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = dsLightBlack
-        return thl
-        
-    }()
-    
-    let earningsLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .left
-        thl.text = "Earnings:"
-        thl.font = UIFont(name: rubikRegular, size: 16)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = softGrey
-        return thl
-        
-    }()
-    
-    let tipsLabel : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .left
-        thl.text = "Tips:"
-        thl.font = UIFont(name: rubikRegular, size: 16)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = softGrey
-        return thl
-        
-    }()
-    
-    let earningsValue : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .right
-        thl.text = "$620.00"
-        thl.font = UIFont(name: rubikRegular, size: 16)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = dsLightBlack
-        return thl
-        
-    }()
-    
-    let tipsValue : UILabel = {
-        
-        let thl = UILabel()
-        thl.translatesAutoresizingMaskIntoConstraints = false
-        thl.textAlignment = .right
-        thl.text = "$114.00"
-        thl.font = UIFont(name: rubikRegular, size: 16)
-        thl.numberOfLines = 1
-        thl.adjustsFontSizeToFitWidth = false
-        thl.textColor = dsLightBlack
-        return thl
-        
-    }()
-    
-    lazy var earningsIssueReportingPopup : EarningsSupportPopup = {
-        
-        let rp = EarningsSupportPopup(frame: .zero)
-        rp.earningsAndReviews = self
-        
-        return rp
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -441,18 +245,7 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         self.view.addSubview(self.backButton)
         self.view.addSubview(self.headerLabel)
         self.view.addSubview(self.informationIcon)
-        
-        self.view.addSubview(self.headerContainer)
         self.view.addSubview(self.centerDataContainer)
-        self.view.addSubview(self.summaryContainer)
-        self.view.addSubview(self.groomzButton)
-        self.view.addSubview(self.timeSheetButton)
-        self.view.addSubview(self.paymentHistoryButton)
-        
-        //MARK: HEADER CONTAINER
-        self.headerContainer.addSubview(self.dateTimeFrameHeaderLabel)
-        self.headerContainer.addSubview(self.totalEarningsHeaderLabel)
-        self.headerContainer.addSubview(self.footerForHeaderLabel)
         
         //MARK: CENTER CONTAINER
         self.centerDataContainer.addSubview(self.centralLeftContainer)
@@ -471,13 +264,7 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         self.centerDataContainer.addSubview(self.leftMiddleDividerView)
         self.centerDataContainer.addSubview(self.rightMiddleDividerView)
         
-        //MARK: SUMMARY CONTAINER
-        self.summaryContainer.addSubview(self.summaryHeaderLabel)
-        self.summaryContainer.addSubview(self.earningsLabel)
-        self.summaryContainer.addSubview(self.tipsLabel)
-        self.summaryContainer.addSubview(self.earningsValue)
-        self.summaryContainer.addSubview(self.tipsValue)
-        
+        self.view.addSubview(self.timeLineCollectionView)
         self.view.addSubview(self.earningsIssueReportingPopup)
         
         self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
@@ -495,50 +282,10 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         self.informationIcon.heightAnchor.constraint(equalToConstant: 25).isActive = true
         self.informationIcon.widthAnchor.constraint(equalToConstant: 25).isActive = true
         
-        self.headerContainer.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 34).isActive = true
-        self.headerContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.headerContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.headerContainer.heightAnchor.constraint(equalToConstant: 137).isActive = true
-        
-        self.centerDataContainer.topAnchor.constraint(equalTo: self.headerContainer.bottomAnchor, constant: 20).isActive = true
+        self.centerDataContainer.topAnchor.constraint(equalTo: self.headerLabel.bottomAnchor, constant: 34).isActive = true
         self.centerDataContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
         self.centerDataContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.centerDataContainer.heightAnchor.constraint(equalToConstant: 82).isActive = true
-        
-        self.summaryContainer.topAnchor.constraint(equalTo: self.centerDataContainer.bottomAnchor, constant: 20).isActive = true
-        self.summaryContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.summaryContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.summaryContainer.heightAnchor.constraint(equalToConstant: 137).isActive = true
-        
-        self.groomzButton.topAnchor.constraint(equalTo: self.summaryContainer.bottomAnchor, constant: 20).isActive = true
-        self.groomzButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.groomzButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.groomzButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        self.timeSheetButton.topAnchor.constraint(equalTo: self.groomzButton.bottomAnchor, constant: 20).isActive = true
-        self.timeSheetButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.timeSheetButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.timeSheetButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        self.paymentHistoryButton.topAnchor.constraint(equalTo: self.timeSheetButton.bottomAnchor, constant: 20).isActive = true
-        self.paymentHistoryButton.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 30).isActive = true
-        self.paymentHistoryButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
-        self.paymentHistoryButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        
-        self.dateTimeFrameHeaderLabel.topAnchor.constraint(equalTo: self.headerContainer.topAnchor, constant: 23).isActive = true
-        self.dateTimeFrameHeaderLabel.leftAnchor.constraint(equalTo: self.headerContainer.leftAnchor, constant: 30).isActive = true
-        self.dateTimeFrameHeaderLabel.rightAnchor.constraint(equalTo: self.headerContainer.rightAnchor, constant: -30).isActive = true
-        self.dateTimeFrameHeaderLabel.sizeToFit()
-        
-        self.totalEarningsHeaderLabel.topAnchor.constraint(equalTo: self.dateTimeFrameHeaderLabel.bottomAnchor, constant: 8).isActive = true
-        self.totalEarningsHeaderLabel.leftAnchor.constraint(equalTo: self.headerContainer.leftAnchor, constant: 30).isActive = true
-        self.totalEarningsHeaderLabel.rightAnchor.constraint(equalTo: self.headerContainer.rightAnchor, constant: -30).isActive = true
-        self.totalEarningsHeaderLabel.sizeToFit()
-        
-        self.footerForHeaderLabel.topAnchor.constraint(equalTo: self.totalEarningsHeaderLabel.bottomAnchor, constant: 5).isActive = true
-        self.footerForHeaderLabel.leftAnchor.constraint(equalTo: self.headerContainer.leftAnchor, constant: 30).isActive = true
-        self.footerForHeaderLabel.rightAnchor.constraint(equalTo: self.headerContainer.rightAnchor, constant: -30).isActive = true
-        self.footerForHeaderLabel.sizeToFit()
         
         let centralContainerWidth = UIScreen.main.bounds.width - 60
         
@@ -597,31 +344,19 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
         self.rightMiddleDividerView.centerXAnchor.constraint(equalTo: self.centralMiddleContainer.rightAnchor, constant: 0).isActive = true
         self.rightMiddleDividerView.widthAnchor.constraint(equalToConstant: 1).isActive = true
         
-        self.summaryHeaderLabel.topAnchor.constraint(equalTo: self.summaryContainer.topAnchor, constant: 20).isActive = true
-        self.summaryHeaderLabel.leftAnchor.constraint(equalTo: self.summaryContainer.leftAnchor, constant: 27).isActive = true
-        self.summaryHeaderLabel.rightAnchor.constraint(equalTo: self.summaryContainer.rightAnchor, constant: -25).isActive = true
-        self.summaryHeaderLabel.sizeToFit()
-        
-        self.earningsLabel.topAnchor.constraint(equalTo: self.summaryHeaderLabel.bottomAnchor, constant: 20).isActive = true
-        self.earningsLabel.leftAnchor.constraint(equalTo: self.summaryHeaderLabel.leftAnchor, constant: 0).isActive = true
-        self.earningsLabel.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 60) / 2.5).isActive = true
-        self.earningsLabel.sizeToFit()
-        
-        self.tipsLabel.topAnchor.constraint(equalTo: self.earningsLabel.bottomAnchor, constant: 23).isActive = true
-        self.tipsLabel.leftAnchor.constraint(equalTo: self.summaryHeaderLabel.leftAnchor, constant: 0).isActive = true
-        self.tipsLabel.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 60) / 2.5).isActive = true
-        self.tipsLabel.sizeToFit()
-        
-        self.earningsValue.rightAnchor.constraint(equalTo: self.summaryContainer.rightAnchor, constant: -30).isActive = true
-        self.earningsValue.centerYAnchor.constraint(equalTo: self.earningsLabel.centerYAnchor, constant: 0).isActive = true
-        self.earningsValue.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 60) / 2.1).isActive = true
-        self.earningsValue.sizeToFit()
-        
-        self.tipsValue.rightAnchor.constraint(equalTo: self.summaryContainer.rightAnchor, constant: -30).isActive = true
-        self.tipsValue.centerYAnchor.constraint(equalTo: self.tipsLabel.centerYAnchor, constant: 0).isActive = true
-        self.tipsValue.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 60) / 2.1).isActive = true
-        self.tipsValue.sizeToFit()
-        
+        self.timeLineCollectionView.topAnchor.constraint(equalTo: self.centerDataContainer.bottomAnchor, constant: 20).isActive = true
+        self.timeLineCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
+        self.timeLineCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
+        self.timeLineCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+
+    }
+    
+    @objc func handleBackButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func handleQuestionMarkIcon() {
+        self.handleWarningIcon()
     }
     
     @objc func handleWarningIcon() {
@@ -692,31 +427,4 @@ class EarningsAndReviews : UIViewController, CustomAlertCallBackProtocol {
             
         }
     }
-    
-    @objc func handleBackButton() {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func handleQuestionMarkIcon() {
-        print("question incoming")
-        self.handleWarningIcon()
-    }
-    
-    @objc func handleSeeGroomzForDetails() {
-        
-        let groomzDetailsController = GroomzDetailsController()
-        groomzDetailsController.navigationController?.navigationBar.isHidden = true
-        groomzDetailsController.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(groomzDetailsController, animated: true)
-        print("handleSeeGroomzForDetails")
-    }
-    
-    @objc func handlePaymentHistory() {
-        print("handlePaymentHistory")
-    }
-    
-    @objc func handleViewTimeSheet() {
-        print("handleViewTimeSheet")
-    }
-    
 }

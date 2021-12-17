@@ -21,6 +21,11 @@
 		E306A925276BECB100B6F814 /* EarningsSupportPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */; };
 		E306A927276BECD200B6F814 /* EarningsSupportCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */; };
 		E306A929276C2E3700B6F814 /* GroomzDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A928276C2E3700B6F814 /* GroomzDetails.swift */; };
+		E306A92B276CF5CC00B6F814 /* GroomzCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A92A276CF5CC00B6F814 /* GroomzCollectionView.swift */; };
+		E306A930276D1BF500B6F814 /* TimeLineDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A92F276D1BF500B6F814 /* TimeLineDetails.swift */; };
+		E306A932276D1C0500B6F814 /* TimeLineCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A931276D1C0500B6F814 /* TimeLineCollectionView.swift */; };
+		E306A935276D1F4D00B6F814 /* PaymentHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A934276D1F4D00B6F814 /* PaymentHistoryController.swift */; };
+		E306A937276D214600B6F814 /* PaymentCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A936276D214600B6F814 /* PaymentCollectionView.swift */; };
 		E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3176B2926EA8A13003D6CEF /* WelcomeController.swift */; };
 		E3176B3A26EA9485003D6CEF /* Rubik-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3176B3926EA9460003D6CEF /* Rubik-Black.ttf */; };
 		E3176B3B26EA9485003D6CEF /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3176B2E26EA945E003D6CEF /* Rubik-BlackItalic.ttf */; };
@@ -242,6 +247,11 @@
 		E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsSupportPopup.swift; sourceTree = "<group>"; };
 		E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarningsSupportCollectionView.swift; sourceTree = "<group>"; };
 		E306A928276C2E3700B6F814 /* GroomzDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomzDetails.swift; sourceTree = "<group>"; };
+		E306A92A276CF5CC00B6F814 /* GroomzCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomzCollectionView.swift; sourceTree = "<group>"; };
+		E306A92F276D1BF500B6F814 /* TimeLineDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineDetails.swift; sourceTree = "<group>"; };
+		E306A931276D1C0500B6F814 /* TimeLineCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineCollectionView.swift; sourceTree = "<group>"; };
+		E306A934276D1F4D00B6F814 /* PaymentHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentHistoryController.swift; sourceTree = "<group>"; };
+		E306A936276D214600B6F814 /* PaymentCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCollectionView.swift; sourceTree = "<group>"; };
 		E3176B2926EA8A13003D6CEF /* WelcomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		E3176B2C26EA945E003D6CEF /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
 		E3176B2D26EA945E003D6CEF /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
@@ -483,6 +493,43 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		E306A92C276D1BCE00B6F814 /* Earnings */ = {
+			isa = PBXGroup;
+			children = (
+				E332AE6F2768189800D1F856 /* EarningsAndReviews.swift */,
+				E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */,
+				E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */,
+			);
+			path = Earnings;
+			sourceTree = "<group>";
+		};
+		E306A92D276D1BD800B6F814 /* Groomz */ = {
+			isa = PBXGroup;
+			children = (
+				E306A928276C2E3700B6F814 /* GroomzDetails.swift */,
+				E306A92A276CF5CC00B6F814 /* GroomzCollectionView.swift */,
+			);
+			path = Groomz;
+			sourceTree = "<group>";
+		};
+		E306A92E276D1BE200B6F814 /* Timeline */ = {
+			isa = PBXGroup;
+			children = (
+				E306A92F276D1BF500B6F814 /* TimeLineDetails.swift */,
+				E306A931276D1C0500B6F814 /* TimeLineCollectionView.swift */,
+			);
+			path = Timeline;
+			sourceTree = "<group>";
+		};
+		E306A933276D1F2D00B6F814 /* PaymentHistory */ = {
+			isa = PBXGroup;
+			children = (
+				E306A934276D1F4D00B6F814 /* PaymentHistoryController.swift */,
+				E306A936276D214600B6F814 /* PaymentCollectionView.swift */,
+			);
+			path = PaymentHistory;
+			sourceTree = "<group>";
+		};
 		E3176B2826EA8A04003D6CEF /* WelcomeController */ = {
 			isa = PBXGroup;
 			children = (
@@ -600,10 +647,10 @@
 		E332AE6E2768188600D1F856 /* EarningsAndReviews */ = {
 			isa = PBXGroup;
 			children = (
-				E332AE6F2768189800D1F856 /* EarningsAndReviews.swift */,
-				E306A924276BECB100B6F814 /* EarningsSupportPopup.swift */,
-				E306A926276BECD200B6F814 /* EarningsSupportCollectionView.swift */,
-				E306A928276C2E3700B6F814 /* GroomzDetails.swift */,
+				E306A92C276D1BCE00B6F814 /* Earnings */,
+				E306A92D276D1BD800B6F814 /* Groomz */,
+				E306A92E276D1BE200B6F814 /* Timeline */,
+				E306A933276D1F2D00B6F814 /* PaymentHistory */,
 			);
 			path = EarningsAndReviews;
 			sourceTree = "<group>";
@@ -1460,6 +1507,8 @@
 			files = (
 				E39BA1972702A4D400CD2E2E /* AlertController.swift in Sources */,
 				E38DA93E26F8F1AA00DFD365 /* EmployeeAgreementController.swift in Sources */,
+				E306A92B276CF5CC00B6F814 /* GroomzCollectionView.swift in Sources */,
+				E306A937276D214600B6F814 /* PaymentCollectionView.swift in Sources */,
 				E3C2EB5D26616FAA00AB0EF6 /* ShareExtension.swift in Sources */,
 				E3B87A392730A0AE009139C5 /* IssueReportingCollectionView.swift in Sources */,
 				E3C2EB672661705E00AB0EF6 /* MainLoadingScreen.swift in Sources */,
@@ -1487,6 +1536,7 @@
 				E304ED9126ED357D002D625A /* RegistrationController.swift in Sources */,
 				E3D2817126F3DA6500ACE7C8 /* GroomerProfilePhoto.swift in Sources */,
 				E3502130268B99B100E5186E /* ServiceSingleton.swift in Sources */,
+				E306A930276D1BF500B6F814 /* TimeLineDetails.swift in Sources */,
 				E3B87A3327308C52009139C5 /* StartingChecklist.swift in Sources */,
 				E3176B6526EABBFB003D6CEF /* NotificationsController.swift in Sources */,
 				E332AE552767FE6300D1F856 /* AccessoryInputView.swift in Sources */,
@@ -1503,6 +1553,7 @@
 				E38DA92D26F8DDC500DFD365 /* DriversLicenseController.swift in Sources */,
 				E3176B6926EBC666003D6CEF /* LocationController.swift in Sources */,
 				E3C2EB5A26616EF500AB0EF6 /* Extensions.swift in Sources */,
+				E306A935276D1F4D00B6F814 /* PaymentHistoryController.swift in Sources */,
 				E38DA93026F8E05900DFD365 /* BackgroundCheckController.swift in Sources */,
 				E334FBB727123167003F24D5 /* MapLocationController.swift in Sources */,
 				E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */,
@@ -1515,6 +1566,7 @@
 				E3C2EB6B2661721D00AB0EF6 /* DashboardController.swift in Sources */,
 				E333A93A265D94B000897572 /* HomeController.swift in Sources */,
 				E332AE512767FE3100D1F856 /* SupportChatController.swift in Sources */,
+				E306A932276D1C0500B6F814 /* TimeLineCollectionView.swift in Sources */,
 				E332AE592767FE9000D1F856 /* ChatMediaFeeder.swift in Sources */,
 				E3D2817326F3EB8500ACE7C8 /* CustomCameraController.swift in Sources */,
 				E396B92B26FE46710087F106 /* GroomerWorkingSelector.swift in Sources */,

@@ -13,6 +13,8 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     
     var earningsAndReviews : EarningsAndReviews?
     var groomzDetailsController : GroomzDetailsController?
+    var timeLineDetails : TimeLineDetails?
+    var paymentHistoryController : PaymentHistoryController?
     
     lazy var cancelButton : UIButton = {
         
@@ -161,6 +163,9 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     @objc func handleCancelButton() {
         self.earningsAndReviews?.handleWarningIcon()
         self.groomzDetailsController?.handleWarningIcon()
+        self.timeLineDetails?.handleWarningIcon()
+        self.paymentHistoryController?.handleWarningIcon()
+
     }
     
     @objc func handlePhoneCall() {
@@ -200,6 +205,9 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     @objc func handleSubmitButton() {
         self.earningsAndReviews?.handleSubmitButton()
         self.groomzDetailsController?.handleSubmitButton()
+        self.timeLineDetails?.handleSubmitButton()
+        self.paymentHistoryController?.handleSubmitButton()
+
     }
     
     required init?(coder: NSCoder) {
