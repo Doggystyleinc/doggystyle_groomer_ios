@@ -12,6 +12,7 @@ import UIKit
 class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     
     var earningsAndReviews : EarningsAndReviews?
+    var groomzDetailsController : GroomzDetailsController?
     
     lazy var cancelButton : UIButton = {
         
@@ -103,7 +104,7 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
         ir.translatesAutoresizingMaskIntoConstraints = false
         ir.earningsSupportPopup = self
         
-       return ir
+        return ir
     }()
     
     override init(frame: CGRect) {
@@ -125,7 +126,7 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
         self.addSubview(self.callHQButton)
         self.addSubview(self.submitButton)
         self.addSubview(self.earningsReportingCollection)
-
+        
         self.cancelButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         self.cancelButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -10).isActive = true
         self.cancelButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
@@ -159,6 +160,7 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     
     @objc func handleCancelButton() {
         self.earningsAndReviews?.handleWarningIcon()
+        self.groomzDetailsController?.handleWarningIcon()
     }
     
     @objc func handlePhoneCall() {
@@ -197,6 +199,7 @@ class EarningsSupportPopup : UIView, CustomAlertCallBackProtocol {
     
     @objc func handleSubmitButton() {
         self.earningsAndReviews?.handleSubmitButton()
+        self.groomzDetailsController?.handleSubmitButton()
     }
     
     required init?(coder: NSCoder) {
