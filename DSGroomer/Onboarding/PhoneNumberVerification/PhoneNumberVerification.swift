@@ -9,11 +9,13 @@ import Foundation
 import UIKit
 import PhoneNumberKit
 import Firebase
+import GoogleMaps
 
-class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
+class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol, CLLocationManagerDelegate {
     
     let databaseRef = Database.database().reference()
     let mainLoadingScreen = MainLoadingScreen()
+    var locationManager = CLLocationManager()
     
     lazy var backButton : UIButton = {
         
@@ -166,6 +168,8 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
         self.view.backgroundColor = coreBackgroundWhite
         self.addViews()
         
+        print("hello")
+        
         if onboardingRoutes == .fromRegister {
             self.headerLabel.text = "Hello! Welcome to the Doggystyle team!"
             self.subHeaderLabel.text = "Let’s start by verifying your phone number"
@@ -223,6 +227,29 @@ class PhoneNumberVerification : UIViewController, UITextFieldDelegate, CustomAle
         self.nextButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -30).isActive = true
         self.nextButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
 
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.handleLocationServicesAuthorization()
+    }
+    
+    @objc func handleLocationServicesAuthorization() {
+     
+        self.locationManager.delegate = self
+        
+        switch self.locationManager.authorizationStatus {
+        
+        case .authorizedAlways, .authorizedWhenInUse: print("authorizedAlways")
+        case .notDetermined, .restricted : print("notDetermined")
+            
+            self.locationManager.requestWhenInUseAuthorization()
+            
+        case .denied: print("denied")
+            
+        default : print("Hit an unknown state")
+            
+        }
     }
     
     @objc func handlePhoneNumberTextFieldChange() {

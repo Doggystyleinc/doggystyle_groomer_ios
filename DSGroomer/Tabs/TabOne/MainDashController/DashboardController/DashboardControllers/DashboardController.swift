@@ -13,7 +13,7 @@ class DashboardController : UIViewController {
     
     var homeController : HomeController?
     let databaseRef = Database.database().reference(),
-         mainLoadingScreen = MainLoadingScreen()
+        mainLoadingScreen = MainLoadingScreen()
     
     lazy var notificationIcon : UIButton = {
         
@@ -159,6 +159,7 @@ class DashboardController : UIViewController {
         bcc.translatesAutoresizingMaskIntoConstraints = false
         bcc.layer.masksToBounds = true
         bcc.backgroundColor = coreRedColor
+        bcc.isHidden = true
         
         return bcc
     }()

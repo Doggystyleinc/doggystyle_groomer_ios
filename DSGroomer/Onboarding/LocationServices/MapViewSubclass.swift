@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import GoogleMaps
 
-class MapsSubview : GMSMapView, CLLocationManagerDelegate{
+class MapsSubview : GMSMapView, CLLocationManagerDelegate {
     
     var locationServicesEnabled : Bool = false
     var locationController : LocationController?

@@ -8,13 +8,15 @@
 
 import UIKit
 import Firebase
+import GoogleMaps
 
-final class LoginController: UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol {
+final class LoginController: UIViewController, UITextFieldDelegate, CustomAlertCallBackProtocol, CLLocationManagerDelegate {
     
     let databaseRef = Database.database().reference()
     var isKeyboardShowing : Bool = false
     var lastKeyboardHeight : CGFloat = 0.0
     let mainLoadingScreen = MainLoadingScreen()
+    var locationManager = CLLocationManager()
     
     lazy var backButton : UIButton = {
         
@@ -269,7 +271,7 @@ final class LoginController: UIViewController, UITextFieldDelegate, CustomAlertC
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardHide), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
-    
+   
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         NotificationCenter.default.removeObserver(self)
@@ -451,7 +453,7 @@ final class LoginController: UIViewController, UITextFieldDelegate, CustomAlertC
         
         UIDevice.vibrateLight()
         self.resignation()
-
+        
         guard let emailText = emailTextField.text,
               let passwordText = passwordTextField.text else { return }
         
@@ -475,7 +477,7 @@ final class LoginController: UIViewController, UITextFieldDelegate, CustomAlertC
                         self.mainLoadingScreen.cancelMainLoadingScreen()
                         
                         Service.shared.fillGroomerDataStruct { isComplete in
-                        self.presentHomeController()
+                            self.presentHomeController()
                         }
                         
                     } else {

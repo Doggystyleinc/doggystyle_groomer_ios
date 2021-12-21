@@ -231,6 +231,13 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
         return mdv
     }()
     
+    let backDrop : UIView = {
+        let bd = UIView()
+        bd.translatesAutoresizingMaskIntoConstraints = false
+        bd.backgroundColor = UIColor (white: 0, alpha: 0.5)
+        bd.alpha = 0
+       return bd
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -265,6 +272,8 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
         self.centerDataContainer.addSubview(self.rightMiddleDividerView)
         
         self.view.addSubview(self.groomzCollection)
+        self.view.addSubview(self.backDrop)
+
         self.view.addSubview(self.earningsIssueReportingPopup)
 
         
@@ -350,6 +359,11 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
         self.groomzCollection.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.groomzCollection.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
 
+        self.backDrop.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backDrop.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backDrop.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backDrop.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+
     }
     
     @objc func handleBackButton() {
@@ -369,6 +383,8 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
                 self.earningsIssueReportingPopup.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
                 self.view.layoutIfNeeded()
                 self.earningsIssueReportingPopup.layoutIfNeeded()
+                self.backDrop.alpha = 0
+
             } completion: { complete in
                 self.isWarningPresented = false
                 self.earningsIssueReportingPopup.earningsReportingCollection.clearData()
@@ -378,6 +394,8 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
                 self.earningsIssueReportingPopup.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height - (UIScreen.main.bounds.height / 1.5)), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
                 self.view.layoutIfNeeded()
                 self.earningsIssueReportingPopup.layoutIfNeeded()
+                self.backDrop.alpha = 1
+
             } completion: { complete in
                 self.isWarningPresented = true
             }
@@ -394,6 +412,7 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
             print("nothing selected here")
         } else {
             
+            UIDevice.vibrateLight()
             Service.shared.supportTicketHandler(typeOfSuportMessage: "payment_issue", supportMessage: selection[0]) { isComplete in
                 
                 if isComplete {
@@ -429,5 +448,15 @@ class GroomzDetailsController : UIViewController, CustomAlertCallBackProtocol {
         default: print("Should not hit")
             
         }
+    }
+    
+    func handleGroomzOverview() {
+        
+        let groomzOverview = GroomzOverview()
+        groomzOverview.modalPresentationStyle = .fullScreen
+        groomzOverview.groomzDetailsController = self
+        groomzOverview.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.pushViewController(groomzOverview, animated: true)
+        
     }
 }

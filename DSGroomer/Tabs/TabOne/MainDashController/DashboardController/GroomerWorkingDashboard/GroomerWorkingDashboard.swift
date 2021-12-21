@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import Lottie
 
 class GroomerWorkingDashboard : UIView {
     
@@ -115,6 +116,18 @@ class GroomerWorkingDashboard : UIView {
         return ss
     }()
     
+    lazy var emptyStateAnimation : AnimationView = {
+        
+        let lla = AnimationView(name: "dog_waiting_anim")
+        lla.translatesAutoresizingMaskIntoConstraints = false
+        lla.backgroundColor = .clear
+        lla.contentMode = .scaleAspectFit
+        lla.loopMode = .loop
+        lla.backgroundBehavior = .pauseAndRestore
+        lla.isHidden = true
+        return lla
+        
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -123,6 +136,7 @@ class GroomerWorkingDashboard : UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addViews()
         
+        self.stateListener()
     }
     
     func addViews() {
@@ -137,6 +151,8 @@ class GroomerWorkingDashboard : UIView {
         self.addSubview(self.clockInButton)
         self.addSubview(self.selectorSwitch)
         self.addSubview(self.groomerUpcomingAppointmentCollection)
+        
+        self.addSubview(self.emptyStateAnimation)
 
         self.truckContainer.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
         self.truckContainer.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 30).isActive = true
@@ -174,7 +190,30 @@ class GroomerWorkingDashboard : UIView {
         self.groomerUpcomingAppointmentCollection.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 0).isActive = true
         self.groomerUpcomingAppointmentCollection.rightAnchor.constraint(equalTo: self.rightAnchor, constant: 0).isActive = true
         self.groomerUpcomingAppointmentCollection.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
+        
+        self.emptyStateAnimation.topAnchor.constraint(equalTo: self.selectorSwitch.bottomAnchor, constant: 10).isActive = true
+        self.emptyStateAnimation.centerXAnchor.constraint(equalTo: self.centerXAnchor, constant: 0).isActive = true
+        self.emptyStateAnimation.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.5).isActive = true
+        self.emptyStateAnimation.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.5).isActive = true
 
+    }
+    
+    @objc func stateListener() {
+        
+        self.selectorSwitch.isHidden = true
+        self.truckAssignmentLabel.text = "Pending..."
+        self.emptyStateAnimShouldPlay(shouldPlay: true)
+        
+    }
+    
+    func emptyStateAnimShouldPlay(shouldPlay : Bool) {
+        if shouldPlay {
+            self.emptyStateAnimation.play()
+            self.emptyStateAnimation.isHidden = false
+        } else {
+            self.emptyStateAnimation.isHidden = true
+            self.emptyStateAnimation.stop()
+        }
     }
   
     @objc func handleTruckContainerCancel() {

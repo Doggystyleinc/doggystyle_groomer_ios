@@ -405,12 +405,12 @@ class ProfileClockedFeeder : UICollectionViewCell {
         self.mainContainer.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         self.mainContainer.layer.cornerRadius = 15
         
-        self.clockedLabel.topAnchor.constraint(equalTo: self.mainContainer.topAnchor, constant: 17).isActive = true
+        self.clockedLabel.topAnchor.constraint(equalTo: self.mainContainer.topAnchor, constant: 13).isActive = true
         self.clockedLabel.leftAnchor.constraint(equalTo: self.mainContainer.leftAnchor, constant: 30).isActive = true
         self.clockedLabel.rightAnchor.constraint(equalTo: self.mainContainer.rightAnchor, constant: -30).isActive = true
         self.clockedLabel.heightAnchor.constraint(equalToConstant: 35).isActive = true
         
-        self.subContainer.topAnchor.constraint(equalTo: self.clockedLabel.bottomAnchor, constant: 20).isActive = true
+        self.subContainer.topAnchor.constraint(equalTo: self.clockedLabel.bottomAnchor, constant: 5).isActive = true
         self.subContainer.bottomAnchor.constraint(equalTo: self.mainContainer.bottomAnchor, constant: 0).isActive = true
         self.subContainer.leftAnchor.constraint(equalTo: self.mainContainer.leftAnchor, constant: 0).isActive = true
         self.subContainer.rightAnchor.constraint(equalTo: self.mainContainer.rightAnchor, constant: 0).isActive = true
@@ -450,6 +450,7 @@ class ProfileClockedFeeder : UICollectionViewCell {
         self.timeFrameLabel.leftAnchor.constraint(equalTo: self.rightContainer.leftAnchor, constant: 10).isActive = true
         self.timeFrameLabel.rightAnchor.constraint(equalTo: self.rightContainer.rightAnchor, constant: -10).isActive = true
         self.timeFrameLabel.sizeToFit()
+        
        
     }
     

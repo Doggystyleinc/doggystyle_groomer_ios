@@ -251,6 +251,7 @@ class ProfileController : UIViewController, CustomAlertCallBackProtocol {
     }
     @objc func handlePaymentPreferences() {
         print("handlePaymentPreferences")
+        self.handleCustomPopUpAlert(title: "🚨", message: "Payment preferences will be available shortly.", passedButtons: [Statics.GOT_IT])
     }
     
     @objc func handleSwipeToClockIn() {
@@ -299,6 +300,7 @@ class ProfileController : UIViewController, CustomAlertCallBackProtocol {
     
     @objc func handleEditProfilePencil() {
         print("edit pencil icon bro")
+        self.handleCustomPopUpAlert(title: "🚨", message: "Editing will be available shortly", passedButtons: [Statics.GOT_IT])
     }
 }
 

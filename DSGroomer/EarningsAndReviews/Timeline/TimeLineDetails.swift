@@ -231,6 +231,13 @@ class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
         return mdv
     }()
     
+    let backDrop : UIView = {
+        let bd = UIView()
+        bd.translatesAutoresizingMaskIntoConstraints = false
+        bd.backgroundColor = UIColor (white: 0, alpha: 0.5)
+        bd.alpha = 0
+       return bd
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -265,6 +272,8 @@ class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
         self.centerDataContainer.addSubview(self.rightMiddleDividerView)
         
         self.view.addSubview(self.timeLineCollectionView)
+        self.view.addSubview(self.backDrop)
+
         self.view.addSubview(self.earningsIssueReportingPopup)
         
         self.backButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
@@ -348,6 +357,11 @@ class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
         self.timeLineCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 0).isActive = true
         self.timeLineCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 0).isActive = true
         self.timeLineCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -20).isActive = true
+        
+        self.backDrop.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        self.backDrop.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.backDrop.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.backDrop.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 
     }
     
@@ -366,6 +380,8 @@ class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
                 self.earningsIssueReportingPopup.frame = CGRect(x: 0, y: UIScreen.main.bounds.height, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
                 self.view.layoutIfNeeded()
                 self.earningsIssueReportingPopup.layoutIfNeeded()
+                self.backDrop.alpha = 0
+
             } completion: { complete in
                 self.isWarningPresented = false
                 self.earningsIssueReportingPopup.earningsReportingCollection.clearData()
@@ -375,6 +391,8 @@ class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
                 self.earningsIssueReportingPopup.frame = CGRect(x: 0, y: (UIScreen.main.bounds.height - (UIScreen.main.bounds.height / 1.5)), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 1.5)
                 self.view.layoutIfNeeded()
                 self.earningsIssueReportingPopup.layoutIfNeeded()
+                self.backDrop.alpha = 1
+
             } completion: { complete in
                 self.isWarningPresented = true
             }
@@ -391,6 +409,7 @@ class TimeLineDetails : UIViewController, CustomAlertCallBackProtocol {
             print("nothing selected here")
         } else {
             
+            UIDevice.vibrateLight()
             Service.shared.supportTicketHandler(typeOfSuportMessage: "payment_issue", supportMessage: selection[0]) { isComplete in
                 
                 if isComplete {

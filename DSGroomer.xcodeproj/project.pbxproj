@@ -26,6 +26,8 @@
 		E306A932276D1C0500B6F814 /* TimeLineCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A931276D1C0500B6F814 /* TimeLineCollectionView.swift */; };
 		E306A935276D1F4D00B6F814 /* PaymentHistoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A934276D1F4D00B6F814 /* PaymentHistoryController.swift */; };
 		E306A937276D214600B6F814 /* PaymentCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A936276D214600B6F814 /* PaymentCollectionView.swift */; };
+		E306A93A276D240200B6F814 /* GroomzOverview.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A939276D240200B6F814 /* GroomzOverview.swift */; };
+		E306A93C276D320100B6F814 /* TipPopUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E306A93B276D320100B6F814 /* TipPopUp.swift */; };
 		E3176B2A26EA8A13003D6CEF /* WelcomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3176B2926EA8A13003D6CEF /* WelcomeController.swift */; };
 		E3176B3A26EA9485003D6CEF /* Rubik-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3176B3926EA9460003D6CEF /* Rubik-Black.ttf */; };
 		E3176B3B26EA9485003D6CEF /* Rubik-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E3176B2E26EA945E003D6CEF /* Rubik-BlackItalic.ttf */; };
@@ -149,6 +151,8 @@
 		E39BA1932702330100CD2E2E /* white_music_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E39BA1922702330100CD2E2E /* white_music_anim.json */; };
 		E39BA1952702365200CD2E2E /* ErrorHandlingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */; };
 		E39BA1972702A4D400CD2E2E /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39BA1962702A4D400CD2E2E /* AlertController.swift */; };
+		E3B0FC892771404F001318E6 /* cactus_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E3B0FC882771404F001318E6 /* cactus_anim.json */; };
+		E3B0FC8B27714244001318E6 /* dog_waiting_anim.json in Resources */ = {isa = PBXBuildFile; fileRef = E3B0FC8A27714244001318E6 /* dog_waiting_anim.json */; };
 		E3B87A2D273072F3009139C5 /* IPAddressgrabber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A2C273072F3009139C5 /* IPAddressgrabber.swift */; };
 		E3B87A3327308C52009139C5 /* StartingChecklist.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3227308C52009139C5 /* StartingChecklist.swift */; };
 		E3B87A3527308E65009139C5 /* ChecklistCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */; };
@@ -252,6 +256,8 @@
 		E306A931276D1C0500B6F814 /* TimeLineCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineCollectionView.swift; sourceTree = "<group>"; };
 		E306A934276D1F4D00B6F814 /* PaymentHistoryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentHistoryController.swift; sourceTree = "<group>"; };
 		E306A936276D214600B6F814 /* PaymentCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCollectionView.swift; sourceTree = "<group>"; };
+		E306A939276D240200B6F814 /* GroomzOverview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomzOverview.swift; sourceTree = "<group>"; };
+		E306A93B276D320100B6F814 /* TipPopUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipPopUp.swift; sourceTree = "<group>"; };
 		E3176B2926EA8A13003D6CEF /* WelcomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeController.swift; sourceTree = "<group>"; };
 		E3176B2C26EA945E003D6CEF /* Rubik-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Light.ttf"; sourceTree = "<group>"; };
 		E3176B2D26EA945E003D6CEF /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
@@ -380,6 +386,8 @@
 		E39BA1922702330100CD2E2E /* white_music_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = white_music_anim.json; sourceTree = "<group>"; };
 		E39BA1942702365200CD2E2E /* ErrorHandlingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorHandlingExtension.swift; sourceTree = "<group>"; };
 		E39BA1962702A4D400CD2E2E /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		E3B0FC882771404F001318E6 /* cactus_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cactus_anim.json; sourceTree = "<group>"; };
+		E3B0FC8A27714244001318E6 /* dog_waiting_anim.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dog_waiting_anim.json; sourceTree = "<group>"; };
 		E3B87A2C273072F3009139C5 /* IPAddressgrabber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPAddressgrabber.swift; sourceTree = "<group>"; };
 		E3B87A3227308C52009139C5 /* StartingChecklist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingChecklist.swift; sourceTree = "<group>"; };
 		E3B87A3427308E65009139C5 /* ChecklistCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChecklistCollectionView.swift; sourceTree = "<group>"; };
@@ -530,6 +538,15 @@
 			path = PaymentHistory;
 			sourceTree = "<group>";
 		};
+		E306A938276D23E000B6F814 /* GroomzOverview */ = {
+			isa = PBXGroup;
+			children = (
+				E306A939276D240200B6F814 /* GroomzOverview.swift */,
+				E306A93B276D320100B6F814 /* TipPopUp.swift */,
+			);
+			path = GroomzOverview;
+			sourceTree = "<group>";
+		};
 		E3176B2826EA8A04003D6CEF /* WelcomeController */ = {
 			isa = PBXGroup;
 			children = (
@@ -651,6 +668,7 @@
 				E306A92D276D1BD800B6F814 /* Groomz */,
 				E306A92E276D1BE200B6F814 /* Timeline */,
 				E306A933276D1F2D00B6F814 /* PaymentHistory */,
+				E306A938276D23E000B6F814 /* GroomzOverview */,
 			);
 			path = EarningsAndReviews;
 			sourceTree = "<group>";
@@ -1064,6 +1082,8 @@
 				E396B91726FD1DED0087F106 /* music_anim_icon_2.json */,
 				E3F0F0DE26FD19A300AE13E6 /* music_anim_icon.json */,
 				E3D2816626F393D600ACE7C8 /* groomer_loading.json */,
+				E3B0FC882771404F001318E6 /* cactus_anim.json */,
+				E3B0FC8A27714244001318E6 /* dog_waiting_anim.json */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -1290,6 +1310,7 @@
 				E3653A482707A1EE00B629AB /* Doggystylist_60.jpg in Resources */,
 				E304ED8726EBF075002D625A /* tab_calendar_icon@3x.png in Resources */,
 				E3176B3B26EA9485003D6CEF /* Rubik-BlackItalic.ttf in Resources */,
+				E3B0FC892771404F001318E6 /* cactus_anim.json in Resources */,
 				E3176B3C26EA9485003D6CEF /* Rubik-Bold.ttf in Resources */,
 				E3176B3D26EA9485003D6CEF /* Rubik-BoldItalic.ttf in Resources */,
 				E3176B3E26EA9485003D6CEF /* Rubik-ExtraBold.ttf in Resources */,
@@ -1391,6 +1412,7 @@
 				E3FB6AB6267586B400DE17D2 /* ds_logo_icon@3x.png in Resources */,
 				E32D6BB826640960003DEEB3 /* fb_register_button.png in Resources */,
 				E32D6BBE26640968003DEEB3 /* google_register_button.png in Resources */,
+				E3B0FC8B27714244001318E6 /* dog_waiting_anim.json in Resources */,
 				E304ED8826EBF075002D625A /* tab_person_icon@1x.png in Resources */,
 				E333A929265D915400897572 /* LaunchScreen.storyboard in Resources */,
 				E341C39726826CA400334A59 /* search_glass@2x.png in Resources */,
@@ -1531,6 +1553,7 @@
 				E332AE702768189800D1F856 /* EarningsAndReviews.swift in Sources */,
 				E3C2EB6D2661722900AB0EF6 /* TabTwoController.swift in Sources */,
 				E3176B6B26EBC80B003D6CEF /* MapViewSubclass.swift in Sources */,
+				E306A93C276D320100B6F814 /* TipPopUp.swift in Sources */,
 				E3C2EB6126616FFA00AB0EF6 /* RatingLibrary.swift in Sources */,
 				E396B92926FE3E330087F106 /* GroomerWorkingDashboard.swift in Sources */,
 				E304ED9126ED357D002D625A /* RegistrationController.swift in Sources */,
@@ -1588,6 +1611,7 @@
 				E334FBC4271497F8003F24D5 /* MapNavigateLocationSubview.swift in Sources */,
 				E38DA93B26F8F0AE00DFD365 /* LinkBankSuccessController.swift in Sources */,
 				E3C2EB652661704000AB0EF6 /* PushNotificationManager.swift in Sources */,
+				E306A93A276D240200B6F814 /* GroomzOverview.swift in Sources */,
 				E3FB6B052676B13800DE17D2 /* GroomerChecklistCollection.swift in Sources */,
 				E333A91D265D915400897572 /* AppDelegate.swift in Sources */,
 				E3176B6326EAB110003D6CEF /* PhoneNumberEntry.swift in Sources */,
@@ -1734,7 +1758,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DSGroomer/DSGroomer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.6;
+				CURRENT_PROJECT_VERSION = 1.0.8;
 				DEVELOPMENT_TEAM = STQP84FTBY;
 				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1757,7 +1781,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DSGroomer/DSGroomer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.6;
+				CURRENT_PROJECT_VERSION = 1.0.8;
 				DEVELOPMENT_TEAM = STQP84FTBY;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = /Users/charlie_account/Desktop/Xcode_Projects/DSGroomer/DSGroomer/Admin/Info.plist;
